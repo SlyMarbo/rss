@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// Parse RSS or Atom data.
 func Parse(data []byte) (*Feed, error) {
 	if strings.Contains(string(data), "<rss") {
 		return parseRSS2(data, database)
@@ -19,37 +20,7 @@ func Parse(data []byte) (*Feed, error) {
 	panic("Unreachable.")
 }
 
-func parseTime(s string) (time.Time, error) {
-	formats := []string{
-		"Mon, _2 Jan 2006 15:04:05 MST",
-		"Mon, _2 Jan 2006 15:04:05 -0700",
-		time.ANSIC,
-		time.UnixDate,
-		time.RubyDate,
-		time.RFC822,
-		time.RFC822Z,
-		time.RFC850,
-		time.RFC1123,
-		time.RFC1123Z,
-		time.RFC3339,
-		time.RFC3339Nano,
-	}
-	
-	var e error
-	var t time.Time
-	
-	for _, format := range formats {
-		t, e = time.Parse(format, s)
-		if e == nil {
-			return t, e
-		}
-	}
-	
-	return time.Time{}, e
-}
-
-// External structures.
-
+// Feed is the top-level structure.
 type Feed struct {
 	Title       string
 	Description string
@@ -58,22 +29,6 @@ type Feed struct {
 	Items       []*Item
 	Refresh     time.Time
 	Unread      uint32
-}
-
-type Item struct {
-	Title   string
-	Content string
-	Link    string
-	Date    time.Time
-	ID      string
-	Read    bool
-}
-
-type Image struct {
-	Title   string
-	Url     string
-	Height  uint32
-	Width   uint32
 }
 
 func (f *Feed) String() string {
@@ -86,6 +41,16 @@ func (f *Feed) String() string {
 	return buf.String()
 }
 
+// Item represents a single story.
+type Item struct {
+	Title   string
+	Content string
+	Link    string
+	Date    time.Time
+	ID      string
+	Read    bool
+}
+
 func (i *Item) String() string {
 	return i.Format("")
 }
@@ -93,6 +58,13 @@ func (i *Item) String() string {
 func (i *Item) Format(s string) string {
 	return fmt.Sprintf("Item %q\n\t%s%q\n\t%s%s\n\t%s%q\n\t%sRead: %v\n\t%s%q", i.Title, s, i.Link, s,
 		i.Date.Format("Mon 2 Jan 2006 15:04:05 MST"), s, i.ID, s, i.Read, s, i.Content)
+}
+
+type Image struct {
+	Title   string
+	Url     string
+	Height  uint32
+	Width   uint32
 }
 
 func (i *Image) String() string {

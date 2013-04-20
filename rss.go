@@ -3,6 +3,8 @@ package rss
 import (
 	"bytes"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 	"strings"
 	"time"
 )
@@ -16,8 +18,24 @@ func Parse(data []byte) (*Feed, error) {
 	} else {
 		return parseAtom(data, database)
 	}
-	
+
 	panic("Unreachable.")
+}
+
+// Fetch downloads and parses the RSS feed at the given URL
+func Fetch(url string) (*Feed, error) {
+	resp, err := http.Get(url)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	return Parse(body)
 }
 
 // Feed is the top-level structure.
@@ -61,10 +79,10 @@ func (i *Item) Format(s string) string {
 }
 
 type Image struct {
-	Title   string
-	Url     string
-	Height  uint32
-	Width   uint32
+	Title  string
+	Url    string
+	Height uint32
+	Width  uint32
 }
 
 func (i *Image) String() string {

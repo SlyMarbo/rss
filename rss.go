@@ -79,10 +79,10 @@ func (i *Item) Format(s string) string {
 }
 
 type Image struct {
-	Title   string
-	Url     string
-	Height  uint32
-	Width   uint32
+	Title  string
+	Url    string
+	Height uint32
+	Width  uint32
 }
 
 func (i *Image) String() string {

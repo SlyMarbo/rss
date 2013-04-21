@@ -36,7 +36,16 @@ func Fetch(url string) (*Feed, error) {
     return nil, err
   }
 
-  return Parse(body)
+  out, err := Parse(body)
+	if err != nil {
+		return nil, err
+	}
+	
+	if out.Link == "" {
+		out.Link = url
+	}
+	
+	return out, nil
 }
 
 // Feed is the top-level structure.

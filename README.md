@@ -10,24 +10,17 @@ package main
 
 import (
 	"github.com/SlyMarbo/rss"
-	"io/ioutil"
-	"net/http"
 )
 
 func main() {
-	resp, err := http.Get("http://example.com/rss")
+	feed, err := rss.Fetch("http://example.com/rss")
 	if err != nil {
 		// handle error.
 	}
 	
-	defer resp.Body.Close()
+	// ... Some time later ...
 	
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		// handle error.
-	}
-	
-	feed, err := rss.Parse(body)
+	err = feed.Update()
 	if err != nil {
 		// handle error.
 	}

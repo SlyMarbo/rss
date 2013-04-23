@@ -82,7 +82,18 @@ func parseRSS1(data []byte, read *db) (*Feed, error) {
 		next.ID = item.ID
 		next.Read = false
 		
+		if next.ID == "" {
+			fmt.Printf("Warning: Item %q has no ID and will be ignored.\n", next.Title)
+			continue
+		}
+		
+		if _, ok := out.ItemMap[next.ID]; ok {
+			fmt.Printf("Warning: Item %q has duplicate ID.\n", next.Title)
+			continue
+		}
+		
 		out.Items = append(out.Items, next)
+		out.ItemMap[next.ID] = struct{}{}
 		out.Unread++
 	}
 	

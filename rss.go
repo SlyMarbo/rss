@@ -12,6 +12,7 @@ import (
 
 // Parse RSS or Atom data.
 func Parse(data []byte) (*Feed, error) {
+
   if strings.Contains(string(data), "<rss") {
     return parseRSS2(data, database)
   } else if strings.Contains(string(data), "xmlns=\"http://purl.org/rss/1.0/\"") {
@@ -37,15 +38,15 @@ func Fetch(url string) (*Feed, error) {
   }
 
   out, err := Parse(body)
-	if err != nil {
-		return nil, err
-	}
-	
-	if out.Link == "" {
-		out.Link = url
-	}
-	
-	return out, nil
+  if err != nil {
+    return nil, err
+  }
+
+  if out.Link == "" {
+    out.Link = url
+  }
+
+  return out, nil
 }
 
 // Feed is the top-level structure.
@@ -55,6 +56,7 @@ type Feed struct {
   Link        string
   Image       *Image
   Items       []*Item
+  ItemMap     map[string]struct{}
   Refresh     time.Time
   Unread      uint32
 }
@@ -71,6 +73,10 @@ func (f *Feed) Update() error {
     return errors.New("Error: feed has no URL.")
   }
 
+  if f.ItemMap == nil {
+    return errors.New("Error: Feed has no ItemMap.")
+  }
+
   update, err := Fetch(f.Link)
   if err != nil {
     return err
@@ -80,21 +86,11 @@ func (f *Feed) Update() error {
   f.Title = update.Title
   f.Description = update.Description
 
-  // Find the offset between items.
-  offset := 0
-  for _, item := range f.Items {
-    if item.ID == update.Items[0].ID {
-      break
-    }
-    offset++
-  }
-
-  for i, item := range update.Items {
-    if i+offset >= len(f.Items) {
+  for _, item := range update.Items {
+    if _, ok := f.ItemMap[item.ID]; !ok {
       f.Items = append(f.Items, item)
+      f.ItemMap[item.ID] = struct{}{}
       f.Unread++
-    } else if f.Items[i+offset].ID != item.ID {
-      return errors.New("Error: offsets don't match.")
     }
   }
 

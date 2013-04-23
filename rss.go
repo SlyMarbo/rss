@@ -45,6 +45,10 @@ func Fetch(url string) (*Feed, error) {
   if out.Link == "" {
     out.Link = url
   }
+	
+	if out.Link != url {
+		fmt.Printf("Warning: Feed with URL %q parsed to URL %q.\n", url, out.Link)
+	}
 
   return out, nil
 }
@@ -75,7 +79,12 @@ func (f *Feed) Update() error {
   }
 
   if f.ItemMap == nil {
-    return errors.New("Error: Feed has no ItemMap.")
+    f.ItemMap = make(map[string]struct{})
+	  for _, item := range f.Items {
+	    if _, ok := f.ItemMap[item.ID]; !ok {
+	      f.ItemMap[item.ID] = struct{}{}
+	    }
+	  }
   }
 
   update, err := Fetch(f.Link)

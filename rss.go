@@ -46,9 +46,7 @@ func Fetch(url string) (*Feed, error) {
     out.Link = url
   }
 	
-	if out.Link != url {
-		fmt.Printf("Warning: Feed with URL %q parsed to URL %q.\n", url, out.Link)
-	}
+	out.UpdateURL = url
 
   return out, nil
 }
@@ -59,6 +57,7 @@ type Feed struct {
   Title       string
   Description string
   Link        string
+	UpdateURL   string
   Image       *Image
   Items       []*Item
   ItemMap     map[string]struct{}
@@ -74,7 +73,7 @@ func (f *Feed) Update() error {
     return nil
   }
 
-  if f.Link == "" {
+  if f.UpdateURL == "" {
     return errors.New("Error: feed has no URL.")
   }
 
@@ -87,7 +86,7 @@ func (f *Feed) Update() error {
 	  }
   }
 
-  update, err := Fetch(f.Link)
+  update, err := Fetch(f.UpdateURL)
   if err != nil {
     return err
   }

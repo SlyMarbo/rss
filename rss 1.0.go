@@ -60,6 +60,7 @@ func parseRSS1(data []byte, read *db) (*Feed, error) {
 	}
 	
 	out.Items = make([]*Item, 0, len(feed.Items))
+	out.ItemMap = make(map[string]struct{})
 	
 	// Process items.
 	for _, item := range feed.Items {

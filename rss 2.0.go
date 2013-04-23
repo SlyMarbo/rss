@@ -84,8 +84,11 @@ func parseRSS2(data []byte, read *db) (*Feed, error) {
 		next.Read = false
 		
 		if next.ID == "" {
-			fmt.Printf("Warning: Item %q has no ID and will be ignored.\n", next.Title)
-			continue
+			if next.Link == "" {
+				fmt.Printf("Warning: Item %q has no ID or link and will be ignored.\n", next.Title)
+				continue
+			}
+			next.ID = next.Link
 		}
 		
 		if _, ok := out.ItemMap[next.ID]; ok {

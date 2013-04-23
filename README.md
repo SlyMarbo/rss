@@ -37,6 +37,7 @@ type Feed struct {
 	UpdateURL   string
 	Image       *Image
 	Items       []*Item
+	ItemMap     map[string]struct{}
 	Refresh     time.Time
 	Unread      uint32
 }

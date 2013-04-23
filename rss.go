@@ -51,6 +51,7 @@ func Fetch(url string) (*Feed, error) {
 
 // Feed is the top-level structure.
 type Feed struct {
+	Nickname    string
   Title       string
   Description string
   Link        string

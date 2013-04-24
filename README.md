@@ -8,9 +8,7 @@ Example:
 ```go
 package main
 
-import (
-	"github.com/SlyMarbo/rss"
-)
+import "github.com/SlyMarbo/rss"
 
 func main() {
 	feed, err := rss.Fetch("http://example.com/rss")

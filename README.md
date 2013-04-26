@@ -2,9 +2,14 @@ rss
 =====
 
 RSS is a small library for simplifying the parsing of RSS and Atom feeds.
-The package is currently fairly naive, and requires more testing.
+The package could do with more testing, but it conforms to the RSS 1.0, 2.0, and Atom 1.0
+specifications, to the best of my ability. I've tested it with about 15 different feeds,
+and it seems to work fine with them.
 
-Example:
+If anyone has any problems with feeds being parsed incorrectly, please let me know so that
+I can debug and improve the package.
+
+Example usage:
 ```go
 package main
 
@@ -28,16 +33,16 @@ func main() {
 The output structure is pretty much as you'd expect:
 ```go
 type Feed struct {
-	Nickname    string
+	Nickname    string              // This is not set by the package, but could be helpful.
 	Title       string
 	Description string
-	Link        string
-	UpdateURL   string
-	Image       *Image
+	Link        string              // Link to the creator's website.
+	UpdateURL   string              // URL of the feed itself.
+	Image       *Image              // Feed icon.
 	Items       []*Item
-	ItemMap     map[string]struct{}
-	Refresh     time.Time
-	Unread      uint32
+	ItemMap     map[string]struct{} // Used in checking whether an item has been seen before.
+	Refresh     time.Time           // Earliest time this feed should next be checked.
+	Unread      uint32              // Number of unread items. Used by aggregators.
 }
 
 type Item struct {

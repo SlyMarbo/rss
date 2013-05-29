@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-func parseAtom(data []byte, read *db) (*Feed, error) {
+func parseAtom(data []byte, seen Seen) (*Feed, error) {
 	feed := atomFeed{}
 	p := xml.NewDecoder(bytes.NewReader(data))
 	p.CharsetReader = charsetReader
@@ -29,15 +29,18 @@ func parseAtom(data []byte, read *db) (*Feed, error) {
 	}
 
 	out.Items = make([]*Item, 0, len(feed.Items))
-	out.ItemMap = make(map[string]struct{})
 
 	// Process items.
 	for _, item := range feed.Items {
 
-		// Skip items already known.
-		if read.req <- item.ID; <-read.res {
+		id := item.ID
+		if id == "" {
+			id = item.Link.Href
+		}
+		if _, found := seen[id]; found || id == "" {
 			continue
 		}
+		seen[id] = struct{}{}
 
 		next := new(Item)
 		next.Title = item.Title
@@ -49,22 +52,11 @@ func parseAtom(data []byte, read *db) (*Feed, error) {
 				return nil, err
 			}
 		}
-		next.ID = item.ID
+		next.ID = id
 		next.Read = false
 		next.Authors = aa2i(item.Authors)
 
-		if next.ID == "" {
-			fmt.Printf("Warning: Item %q has no ID and will be ignored.\n", next.Title)
-			continue
-		}
-
-		if _, ok := out.ItemMap[next.ID]; ok {
-			fmt.Printf("Warning: Item %q has duplicate ID.\n", next.Title)
-			continue
-		}
-
 		out.Items = append(out.Items, next)
-		out.ItemMap[next.ID] = struct{}{}
 		out.Unread++
 	}
 

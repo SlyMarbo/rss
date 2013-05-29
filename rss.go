@@ -11,21 +11,28 @@ import (
 )
 
 // Parse RSS or Atom data.
-func Parse(data []byte) (*Feed, error) {
+func Parse(data []byte, seen Seen) (*Feed, error) {
 
-	if strings.Contains(string(data), "<rss") {
-		return parseRSS2(data, database)
-	} else if strings.Contains(string(data), "xmlns=\"http://purl.org/rss/1.0/\"") {
-		return parseRSS1(data, database)
-	} else {
-		return parseAtom(data, database)
+	if seen == nil {
+		seen = NewSeen()
 	}
-
-	panic("Unreachable.")
+	var f *Feed
+	var e error
+	if strings.Contains(string(data), "<rss") {
+		f, e = parseRSS2(data, seen)
+	} else if strings.Contains(string(data), "xmlns=\"http://purl.org/rss/1.0/\"") {
+		f, e = parseRSS1(data, seen)
+	} else {
+		f, e = parseAtom(data, seen)
+	}
+	if f != nil {
+		f.Seen = seen
+	}
+	return f, e
 }
 
 // Fetch downloads and parses the RSS feed at the given URL
-func Fetch(url string) (*Feed, error) {
+func Fetch(url string, seen Seen) (*Feed, error) {
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, err
@@ -37,7 +44,7 @@ func Fetch(url string) (*Feed, error) {
 		return nil, err
 	}
 
-	out, err := Parse(body)
+	out, err := Parse(body, seen)
 	if err != nil {
 		return nil, err
 	}
@@ -61,7 +68,7 @@ type Feed struct {
 	Authors     []Author
 	Image       *Image
 	Items       []*Item
-	ItemMap     map[string]struct{}
+	Seen        Seen
 	Refresh     time.Time
 	Unread      uint32
 }
@@ -78,16 +85,7 @@ func (f *Feed) Update() error {
 		return errors.New("Error: feed has no URL.")
 	}
 
-	if f.ItemMap == nil {
-		f.ItemMap = make(map[string]struct{})
-		for _, item := range f.Items {
-			if _, ok := f.ItemMap[item.ID]; !ok {
-				f.ItemMap[item.ID] = struct{}{}
-			}
-		}
-	}
-
-	update, err := Fetch(f.UpdateURL)
+	update, err := Fetch(f.UpdateURL, f.Seen)
 	if err != nil {
 		return err
 	}
@@ -95,14 +93,6 @@ func (f *Feed) Update() error {
 	f.Refresh = update.Refresh
 	f.Title = update.Title
 	f.Description = update.Description
-
-	for _, item := range update.Items {
-		if _, ok := f.ItemMap[item.ID]; !ok {
-			f.Items = append(f.Items, item)
-			f.ItemMap[item.ID] = struct{}{}
-			f.Unread++
-		}
-	}
 
 	return nil
 }

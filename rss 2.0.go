@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func parseRSS2(data []byte, read *db) (*Feed, error) {
+func parseRSS2(data []byte, seen Seen) (*Feed, error) {
 	feed := rss2_0Feed{}
 	p := xml.NewDecoder(bytes.NewReader(data))
 	p.CharsetReader = charsetReader
@@ -60,15 +60,18 @@ func parseRSS2(data []byte, read *db) (*Feed, error) {
 	}
 
 	out.Items = make([]*Item, 0, len(channel.Items))
-	out.ItemMap = make(map[string]struct{})
 
 	// Process items.
 	for _, item := range channel.Items {
 
-		// Skip items already known.
-		if read.req <- item.ID; <-read.res {
+		id := item.ID
+		if id == "" {
+			id = item.Link
+		}
+		if _, found := seen[id]; found || id == "" {
 			continue
 		}
+		seen[id] = struct{}{}
 
 		next := new(Item)
 		next.Title = item.Title
@@ -80,24 +83,10 @@ func parseRSS2(data []byte, read *db) (*Feed, error) {
 				return nil, err
 			}
 		}
-		next.ID = item.ID
+		next.ID = id
 		next.Read = false
 
-		if next.ID == "" {
-			if next.Link == "" {
-				fmt.Printf("Warning: Item %q has no ID or link and will be ignored.\n", next.Title)
-				continue
-			}
-			next.ID = next.Link
-		}
-
-		if _, ok := out.ItemMap[next.ID]; ok {
-			fmt.Printf("Warning: Item %q has duplicate ID.\n", next.Title)
-			continue
-		}
-
 		out.Items = append(out.Items, next)
-		out.ItemMap[next.ID] = struct{}{}
 		out.Unread++
 	}
 

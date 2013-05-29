@@ -22,6 +22,7 @@ func parseAtom(data []byte, read *db) (*Feed, error) {
 	out.Link = feed.Link.Href
 	out.Image = feed.Image.Image()
 	out.Refresh = time.Now().Add(10 * time.Minute)
+	out.Authors = aa2i(feed.Authors)
 
 	if feed.Items == nil {
 		return nil, fmt.Errorf("Error: no feeds found in %q.", string(data))
@@ -50,6 +51,7 @@ func parseAtom(data []byte, read *db) (*Feed, error) {
 		}
 		next.ID = item.ID
 		next.Read = false
+		next.Authors = aa2i(item.Authors)
 
 		if next.ID == "" {
 			fmt.Printf("Warning: Item %q has no ID and will be ignored.\n", next.Title)
@@ -70,24 +72,26 @@ func parseAtom(data []byte, read *db) (*Feed, error) {
 }
 
 type atomFeed struct {
-	XMLName     xml.Name   `xml:"feed"`
-	Title       string     `xml:"title"`
-	Description string     `xml:"subtitle"`
-	Link        atomLink   `xml:"link"`
-	Image       atomImage  `xml:"image"`
-	Items       []atomItem `xml:"entry"`
-	Updated     string     `xml:"updated"`
+	XMLName     xml.Name     `xml:"feed"`
+	Title       string       `xml:"title"`
+	Description string       `xml:"subtitle"`
+	Link        atomLink     `xml:"link"`
+	Image       atomImage    `xml:"image"`
+	Items       []atomItem   `xml:"entry"`
+	Updated     string       `xml:"updated"`
+	Authors     []atomAuthor `xml:"author"`
 }
 type atomLink struct {
 	Href string `xml:"href,attr"`
 }
 type atomItem struct {
-	XMLName xml.Name `xml:"entry"`
-	Title   string   `xml:"title"`
-	Content string   `xml:"summary"`
-	Link    atomLink `xml:"link"`
-	Date    string   `xml:"updated"`
-	ID      string   `xml:"id"`
+	XMLName xml.Name     `xml:"entry"`
+	Title   string       `xml:"title"`
+	Content string       `xml:"summary"`
+	Link    atomLink     `xml:"link"`
+	Date    string       `xml:"updated"`
+	ID      string       `xml:"id"`
+	Authors []atomAuthor `xml:"author"`
 }
 
 type atomImage struct {
@@ -96,6 +100,20 @@ type atomImage struct {
 	Url     string   `xml:"url"`
 	Height  int      `xml:"height"`
 	Width   int      `xml:"width"`
+}
+
+type atomAuthor struct {
+	Name  string `xml:"name"`
+	Uri   string `xml:"uri"`
+	Email string `xml:"email"`
+}
+
+func aa2i(as []atomAuthor) []Author {
+	rs := make([]Author, len(as))
+	for i, a := range as {
+		rs[i] = Author{Name: a.Name, Uri: a.Uri, Email: a.Email}
+	}
+	return rs
 }
 
 func (a *atomImage) Image() *Image {

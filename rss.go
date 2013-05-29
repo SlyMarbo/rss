@@ -58,6 +58,7 @@ type Feed struct {
 	Description string
 	Link        string
 	UpdateURL   string
+	Authors     []Author
 	Image       *Image
 	Items       []*Item
 	ItemMap     map[string]struct{}
@@ -124,6 +125,7 @@ type Item struct {
 	Date    time.Time
 	ID      string
 	Read    bool
+	Authors []Author
 }
 
 func (i *Item) String() string {
@@ -133,6 +135,10 @@ func (i *Item) String() string {
 func (i *Item) Format(s string) string {
 	return fmt.Sprintf("Item %q\n\t%s%q\n\t%s%s\n\t%s%q\n\t%sRead: %v\n\t%s%q", i.Title, s, i.Link, s,
 		i.Date.Format("Mon 2 Jan 2006 15:04:05 MST"), s, i.ID, s, i.Read, s, i.Content)
+}
+
+type Author struct {
+	Name, Uri, Email string
 }
 
 type Image struct {

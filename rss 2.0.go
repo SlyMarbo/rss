@@ -77,6 +77,7 @@ func parseRSS2(data []byte, seen Seen) (*Feed, error) {
 		next.Title = item.Title
 		next.Content = item.Content
 		next.Link = item.Link
+		next.Authors = []Author{Author{Name: item.Author}}
 		if item.Date != "" {
 			next.Date, err = parseTime(item.Date)
 			if err != nil {
@@ -117,6 +118,7 @@ type rss2_0Item struct {
 	Link    string   `xml:"link"`
 	Date    string   `xml:"pubDate"`
 	ID      string   `xml:"guid"`
+	Author  string   `xml:"author"`
 }
 
 type rss2_0Image struct {

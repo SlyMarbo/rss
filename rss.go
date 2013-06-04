@@ -65,7 +65,6 @@ type Feed struct {
 	Description string
 	Link        string
 	UpdateURL   string
-	Authors     []Author
 	Image       *Image
 	Items       []*Item
 	Seen        Seen
@@ -109,13 +108,14 @@ func (f *Feed) String() string {
 
 // Item represents a single story.
 type Item struct {
-	Title   string
-	Content string
-	Link    string
-	Date    time.Time
-	ID      string
-	Read    bool
-	Authors []Author
+	Title      string
+	Content    string
+	Link       string
+	Date       time.Time
+	ID         string
+	Read       bool
+	Authors    []Author
+	Categories []string
 }
 
 func (i *Item) String() string {

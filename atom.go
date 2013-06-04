@@ -22,7 +22,7 @@ func parseAtom(data []byte, seen Seen) (*Feed, error) {
 	out.Link = feed.Link.Href
 	out.Image = feed.Image.Image()
 	out.Refresh = time.Now().Add(10 * time.Minute)
-	out.Authors = aa2i(feed.Authors)
+	defAuthors := aa2i(feed.Authors)
 
 	if feed.Items == nil {
 		return nil, fmt.Errorf("Error: no feeds found in %q.", string(data))
@@ -55,6 +55,9 @@ func parseAtom(data []byte, seen Seen) (*Feed, error) {
 		next.ID = id
 		next.Read = false
 		next.Authors = aa2i(item.Authors)
+		if len(next.Authors) == 0 && len(defAuthors) > 0 {
+			next.Authors = defAuthors
+		}
 
 		out.Items = append(out.Items, next)
 		out.Unread++

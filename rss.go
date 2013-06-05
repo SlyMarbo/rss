@@ -1,9 +1,7 @@
 package rss
 
 import (
-	"bytes"
 	"errors"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -96,16 +94,6 @@ func (f *Feed) Update() error {
 	return nil
 }
 
-func (f *Feed) String() string {
-	buf := new(bytes.Buffer)
-	buf.WriteString(fmt.Sprintf("Feed %q\n\t%q\n\t%q\n\t%s\n\tRefresh at %s\n\tUnread: %d\n\tItems:\n",
-		f.Title, f.Description, f.Link, f.Image, f.Refresh.Format("Mon 2 Jan 2006 15:04:05 MST"), f.Unread))
-	for _, item := range f.Items {
-		buf.WriteString(fmt.Sprintf("\t%s\n", item.Format("\t\t")))
-	}
-	return buf.String()
-}
-
 // Item represents a single story.
 type Item struct {
 	Title      string
@@ -118,15 +106,6 @@ type Item struct {
 	Categories []string
 }
 
-func (i *Item) String() string {
-	return i.Format("")
-}
-
-func (i *Item) Format(s string) string {
-	return fmt.Sprintf("Item %q\n\t%s%q\n\t%s%s\n\t%s%q\n\t%sRead: %v\n\t%s%q", i.Title, s, i.Link, s,
-		i.Date.Format("Mon 2 Jan 2006 15:04:05 MST"), s, i.ID, s, i.Read, s, i.Content)
-}
-
 type Author struct {
 	Name, Uri, Email string
 }
@@ -136,8 +115,4 @@ type Image struct {
 	Url    string
 	Height uint32
 	Width  uint32
-}
-
-func (i *Image) String() string {
-	return fmt.Sprintf("Image %q", i.Title)
 }

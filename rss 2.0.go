@@ -80,6 +80,7 @@ func parseRSS2(data []byte, seen Seen) (*Feed, error) {
 		if item.Author != "" {
 			next.Authors = []Author{Author{Name: item.Author}}
 		}
+		next.Categories = item.Categories
 		if item.Date != "" {
 			next.Date, err = parseTime(item.Date)
 			if err != nil {
@@ -114,13 +115,14 @@ type rss2_0Channel struct {
 }
 
 type rss2_0Item struct {
-	XMLName xml.Name `xml:"item"`
-	Title   string   `xml:"title"`
-	Content string   `xml:"description"`
-	Link    string   `xml:"link"`
-	Date    string   `xml:"pubDate"`
-	ID      string   `xml:"guid"`
-	Author  string   `xml:"author"`
+	XMLName    xml.Name `xml:"item"`
+	Title      string   `xml:"title"`
+	Content    string   `xml:"description"`
+	Link       string   `xml:"link"`
+	Date       string   `xml:"pubDate"`
+	ID         string   `xml:"guid"`
+	Author     string   `xml:"author"`
+	Categories []string `xml:"category"`
 }
 
 type rss2_0Image struct {

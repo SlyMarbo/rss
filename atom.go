@@ -104,9 +104,11 @@ type atomAuthor struct {
 }
 
 func aa2i(as []atomAuthor) []Author {
-	rs := make([]Author, len(as))
-	for i, a := range as {
-		rs[i] = Author{Name: a.Name, Uri: a.Uri, Email: a.Email}
+	var rs []Author
+	for _, a := range as {
+		if a != (atomAuthor{}) {
+			rs = append(rs, Author{Name: a.Name, Uri: a.Uri, Email: a.Email})
+		}
 	}
 	return rs
 }

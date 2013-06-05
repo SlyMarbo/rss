@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func parseRSS2(data []byte, read *db) (*Feed, error) {
+func parseRSS2(data []byte, seen Seen) (*Feed, error) {
 	feed := rss2_0Feed{}
 	p := xml.NewDecoder(bytes.NewReader(data))
 	p.CharsetReader = charsetReader
@@ -20,9 +20,9 @@ func parseRSS2(data []byte, read *db) (*Feed, error) {
 	if feed.Channel == nil {
 		return nil, fmt.Errorf("Error: no channel found in %q.", string(data))
 	}
-	
+
 	channel := feed.Channel
-	
+
 	out := new(Feed)
 	out.Title = channel.Title
 	out.Description = channel.Description
@@ -33,7 +33,7 @@ func parseRSS2(data []byte, read *db) (*Feed, error) {
 		next := time.Now().Add(time.Duration(channel.MinsToLive) * time.Minute)
 		for _, hour := range channel.SkipHours {
 			if hour == next.Hour() {
-				next.Add(time.Duration(60 - next.Minute()) * time.Minute)
+				next.Add(time.Duration(60-next.Minute()) * time.Minute)
 			}
 		}
 		trying := true
@@ -41,72 +41,65 @@ func parseRSS2(data []byte, read *db) (*Feed, error) {
 			trying = false
 			for _, day := range channel.SkipDays {
 				if strings.Title(day) == next.Weekday().String() {
-					next.Add(time.Duration(24 - next.Hour()) * time.Hour)
+					next.Add(time.Duration(24-next.Hour()) * time.Hour)
 					trying = true
 					break
 				}
 			}
 		}
-		
+
 		out.Refresh = next
 	}
-	
+
 	if out.Refresh.IsZero() {
 		out.Refresh = time.Now().Add(10 * time.Minute)
 	}
-	
+
 	if channel.Items == nil {
 		return nil, fmt.Errorf("Error: no feeds found in %q.", string(data))
 	}
-	
+
 	out.Items = make([]*Item, 0, len(channel.Items))
-	out.ItemMap = make(map[string]struct{})
-	
+
 	// Process items.
 	for _, item := range channel.Items {
-		
-		// Skip items already known.
-		if read.req <- item.ID; <- read.res {
+
+		id := item.ID
+		if id == "" {
+			id = item.Link
+		}
+		if _, found := seen[id]; found || id == "" {
 			continue
 		}
-		
+		seen[id] = struct{}{}
+
 		next := new(Item)
 		next.Title = item.Title
 		next.Content = item.Content
 		next.Link = item.Link
+		if item.Author != "" {
+			next.Authors = []Author{Author{Name: item.Author}}
+		}
+		next.Categories = item.Categories
 		if item.Date != "" {
 			next.Date, err = parseTime(item.Date)
 			if err != nil {
 				return nil, err
 			}
 		}
-		next.ID = item.ID
+		next.ID = id
 		next.Read = false
-		
-		if next.ID == "" {
-			if next.Link == "" {
-				fmt.Printf("Warning: Item %q has no ID or link and will be ignored.\n", next.Title)
-				continue
-			}
-			next.ID = next.Link
-		}
-		
-		if _, ok := out.ItemMap[next.ID]; ok {
-			fmt.Printf("Warning: Item %q has duplicate ID.\n", next.Title)
-			continue
-		}
-		
+
 		out.Items = append(out.Items, next)
-		out.ItemMap[next.ID] = struct{}{}
 		out.Unread++
 	}
-	
+
 	return out, nil
 }
 
 type rss2_0Feed struct {
-	XMLName  xml.Name       `xml:"rss"`
-	Channel  *rss2_0Channel `xml:"channel"`
+	XMLName xml.Name       `xml:"rss"`
+	Channel *rss2_0Channel `xml:"channel"`
 }
 
 type rss2_0Channel struct {
@@ -122,12 +115,14 @@ type rss2_0Channel struct {
 }
 
 type rss2_0Item struct {
-	XMLName xml.Name `xml:"item"`
-	Title   string   `xml:"title"`
-	Content string   `xml:"description"`
-	Link    string   `xml:"link"`
-	Date    string   `xml:"pubDate"`
-	ID      string   `xml:"guid"`
+	XMLName    xml.Name `xml:"item"`
+	Title      string   `xml:"title"`
+	Content    string   `xml:"description"`
+	Link       string   `xml:"link"`
+	Date       string   `xml:"pubDate"`
+	ID         string   `xml:"guid"`
+	Author     string   `xml:"author"`
+	Categories []string `xml:"category"`
 }
 
 type rss2_0Image struct {

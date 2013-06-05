@@ -19,9 +19,9 @@ func main() {
 	if err != nil {
 		// handle error.
 	}
-	
+
 	// ... Some time later ...
-	
+
 	err = feed.Update()
 	if err != nil {
 		// handle error.

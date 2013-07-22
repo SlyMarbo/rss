@@ -19,16 +19,16 @@ func parseTime(s string) (time.Time, error) {
 		time.RFC3339,
 		time.RFC3339Nano,
 	}
-	
+
 	var e error
 	var t time.Time
-	
+
 	for _, format := range formats {
 		t, e = time.Parse(format, s)
 		if e == nil {
 			return t, e
 		}
 	}
-	
+
 	return time.Time{}, e
 }

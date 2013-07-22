@@ -15,29 +15,29 @@ func parseAtom(data []byte, read *db) (*Feed, error) {
 	if err != nil {
 		return nil, err
 	}
-	
+
 	out := new(Feed)
 	out.Title = feed.Title
 	out.Description = feed.Description
 	out.Link = feed.Link.Href
 	out.Image = feed.Image.Image()
 	out.Refresh = time.Now().Add(10 * time.Minute)
-	
+
 	if feed.Items == nil {
 		return nil, fmt.Errorf("Error: no feeds found in %q.", string(data))
 	}
-	
+
 	out.Items = make([]*Item, 0, len(feed.Items))
 	out.ItemMap = make(map[string]struct{})
-	
+
 	// Process items.
 	for _, item := range feed.Items {
-		
+
 		// Skip items already known.
-		if read.req <- item.ID; <- read.res {
+		if read.req <- item.ID; <-read.res {
 			continue
 		}
-		
+
 		next := new(Item)
 		next.Title = item.Title
 		next.Content = item.Content
@@ -50,22 +50,22 @@ func parseAtom(data []byte, read *db) (*Feed, error) {
 		}
 		next.ID = item.ID
 		next.Read = false
-		
+
 		if next.ID == "" {
 			fmt.Printf("Warning: Item %q has no ID and will be ignored.\n", next.Title)
 			continue
 		}
-		
+
 		if _, ok := out.ItemMap[next.ID]; ok {
 			fmt.Printf("Warning: Item %q has duplicate ID.\n", next.Title)
 			continue
 		}
-		
+
 		out.Items = append(out.Items, next)
 		out.ItemMap[next.ID] = struct{}{}
 		out.Unread++
 	}
-	
+
 	return out, nil
 }
 
@@ -97,7 +97,7 @@ type atomImage struct {
 }
 
 type atomLink struct {
-    Href    string   `xml:"href,attr"`
+	Href string `xml:"href,attr"`
 }
 
 func (a *atomImage) Image() *Image {

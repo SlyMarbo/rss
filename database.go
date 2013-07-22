@@ -8,17 +8,17 @@ func init() {
 }
 
 type db struct {
-	req chan string
-	res chan bool
+	req   chan string
+	res   chan bool
 	known map[string]struct{}
 }
 
 func (d *db) Run() {
 	d.known = make(map[string]struct{})
 	var s string
-	
+
 	for {
-		s = <- d.req
+		s = <-d.req
 		if _, ok := d.known[s]; ok {
 			d.res <- true
 		} else {

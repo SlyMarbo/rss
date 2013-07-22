@@ -19,7 +19,7 @@ func parseAtom(data []byte, read *db) (*Feed, error) {
 	out := new(Feed)
 	out.Title = feed.Title
 	out.Description = feed.Description
-	out.Link = feed.Link
+	out.Link = feed.Link.Href
 	out.Image = feed.Image.Image()
 	out.Refresh = time.Now().Add(10 * time.Minute)
 	
@@ -41,7 +41,7 @@ func parseAtom(data []byte, read *db) (*Feed, error) {
 		next := new(Item)
 		next.Title = item.Title
 		next.Content = item.Content
-		next.Link = item.Link
+		next.Link = item.Link.Href
 		if item.Date != "" {
 			next.Date, err = parseTime(item.Date)
 			if err != nil {
@@ -73,7 +73,7 @@ type atomFeed struct {
 	XMLName     xml.Name   `xml:"feed"`
 	Title       string     `xml:"title"`
 	Description string     `xml:"subtitle"`
-	Link        string     `xml:"link>href,attr"`
+	Link        atomLink   `xml:"link"`
 	Image       atomImage  `xml:"image"`
 	Items       []atomItem `xml:"entry"`
 	Updated     string     `xml:"updated"`
@@ -83,7 +83,7 @@ type atomItem struct {
 	XMLName xml.Name `xml:"entry"`
 	Title   string   `xml:"title"`
 	Content string   `xml:"summary"`
-	Link    string   `xml:"link>href,attr"`
+	Link    atomLink `xml:"link"`
 	Date    string   `xml:"updated"`
 	ID      string   `xml:"id"`
 }
@@ -94,6 +94,10 @@ type atomImage struct {
 	Url     string   `xml:"url"`
 	Height  int      `xml:"height"`
 	Width   int      `xml:"width"`
+}
+
+type atomLink struct {
+    Href    string   `xml:"href,attr"`
 }
 
 func (a *atomImage) Image() *Image {

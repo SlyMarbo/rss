@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="FeedCreator 1.6" -->
+<feed xmlns="http://www.w3.org/2005/Atom"
+ xmlns:dc="http://purl.org/dc/elements/1.1/"
+ xml:lang="de">
+    <title type="html">Golem.de</title>
+    <subtitle type="html">IT-News fuer Profis</subtitle>
+    <link rel="self" type="application/atom+xml" href="http://rss.golem.de/rss.php?feed=ATOM1.0"/>
+    <link rel="alternate" type="text/html" href="http://www.golem.de/"/>
+    <id>http://www.golem.de/</id>
+    <logo>http://www.golem.de/staticrl/images/golem-rss.png</logo>
+    <icon>http://www.golem.de/favicon.ico</icon>
+    <updated>2013-05-04T18:29:02+02:00</updated>
+    <generator>FeedCreator 1.6</generator>
+    <link rel="hub" href="http://golem.superfeedr.com/" />
+    <entry>
+        <title type="html">Adobes CFF Engine: Bessere Schriftdarstellung für Android, iOS und Linux</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/adobes-cff-engine-bessere-schriftdarstellung-fuer-android-ios-und-linux-1305-99096-rss.html"/>
+        <published>2013-05-04T15:05:00+02:00</published>
+        <updated>2013-05-04T15:05:00+02:00</updated>
+        <id>http://www.golem.de/news/adobes-cff-engine-bessere-schriftdarstellung-fuer-android-ios-und-linux-1305-99096-rss.html</id>
+        <author>
+            <name>Jörg Thoma</name>
+        </author>
+        <summary type="html">Mit der Freigabe der CFF-Engine (Compact Font Format) von Adobe für die Nutzung mit Freetype soll die Schriftendarstellung in Android, iOS und Linux deutlich verbessert werden. (&lt;a href=&quot;http://www.golem.de/specials/google/&quot;&gt;Google&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/grafiksoftware/&quot;&gt;Grafiksoftware&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99096&amp;amp;page=1&amp;amp;ts=1367672700&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">&quot;Flat Special&quot;: 1&amp;1 hat Drosselung bei DSL</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/flat-special-1-1-fuehrt-drosselung-bei-dsl-ein-1305-99095-rss.html"/>
+        <published>2013-05-04T14:28:00+02:00</published>
+        <updated>2013-05-04T14:28:00+02:00</updated>
+        <id>http://www.golem.de/news/flat-special-1-1-fuehrt-drosselung-bei-dsl-ein-1305-99095-rss.html</id>
+        <author>
+            <name>Achim Sawall</name>
+        </author>
+        <summary type="html">Der Internetprovider 1&amp;1 hat eine DSL-Drosselung für einen Tarif im Angebot. Das Produkt heißt &quot;Flat Special 16.000&quot;, ist aber nicht neu. (&lt;a href=&quot;http://www.golem.de/specials/dsl/&quot;&gt;DSL&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/telekom/&quot;&gt;Telekom&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99095&amp;amp;page=1&amp;amp;ts=1367670480&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Microblogging: Umbau bei Identi.ca</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/twitter-alternative-umbau-bei-identi-ca-1305-99094-rss.html"/>
+        <published>2013-05-04T11:03:00+02:00</published>
+        <updated>2013-05-04T11:03:00+02:00</updated>
+        <id>http://www.golem.de/news/twitter-alternative-umbau-bei-identi-ca-1305-99094-rss.html</id>
+        <author>
+            <name>Hanno Böck</name>
+        </author>
+        <summary type="html">Das einst als Twitter-Alternative gepriesene Projekt Identi.ca stellt auf eine neue Software um. Das ändert auch seinen Charakter - künftig bietet Identi.ca ein vollständiges soziales Netzwerk statt einen Microblogging-Dienst. (&lt;a href=&quot;http://www.golem.de/specials/socialnetwork/&quot;&gt;Soziales Netz&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/serverapps/&quot;&gt;Server-Applikationen&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99094&amp;amp;page=1&amp;amp;ts=1367658180&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Security: Zero-Day-Lücke im Internet Explorer 8</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/security-zero-day-luecke-im-internet-explorer-8-1305-99093-rss.html"/>
+        <published>2013-05-04T10:54:00+02:00</published>
+        <updated>2013-05-04T10:54:00+02:00</updated>
+        <id>http://www.golem.de/news/security-zero-day-luecke-im-internet-explorer-8-1305-99093-rss.html</id>
+        <author>
+            <name>Jörg Thoma</name>
+        </author>
+        <summary type="html">Eine bislang unbekannte Sicherheitslücke im Internet Explorer 8 wird aktiv ausgenutzt, um Trojaner auf Rechnern eines Opfers zu installieren. Angreifer hatten bislang Mitarbeiter der US-Atomwaffenforschung im Visier. (&lt;a href=&quot;http://www.golem.de/specials/internetexplorer/&quot;&gt;Internet Explorer&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/microsoft/&quot;&gt;Microsoft&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99093&amp;amp;page=1&amp;amp;ts=1367657640&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Aspire P3 und V7: Ultrabook mit Stoffgelenk und AMD-Temash-Notebook</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/aspire-p3-und-v7-ultrabook-mit-stoffgelenk-und-amd-temash-notebook-1305-99092-rss.html"/>
+        <published>2013-05-03T19:05:00+02:00</published>
+        <updated>2013-05-03T19:05:00+02:00</updated>
+        <id>http://www.golem.de/news/aspire-p3-und-v7-ultrabook-mit-stoffgelenk-und-amd-temash-notebook-1305-99092-rss.html</id>
+        <author>
+            <name>Andreas Sebayang</name>
+        </author>
+        <summary type="html">Acer hat ein Ultrabook vorgestellt, bei dem man sich streiten kann, ob es ein Tablet mit Hülle oder wirklich ein Notebook ist. Außerdem zeigte die Firma ihr erstes Notebook mit AMDs Temash-APU, das nur eine geringe Laufzeit bietet. (&lt;a href=&quot;http://www.golem.de/specials/core-i5/&quot;&gt;Core i5&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/acer/&quot;&gt;Acer&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99092&amp;amp;page=1&amp;amp;ts=1367600700&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Raumfahrt: Estnischer Minisatellit testet elektrisches Sonnensegel</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/raumfahrt-estnischer-minisatellit-testet-elektrisches-sonnensegel-1305-99091-rss.html"/>
+        <published>2013-05-03T18:45:00+02:00</published>
+        <updated>2013-05-03T18:45:00+02:00</updated>
+        <id>http://www.golem.de/news/raumfahrt-estnischer-minisatellit-testet-elektrisches-sonnensegel-1305-99091-rss.html</id>
+        <author>
+            <name>Werner Pluta</name>
+        </author>
+        <summary type="html">Die europäische Weltraumagentur Esa testet einen neuen Antrieb für Raumfahrzeuge: Sie schießt einen Cubesat mit einem Sonnensegel ins All. Das Segel sorgt über die Abstoßung von geladenen Partikeln für Vortrieb. (&lt;a href=&quot;http://www.golem.de/specials/technologie/&quot;&gt;Technologie&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/raumfahrt/&quot;&gt;Raumfahrt&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99091&amp;amp;page=1&amp;amp;ts=1367599500&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Aspire R7: Großes Convertible mit dem Touchpad hinter der Tastatur</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/aspire-r7-grosses-convertible-mit-dem-touchpad-hinter-der-tastatur-1305-99090-rss.html"/>
+        <published>2013-05-03T17:45:00+02:00</published>
+        <updated>2013-05-03T17:45:00+02:00</updated>
+        <id>http://www.golem.de/news/aspire-r7-grosses-convertible-mit-dem-touchpad-hinter-der-tastatur-1305-99090-rss.html</id>
+        <author>
+            <name>Andreas Sebayang</name>
+        </author>
+        <summary type="html">Acer hat ein Notebook mit einer ungewöhlichen Konstruktion vorgestellt. Das Touchpad ist nicht mehr so wichtig und wird über die sogenannte Ezel-Hinge-Konstruktion bei Bedarf durch das Display verdeckt. (&lt;a href=&quot;http://www.golem.de/specials/notebook/&quot;&gt;Notebook&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/usb-3.0/&quot;&gt;USB 3.0&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99090&amp;amp;page=1&amp;amp;ts=1367595900&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Gamma Group: Bundesregierung kauft einen Staatstrojaner für 147.000 Euro</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/gamma-group-bundesregierung-kauft-einen-staatstrojaner-1305-99089-rss.html"/>
+        <published>2013-05-03T16:43:00+02:00</published>
+        <updated>2013-05-03T16:43:00+02:00</updated>
+        <id>http://www.golem.de/news/gamma-group-bundesregierung-kauft-einen-staatstrojaner-1305-99089-rss.html</id>
+        <author>
+            <name>Achim Sawall</name>
+        </author>
+        <summary type="html">Über einen deutschen Partner hat das Bundesinnenministerium bei der britischen Gamma Group einen Trojaner erworben. Die Lizenz gilt für zehn Rechner über einen Zeitraum von zwölf Monaten und kostet 147.000 Euro. (&lt;a href=&quot;http://www.golem.de/specials/voip/&quot;&gt;VoIP&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/datenschutz/&quot;&gt;Datenschutz&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99089&amp;amp;page=1&amp;amp;ts=1367592180&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Entwicklerplatinen: Spark Core mit WLAN und Cortex-M3-Prozessor</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/entwicklerplatinen-spark-core-mit-wlan-und-cortex-m3-prozessor-1305-99088-rss.html"/>
+        <published>2013-05-03T16:35:00+02:00</published>
+        <updated>2013-05-03T16:35:00+02:00</updated>
+        <id>http://www.golem.de/news/entwicklerplatinen-spark-core-mit-wlan-und-cortex-m3-prozessor-1305-99088-rss.html</id>
+        <author>
+            <name>Jörg Thoma</name>
+        </author>
+        <summary type="html">Die Entwicklerplatine Spark Core kommt mit einem integrierten WLAN-Chip und Cortex-M3-Prozessor. Nicht nur eine Erweiterungsplatine sorgt für die Kompatibilität mit dem Arduino-Projekt. Die dazugehörige Spark Cloud bietet REST-APIs beispielsweise für Smartphones. (&lt;a href=&quot;http://www.golem.de/specials/cloud-computing/&quot;&gt;Cloud Computing&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/server/&quot;&gt;Server&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99088&amp;amp;page=1&amp;amp;ts=1367591700&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Solar Impulse: Solarflugzeug startet zur USA-Tour</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/solar-impulse-solarflugzeug-startet-zur-usa-tour-1305-99087-rss.html"/>
+        <published>2013-05-03T15:48:00+02:00</published>
+        <updated>2013-05-03T15:48:00+02:00</updated>
+        <id>http://www.golem.de/news/solar-impulse-solarflugzeug-startet-zur-usa-tour-1305-99087-rss.html</id>
+        <author>
+            <name>Werner Pluta</name>
+        </author>
+        <summary type="html">Bertrand Piccard startet die erste Etappe der US-Tour mit Solar Impulse: Von Mountain View geht es über Fresno und die Mojave-Wüste nach Phoenix. 19 Stunden soll er für den Flug brauchen. Ende der US-Tour ist im Juli in New York. (&lt;a href=&quot;http://www.golem.de/specials/solarenergie/&quot;&gt;Solarenergie&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/solarimpulse/&quot;&gt;Solar Impulse&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99087&amp;amp;page=1&amp;amp;ts=1367588880&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">IT-Fachanwalt: &quot;Drosselung der Telekom verstößt gegen Fernmeldegeheimnis&quot;</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/it-fachanwalt-drosselung-der-telekom-verstoesst-gegen-fernmeldegeheimnis-1305-99086-rss.html"/>
+        <published>2013-05-03T15:27:00+02:00</published>
+        <updated>2013-05-03T15:27:00+02:00</updated>
+        <id>http://www.golem.de/news/it-fachanwalt-drosselung-der-telekom-verstoesst-gegen-fernmeldegeheimnis-1305-99086-rss.html</id>
+        <author>
+            <name>Achim Sawall</name>
+        </author>
+        <summary type="html">Um bestimmte Angebote von der DSL-Drosselung auszunehmen, muss die Telekom gegen das Fernmeldegeheimnis verstoßen, meint Anwalt Thomas Stadler. Die Telekom nennt das Unsinn. (&lt;a href=&quot;http://www.golem.de/specials/dsl/&quot;&gt;DSL&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/telekom/&quot;&gt;Telekom&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99086&amp;amp;page=1&amp;amp;ts=1367587620&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Android-ROM: Cyanogenmod fürs Samsung Galaxy S4 ist in Arbeit</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/android-rom-cyanogenmod-fuers-samsung-galaxy-s4-ist-in-arbeit-1305-99085-rss.html"/>
+        <published>2013-05-03T15:23:00+02:00</published>
+        <updated>2013-05-03T15:23:00+02:00</updated>
+        <id>http://www.golem.de/news/android-rom-cyanogenmod-fuers-samsung-galaxy-s4-ist-in-arbeit-1305-99085-rss.html</id>
+        <author>
+            <name>Tobias Költzsch</name>
+        </author>
+        <summary type="html">Anderslautenden Gerüchten zum Trotz hat Steve Kondik einen ersten Hinweis geliefert, dass Cyanogenmod doch an einer Portierung für Samsungs Galaxy S4 arbeitet. (&lt;a href=&quot;http://www.golem.de/specials/samsung/&quot;&gt;Samsung&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/desktop-applikationen/&quot;&gt;Applikationen&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99085&amp;amp;page=1&amp;amp;ts=1367587380&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Desktop: Gnome 3.10 auf dem Weg zu Wayland</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/desktop-gnome-3-10-auf-dem-weg-zu-wayland-1305-99084-rss.html"/>
+        <published>2013-05-03T15:09:00+02:00</published>
+        <updated>2013-05-03T15:09:00+02:00</updated>
+        <id>http://www.golem.de/news/desktop-gnome-3-10-auf-dem-weg-zu-wayland-1305-99084-rss.html</id>
+        <author>
+            <name>Sebastian Grüner</name>
+        </author>
+        <summary type="html">In einem halben Jahr soll sich der Gnome-Desktop mit Wayland nutzen lassen, jedoch nur optional. In einem Jahr soll der Umstieg dann komplett vollzogen sein. (&lt;a href=&quot;http://www.golem.de/specials/gnome/&quot;&gt;Gnome&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/linux/&quot;&gt;Linux&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99084&amp;amp;page=1&amp;amp;ts=1367586540&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Haswell: Core i7-4770K auf über 7 GHz übertaktet</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/haswell-core-i7-4770k-auf-ueber-7-ghz-uebertaktet-1305-99083-rss.html"/>
+        <published>2013-05-03T12:29:00+02:00</published>
+        <updated>2013-05-03T12:29:00+02:00</updated>
+        <id>http://www.golem.de/news/haswell-core-i7-4770k-auf-ueber-7-ghz-uebertaktet-1305-99083-rss.html</id>
+        <author>
+            <name>Nico Ernst</name>
+        </author>
+        <summary type="html">Ein Overclocker hat ein Vorserienexemplar von Intels schnellster Haswell-CPU, den Core i7-4770K, auf über 7 GHz übertaktet. Möglich wird das durch die flexibleren Frequenzteiler der neuen Architektur. (&lt;a href=&quot;http://www.golem.de/specials/cpu/&quot;&gt;Prozessor&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/intel/&quot;&gt;Intel&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99083&amp;amp;page=1&amp;amp;ts=1367576940&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Unix: OpenBSD 5.3 mit stabilem OpenSMTPD</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/unix-openbsd-5-3-mit-stabilem-opensmtpd-1305-99082-rss.html"/>
+        <published>2013-05-03T12:20:00+02:00</published>
+        <updated>2013-05-03T12:20:00+02:00</updated>
+        <id>http://www.golem.de/news/unix-openbsd-5-3-mit-stabilem-opensmtpd-1305-99082-rss.html</id>
+        <author>
+            <name>Sebastian Grüner</name>
+        </author>
+        <summary type="html">Die aktuelle OpenBSD-Version stuft den Mail-Transfer-Agent OpenSMTPD als stabil ein. Außerdem unterstützt das auf Sicherheit ausgelegte System Virtio. (&lt;a href=&quot;http://www.golem.de/specials/openbsd/&quot;&gt;OpenBSD&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/bsd/&quot;&gt;BSD&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99082&amp;amp;page=1&amp;amp;ts=1367576400&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Piratenpartei: Gefangen im Mitmach-Dilemma</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/piratenpartei-gefangen-im-mitmach-dilemma-1305-99075-rss.html"/>
+        <published>2013-05-03T12:04:00+02:00</published>
+        <updated>2013-05-03T12:04:00+02:00</updated>
+        <id>http://www.golem.de/news/piratenpartei-gefangen-im-mitmach-dilemma-1305-99075-rss.html</id>
+        <author>
+            <name>Friedhelm Greis</name>
+        </author>
+        <summary type="html">Die Piratenpartei will mit neuen Methoden die Demokratie ins Internetzeitalter überführen. Dabei gerät sie mehrfach in Widerspruch zu ihren ureigenen Prinzipien. (&lt;a href=&quot;http://www.golem.de/specials/internet/&quot;&gt;Internet&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/piratenpartei/&quot;&gt;Piratenpartei&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99075&amp;amp;page=1&amp;amp;ts=1367575440&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Robobee: Roboterfliegen im Sturzflug</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/robobee-roboterfliegen-im-sturzflug-1305-99081-rss.html"/>
+        <published>2013-05-03T12:03:00+02:00</published>
+        <updated>2013-05-03T12:03:00+02:00</updated>
+        <id>http://www.golem.de/news/robobee-roboterfliegen-im-sturzflug-1305-99081-rss.html</id>
+        <author>
+            <name>Werner Pluta</name>
+        </author>
+        <summary type="html">Robobees sind fliegende Miniroboter, die Insekten nachempfunden sind. Die Drohnen können kontrolliert fliegen, wenn auch noch angeleint. Nur an einer eleganten Landetechnik hapert es noch. (&lt;a href=&quot;http://www.golem.de/specials/robots/&quot;&gt;Roboter&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/technologie/&quot;&gt;Technologie&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99081&amp;amp;page=1&amp;amp;ts=1367575380&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Migration: Hotmail existiert nicht mehr</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/migration-hotmail-existiert-nicht-mehr-1305-99080-rss.html"/>
+        <published>2013-05-03T11:46:00+02:00</published>
+        <updated>2013-05-03T11:46:00+02:00</updated>
+        <id>http://www.golem.de/news/migration-hotmail-existiert-nicht-mehr-1305-99080-rss.html</id>
+        <author>
+            <name>Achim Sawall</name>
+        </author>
+        <summary type="html">Microsoft hat 150 PByte E-Mails von Hotmail nach Outlook.com migriert und den Webmaildienst geschlossen. Outlook.com hat damit 400 Millionen Nutzer und ist auf 1 Milliarde vorbereitet. (&lt;a href=&quot;http://www.golem.de/specials/microsoft/&quot;&gt;Microsoft&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/instantmessenger/&quot;&gt;Instant Messenger&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99080&amp;amp;page=1&amp;amp;ts=1367574360&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Ghosts: Call of Duty wird mit neuer Engine runderneuert</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/ghosts-call-of-duty-wird-mit-neuer-engine-runderneuert-1305-99079-rss.html"/>
+        <published>2013-05-03T11:25:00+02:00</published>
+        <updated>2013-05-03T11:25:00+02:00</updated>
+        <id>http://www.golem.de/news/ghosts-call-of-duty-wird-mit-neuer-engine-runderneuert-1305-99079-rss.html</id>
+        <author>
+            <name>Nico Ernst</name>
+        </author>
+        <summary type="html">Der nächste Teil der Serie Call of Duty, Ghosts, entsteht derzeit bei Infinity Ward. Dabei wird eine eigene Engine entwickelt, die auch für Next-Gen-Konsolen fit sein soll - unter anderem für die nächste Xbox. (&lt;a href=&quot;http://www.golem.de/specials/call-of-duty/&quot;&gt;Call of Duty&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/ps4/&quot;&gt;PS 4&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99079&amp;amp;page=1&amp;amp;ts=1367573100&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Linux-Distribution: Sabayon 13.04 mit Systemd und vollem UEFI-Support</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/linux-distribution-sabayon-13-04-mit-systemd-und-vollem-uefi-support-1305-99078-rss.html"/>
+        <published>2013-05-03T11:07:00+02:00</published>
+        <updated>2013-05-03T11:07:00+02:00</updated>
+        <id>http://www.golem.de/news/linux-distribution-sabayon-13-04-mit-systemd-und-vollem-uefi-support-1305-99078-rss.html</id>
+        <author>
+            <name>Sebastian Grüner</name>
+        </author>
+        <summary type="html">Die Gentoo-basierte Linux-Distribution Sabayon bietet ab sofort monatliche Snapshots. Im ersten dieser Art wird Systemd experimentell unterstützt und UEFI samt Secure Boot gilt als stabil genug für den Einsatz. (&lt;a href=&quot;http://www.golem.de/specials/linux/&quot;&gt;Linux&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/linux-distribution/&quot;&gt;Linux-Distribution&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99078&amp;amp;page=1&amp;amp;ts=1367572020&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Gmail: Update ermöglicht einfache Termineingabe aus E-Mails heraus</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/gmail-update-ermoeglicht-einfache-termineingabe-aus-e-mails-heraus-1305-99077-rss.html"/>
+        <published>2013-05-03T10:59:00+02:00</published>
+        <updated>2013-05-03T10:59:00+02:00</updated>
+        <id>http://www.golem.de/news/gmail-update-ermoeglicht-einfache-termineingabe-aus-e-mails-heraus-1305-99077-rss.html</id>
+        <author>
+            <name>Tobias Költzsch</name>
+        </author>
+        <summary type="html">Google baut eine neue Funktion in Gmail ein: Künftig können Nutzer direkt aus einer E-Mail heraus Termine in den Google-Kalender eintragen. Nutzer von iOS kennen diese Funktion schon länger von ihren mobilen Geräten. (&lt;a href=&quot;http://www.golem.de/specials/google/&quot;&gt;Google&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/gmail/&quot;&gt;Google Mail&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99077&amp;amp;page=1&amp;amp;ts=1367571540&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Passwörter und IP-Adressen: Bundesrat winkt Gesetz zur Bestandsdatenauskunft durch</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/passwoerter-und-ip-adressen-bundesrat-winkt-gesetz-zur-bestandsdatenauskunft-durch-1305-99076-rss.html"/>
+        <published>2013-05-03T10:38:00+02:00</published>
+        <updated>2013-05-03T10:38:00+02:00</updated>
+        <id>http://www.golem.de/news/passwoerter-und-ip-adressen-bundesrat-winkt-gesetz-zur-bestandsdatenauskunft-durch-1305-99076-rss.html</id>
+        <author>
+            <name>Friedhelm Greis</name>
+        </author>
+        <summary type="html">Trotz heftiger Proteste hat der Bundesrat dem neuen Gesetz zur Bestandsdatenauskunft zugestimmt. Es verpflichtet Anbieter zur Herausgabe von PIN und PUK oder Passwörtern an Polizei, Zoll und Geheimdienste. Neue Klagen vor dem Bundesverfassungsgericht sind angekündigt. (&lt;a href=&quot;http://www.golem.de/specials/datenschutz/&quot;&gt;Datenschutz&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/internet/&quot;&gt;Internet&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99076&amp;amp;page=1&amp;amp;ts=1367570280&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Steam: Portal für Linux erhältlich</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/steam-portal-fuer-linux-erhaeltlich-1305-99074-rss.html"/>
+        <published>2013-05-03T09:41:00+02:00</published>
+        <updated>2013-05-03T09:41:00+02:00</updated>
+        <id>http://www.golem.de/news/steam-portal-fuer-linux-erhaeltlich-1305-99074-rss.html</id>
+        <author>
+            <name>Jörg Thoma</name>
+        </author>
+        <summary type="html">Das Action-Adventure Portal ist über Steam für Linux als Betaversion erhältlich. Auch die zweite Version soll angeboten werden. Zuletzt hatte Valve einen Rückgang von Linux in seinen Nutzerstatistiken registriert. (&lt;a href=&quot;http://www.golem.de/specials/steam/&quot;&gt;Steam&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/linux/&quot;&gt;Linux&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99074&amp;amp;page=1&amp;amp;ts=1367566860&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Apple: Mini-Update für iOS auf dem iPhone 5</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/apple-mini-update-fuer-ios-auf-dem-iphone-5-1305-99071-rss.html"/>
+        <published>2013-05-03T08:55:00+02:00</published>
+        <updated>2013-05-03T08:55:00+02:00</updated>
+        <id>http://www.golem.de/news/apple-mini-update-fuer-ios-auf-dem-iphone-5-1305-99071-rss.html</id>
+        <author>
+            <name>Andreas Donath</name>
+        </author>
+        <summary type="html">Apple hat die Version 6.1.4 von iOS ausschließlich für das iPhone 5 veröffentlicht. Die Liste der Änderungen ist sehr knapp gehalten - sie umfasst eine einzige Textzeile. (&lt;a href=&quot;http://www.golem.de/specials/apple/&quot;&gt;Apple&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/ios/&quot;&gt;iOS&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99071&amp;amp;page=1&amp;amp;ts=1367564100&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Forevermap 2: Openstreetmap-Karten auf iPhone und iPad offline nutzbar</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/forevermap-2-openstreetmap-karten-auf-iphone-und-ipad-offline-nutzbar-1305-99072-rss.html"/>
+        <published>2013-05-03T08:49:00+02:00</published>
+        <updated>2013-05-03T08:49:00+02:00</updated>
+        <id>http://www.golem.de/news/forevermap-2-openstreetmap-karten-auf-iphone-und-ipad-offline-nutzbar-1305-99072-rss.html</id>
+        <author>
+            <name>Andreas Donath</name>
+        </author>
+        <summary type="html">Apples Kartenanwendung und Google Maps lassen sich auf iPhones und iPads nur benutzen, wenn der Benutzer online ist. Bei Forevermap 2 von Skobbler ist das nicht erforderlich. Die Karten können heruntergeladen und auch ohne Internetverbindung genutzt werden. (&lt;a href=&quot;http://www.golem.de/specials/openstreetmap/&quot;&gt;Openstreetmap&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/ios/&quot;&gt;iOS&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99072&amp;amp;page=1&amp;amp;ts=1367563740&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Unreal Engine 3: Epic Citadel in HTML5</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/unreal-engine-3-epic-citadel-in-html5-1305-99073-rss.html"/>
+        <published>2013-05-03T08:34:00+02:00</published>
+        <updated>2013-05-03T08:34:00+02:00</updated>
+        <id>http://www.golem.de/news/unreal-engine-3-epic-citadel-in-html5-1305-99073-rss.html</id>
+        <author>
+            <name>Jens Ihlenfeld</name>
+        </author>
+        <summary type="html">Epic Games hat eine HTML5-Version seiner auf der Unreal Engine 3 basierenden Demo Epic Citadel veröffentlicht. Dank WebGL und asm.js läuft Epic Citadel mit hoher Framerate direkt und ohne jegliche Plugins im Browser. (&lt;a href=&quot;http://www.golem.de/specials/technologie/&quot;&gt;Technologie&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/html5/&quot;&gt;HTML5&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99073&amp;amp;page=1&amp;amp;ts=1367562840&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">iPad: Adobe will Lightroom auf dem Tablet</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/ipad-adobe-will-lightroom-auf-dem-tablet-1305-99070-rss.html"/>
+        <published>2013-05-03T08:20:00+02:00</published>
+        <updated>2013-05-03T08:20:00+02:00</updated>
+        <id>http://www.golem.de/news/ipad-adobe-will-lightroom-auf-dem-tablet-1305-99070-rss.html</id>
+        <author>
+            <name>Andreas Donath</name>
+        </author>
+        <summary type="html">In einer Präsentation hat Adobe gezeigt, wie künftig Rohdatenbilder aus Digitalkameras auch auf dem iPad bearbeitet werden könnten. Eine Vorversion einer Lighroom-App hat Adobe bereits entwickelt, die mit einem Trick sogar Rohdaten aus der Canon 5D Mark III trotz ihrer Größe verarbeiten kann. (&lt;a href=&quot;http://www.golem.de/specials/grafiksoftware/&quot;&gt;Grafiksoftware&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/adobe/&quot;&gt;Adobe&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99070&amp;amp;page=1&amp;amp;ts=1367562000&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Cyborg: Forscher bauen Ohr mit integrierter Antenne</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/cyborg-forscher-bauen-ohr-mit-integrierter-antenne-1305-99069-rss.html"/>
+        <published>2013-05-02T18:22:00+02:00</published>
+        <updated>2013-05-02T18:22:00+02:00</updated>
+        <id>http://www.golem.de/news/cyborg-forscher-bauen-ohr-mit-integrierter-antenne-1305-99069-rss.html</id>
+        <author>
+            <name>Werner Pluta</name>
+        </author>
+        <summary type="html">US-Forscher haben mit einem 3D-Drucker ein menschliches Ohr aufgebaut, in dessen Innerem eine Antenne ist. Auf diese Weise könnten künftig Organe nachgebaut oder welche geschaffen werden, die Menschen neue Fähigkeiten verleihen. (&lt;a href=&quot;http://www.golem.de/specials/3d-drucker/&quot;&gt;3D-Drucker&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/wissenschaft/&quot;&gt;Wissenschaft&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99069&amp;amp;page=1&amp;amp;ts=1367511720&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Security: Lotus Notes führt Java und Javascript ohne Warnung aus</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/security-lotus-notes-fuehrt-java-und-javascript-ohne-warnung-aus-1305-99068-rss.html"/>
+        <published>2013-05-02T18:08:00+02:00</published>
+        <updated>2013-05-02T18:08:00+02:00</updated>
+        <id>http://www.golem.de/news/security-lotus-notes-fuehrt-java-und-javascript-ohne-warnung-aus-1305-99068-rss.html</id>
+        <author>
+            <name>Jörg Thoma</name>
+        </author>
+        <summary type="html">In Lotus Notes werden Java-Applets und Javascript-Code ohne Nachfrage heruntergeladen und ausgeführt. Bis ein Update vorhanden ist, sollten Nutzer Java und Javascript deaktivieren. (&lt;a href=&quot;http://www.golem.de/specials/ibm/&quot;&gt;IBM&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/java/&quot;&gt;Java&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99068&amp;amp;page=1&amp;amp;ts=1367510880&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Windows-Tablet: Microsoft wird neue Surface-Serie ankündigen</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/windows-tablet-microsoft-wird-neue-surface-serie-ankuendigen-1305-99067-rss.html"/>
+        <published>2013-05-02T17:55:00+02:00</published>
+        <updated>2013-05-02T17:55:00+02:00</updated>
+        <id>http://www.golem.de/news/windows-tablet-microsoft-wird-neue-surface-serie-ankuendigen-1305-99067-rss.html</id>
+        <author>
+            <name>Achim Sawall</name>
+        </author>
+        <summary type="html">Eine neue Generation des Surface in den Formaten 7 und 9 Zoll ist laut einem Medienbericht in Vorbereitung. Die Komponenten würden bereits ausgeliefert. Doch wegen der schwachen Verkaufszahlen halte Microsoft dies noch geheim. (&lt;a href=&quot;http://www.golem.de/specials/microsoft/&quot;&gt;Microsoft&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/multitouch/&quot;&gt;Multitouch&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99067&amp;amp;page=1&amp;amp;ts=1367510100&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Kabel Deutschland: 18 weitere TV-Sender unverschlüsselt in SD</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/kabel-deutschland-18-weitere-tv-sender-unverschluesselt-in-sd-1305-99066-rss.html"/>
+        <published>2013-05-02T17:09:00+02:00</published>
+        <updated>2013-05-02T17:09:00+02:00</updated>
+        <id>http://www.golem.de/news/kabel-deutschland-18-weitere-tv-sender-unverschluesselt-in-sd-1305-99066-rss.html</id>
+        <author>
+            <name>Achim Sawall</name>
+        </author>
+        <summary type="html">Einige kleinere TV-Sender, darunter Tele 5 und Nickelodeon, gibt es nun digital in Standard Definition bei Kabel Deutschland. Ein Sendersuchlauf soll nicht nötig sein. (&lt;a href=&quot;http://www.golem.de/specials/verbraucherschutz/&quot;&gt;Verbraucherschutz&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/kabelnetz/&quot;&gt;Kabelnetz&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99066&amp;amp;page=1&amp;amp;ts=1367507340&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Insektenauge: Halbkugelförmige Kamera hat Sichtfeld von 160 Grad</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/insektenauge-halbkugelfoermige-kamera-hat-sichtfeld-von-160-grad-1305-99065-rss.html"/>
+        <published>2013-05-02T16:24:00+02:00</published>
+        <updated>2013-05-02T16:24:00+02:00</updated>
+        <id>http://www.golem.de/news/insektenauge-halbkugelfoermige-kamera-hat-sichtfeld-von-160-grad-1305-99065-rss.html</id>
+        <author>
+            <name>Werner Pluta</name>
+        </author>
+        <summary type="html">Eine Kamera, die einem Insektenauge nachempfunden ist, haben Forscher in den USA konstruiert. Sie hat einen großen Bildwinkel, aber nur eine geringe Auflösung. Das solle sich aber ändern, sagen die Entwickler. (&lt;a href=&quot;http://www.golem.de/specials/wissenschaft/&quot;&gt;Wissenschaft&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99065&amp;amp;page=1&amp;amp;ts=1367504640&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Lenovo: Wohl doch kein Verkauf von IBMs Serversparte</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/lenovo-wohl-doch-kein-verkauf-von-ibms-serversparte-1305-99063-rss.html"/>
+        <published>2013-05-02T16:08:00+02:00</published>
+        <updated>2013-05-02T16:08:00+02:00</updated>
+        <id>http://www.golem.de/news/lenovo-wohl-doch-kein-verkauf-von-ibms-serversparte-1305-99063-rss.html</id>
+        <author>
+            <name>Achim Sawall</name>
+        </author>
+        <summary type="html">IBM und Lenovo konnten sich nicht auf einen Preis für die x86-Server-Sparte einigen. Doch es soll noch einen weiteren Interessenten geben. (&lt;a href=&quot;http://www.golem.de/specials/ibm/&quot;&gt;IBM&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/netzwerk/&quot;&gt;Netzwerk&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99063&amp;amp;page=1&amp;amp;ts=1367503680&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Brian Krzanich: Intel hat einen neuen Chef</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/brian-krzanich-intel-hat-einen-neuen-chef-1305-99064-rss.html"/>
+        <published>2013-05-02T16:05:00+02:00</published>
+        <updated>2013-05-02T16:05:00+02:00</updated>
+        <id>http://www.golem.de/news/brian-krzanich-intel-hat-einen-neuen-chef-1305-99064-rss.html</id>
+        <author>
+            <name>Nico Ernst</name>
+        </author>
+        <summary type="html">In zwei Wochen wird Intels bisheriger Chief Operating Officer, Brian Krzanich, zum Gesamtchef des Konzerns. Damit ist die Wahl des neuen CEO doch auf einen Bewerber aus dem Unternehmen selbst gefallen. (&lt;a href=&quot;http://www.golem.de/specials/cpu/&quot;&gt;Prozessor&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/intel/&quot;&gt;Intel&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99064&amp;amp;page=1&amp;amp;ts=1367503500&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Lenovo Ideatab A3000: 7-Zoll-Tablet mit Android und UMTS für 200 Euro</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/lenovo-ideatab-a3000-7-zoll-tablet-mit-android-und-umts-fuer-200-euro-1305-99061-rss.html"/>
+        <published>2013-05-02T15:46:00+02:00</published>
+        <updated>2013-05-02T15:46:00+02:00</updated>
+        <id>http://www.golem.de/news/lenovo-ideatab-a3000-7-zoll-tablet-mit-android-und-umts-fuer-200-euro-1305-99061-rss.html</id>
+        <author>
+            <name>Tobias Költzsch</name>
+        </author>
+        <summary type="html">Lenovo bringt eine Reihe neuer Android-Tablets im Einsteiger- und Mittelklassebereich auf den deutschen Markt. Mit dabei ist das Ideatab A3000, das für 200 Euro mit Quad-Core-Prozessor und UMTS-Modem erscheint. Als Betriebssystem ist Android 4.2 installiert. (&lt;a href=&quot;http://www.golem.de/specials/lenovo/&quot;&gt;Lenovo&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/android/&quot;&gt;Android&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99061&amp;amp;page=1&amp;amp;ts=1367502360&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Browser: Offline-Cache für Chrome</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/browser-offline-cache-fuer-chrome-1305-99062-rss.html"/>
+        <published>2013-05-02T15:21:00+02:00</published>
+        <updated>2013-05-02T15:21:00+02:00</updated>
+        <id>http://www.golem.de/news/browser-offline-cache-fuer-chrome-1305-99062-rss.html</id>
+        <author>
+            <name>Jens Ihlenfeld</name>
+        </author>
+        <summary type="html">Googles Browser Chrome bekommt möglicherweise einen Offline-Cache. Ist eine Website nicht erreichbar, soll der Browser stattdessen auf zuvor gecachte Inhalte zurückgreifen. (&lt;a href=&quot;http://www.golem.de/specials/browser/&quot;&gt;Browser&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/cloud-computing/&quot;&gt;Cloud Computing&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99062&amp;amp;page=1&amp;amp;ts=1367500860&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Test Far Cry 3 Blood Dragon: Shooter-Trash mit Far-Cry-Technik</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/test-far-cry-3-blood-dragon-shooter-trash-mit-far-cry-technik-1305-99053-rss.html"/>
+        <published>2013-05-02T14:06:00+02:00</published>
+        <updated>2013-05-02T14:06:00+02:00</updated>
+        <id>http://www.golem.de/news/test-far-cry-3-blood-dragon-shooter-trash-mit-far-cry-technik-1305-99053-rss.html</id>
+        <author>
+            <name>Thorsten Wiesner</name>
+        </author>
+        <summary type="html">VHS-Flimmern, Zwischensequenzen im 8-Bit-Stil und Dialoge, wie sie selbst Dolph Lundgren und Jean-Claude Van Damme kaum stumpfer von sich geben könnten: Blood Dragon ist keine Fortsetzung von Far Cry 3, sondern eine abgedrehte Stand-alone-Erweiterung, die nichts und niemanden ernst nimmt. (&lt;a href=&quot;http://www.golem.de/specials/spieletest/&quot;&gt;Spieletest&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/farcry/&quot;&gt;Far Cry&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99053&amp;amp;page=1&amp;amp;ts=1367496360&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Anonymes Surfen: Tor unterstützt optimistische Socks-Verbindungen</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/anonymes-surfen-tor-unterstuetzt-optimistische-socks-verbindungen-1305-99059-rss.html"/>
+        <published>2013-05-02T13:42:00+02:00</published>
+        <updated>2013-05-02T13:42:00+02:00</updated>
+        <id>http://www.golem.de/news/anonymes-surfen-tor-unterstuetzt-optimistische-socks-verbindungen-1305-99059-rss.html</id>
+        <author>
+            <name>Jörg Thoma</name>
+        </author>
+        <summary type="html">Mit Tor 0.2.4.12-alpha haben die Entwickler der Anonymisierungssoftware den Verbindungsaufbau mit Socks beschleunigt. Weitere Änderungen beinhalten Fehlerkorrekturen in sämtlichen Komponenten des Tor-Pakets. (&lt;a href=&quot;http://www.golem.de/specials/server/&quot;&gt;Server&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/internet/&quot;&gt;Internet&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99059&amp;amp;page=1&amp;amp;ts=1367494920&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">LG: Optimus F5 mit LTE für 385 Euro erhältlich</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/lg-optimus-f5-mit-lte-fuer-385-euro-erhaeltlich-1305-99057-rss.html"/>
+        <published>2013-05-02T13:35:00+02:00</published>
+        <updated>2013-05-02T13:35:00+02:00</updated>
+        <id>http://www.golem.de/news/lg-optimus-f5-mit-lte-fuer-385-euro-erhaeltlich-1305-99057-rss.html</id>
+        <author>
+            <name>Tobias Költzsch</name>
+        </author>
+        <summary type="html">Das neue Android-Smartphone Optimus F5 von LG kommt kurz nach dem Start in Frankreich jetzt auch in deutsche Onlineshops. Das Gerät mit 4,3-Zoll-Display und LTE-Unterstützung ist für 385 Euro zu haben. (&lt;a href=&quot;http://www.golem.de/specials/smartphone/&quot;&gt;Smartphone&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/android/&quot;&gt;Android&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99057&amp;amp;page=1&amp;amp;ts=1367494500&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+    <entry>
+        <title type="html">Drosselung: 1 GByte soll die Telekom unter 1 Cent kosten</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/news/drosselung-1-gbyte-kostet-die-telekom-unter-1-cent-1305-99058-rss.html"/>
+        <published>2013-05-02T13:25:00+02:00</published>
+        <updated>2013-05-02T13:25:00+02:00</updated>
+        <id>http://www.golem.de/news/drosselung-1-gbyte-kostet-die-telekom-unter-1-cent-1305-99058-rss.html</id>
+        <author>
+            <name>Achim Sawall</name>
+        </author>
+        <summary type="html">Die Deutsche Telekom hat wie angekündigt heute ihre Drosseltarife für DSL veröffentlicht. Der Chef des Routerherstellers Viprinet macht eine andere Rechnung auf als die Telekom. (&lt;a href=&quot;http://www.golem.de/specials/dsl/&quot;&gt;DSL&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/telekom/&quot;&gt;Telekom&lt;/a&gt;) &lt;img src=&quot;http://cpx.golem.de/cpx.php?class=17&amp;amp;aid=99058&amp;amp;page=1&amp;amp;ts=1367493900&quot; alt=&quot;&quot; width=&quot;1&quot; height=&quot;1&quot; /&gt;</summary>
+    </entry>
+</feed>

@@ -4,8 +4,8 @@
  <title>RSS Title</title>
  <description>This is an example of an RSS feed</description>
  <link>http://www.someexamplerssdomain.com/main.html</link>
- <lastBuildDate>Mon, 06 Sep 2010 00:01:00 +0000 </lastBuildDate>
- <pubDate>Mon, 06 Sep 2009 16:45:00 +0000 </pubDate>
+ <lastBuildDate>Mon, 06 Sep 2010 00:01:00 +0000</lastBuildDate>
+ <pubDate>Mon, 06 Sep 2009 16:45:00 +0000</pubDate>
  <ttl>1800</ttl>
 
  <item>
@@ -14,7 +14,7 @@
 description.</description>
   <link>http://www.wikipedia.org/</link>
   <guid>unique string per item</guid>
-  <pubDate>Mon, 06 Sep 2009 16:45:00 +0000 </pubDate>
+  <pubDate>Mon, 06 Sep 2009 16:45:00 +0000</pubDate>
  </item>
 
 </channel>

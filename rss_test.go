@@ -10,9 +10,9 @@ func Test_ParseTitle(t *testing.T) {
 	m := map[string]string{
 		//"test1":      "",
 		//"test2":      "",
-		"rss_0.92": "Dave Winer: Grateful Dead",
-		"rss_1.0":  "Golem.de",
-		//"rss_2.0":    "RSS Title",
+		"rss_0.92":   "Dave Winer: Grateful Dead",
+		"rss_1.0":    "Golem.de",
+		"rss_2.0":    "RSS Title",
 		"rss_2.0-1":  "Liftoff News",
 		"atom_1.0":   "Titel des Weblogs",
 		"atom_1.0-1": "Golem.de",
@@ -24,7 +24,11 @@ func Test_ParseTitle(t *testing.T) {
 			log.Print("Error when loading file ", k, ": ", e)
 		}
 		f, e := Parse(d)
-		o := f.Title
+
+		var o string
+		if e == nil {
+			o = f.Title
+		}
 
 		if o != v {
 			log.Print("KEY: ", k)

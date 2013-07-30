@@ -1,6 +1,7 @@
 package rss
 
 import (
+	"strings"
 	"time"
 )
 
@@ -19,6 +20,8 @@ func parseTime(s string) (time.Time, error) {
 		time.RFC3339,
 		time.RFC3339Nano,
 	}
+
+	s = strings.TrimSpace(s)
 	
 	var e error
 	var t time.Time

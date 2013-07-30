@@ -21,17 +21,20 @@ func parseTime(s string) (time.Time, error) {
 		time.RFC3339Nano,
 	}
 
+<<<<<<< HEAD
 	s = strings.TrimSpace(s)
 	
+=======
+>>>>>>> 29ef564f2b2c8a9d5f452d1ef24e7d521b0f980a
 	var e error
 	var t time.Time
-	
+
 	for _, format := range formats {
 		t, e = time.Parse(format, s)
 		if e == nil {
 			return t, e
 		}
 	}
-	
+
 	return time.Time{}, e
 }

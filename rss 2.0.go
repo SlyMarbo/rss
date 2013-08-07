@@ -65,6 +65,14 @@ func parseRSS2(data []byte, read *db) (*Feed, error) {
 	// Process items.
 	for _, item := range channel.Items {
 
+		if item.ID == "" {
+			if item.Link == "" {
+				fmt.Printf("Warning: Item %q has no ID or link and will be ignored.\n", item.Title)
+				continue
+			}
+			item.ID = item.Link
+		}
+
 		// Skip items already known.
 		if read.req <- item.ID; <-read.res {
 			continue
@@ -82,14 +90,6 @@ func parseRSS2(data []byte, read *db) (*Feed, error) {
 		}
 		next.ID = item.ID
 		next.Read = false
-
-		if next.ID == "" {
-			if next.Link == "" {
-				fmt.Printf("Warning: Item %q has no ID or link and will be ignored.\n", next.Title)
-				continue
-			}
-			next.ID = next.Link
-		}
 
 		if _, ok := out.ItemMap[next.ID]; ok {
 			fmt.Printf("Warning: Item %q has duplicate ID.\n", next.Title)

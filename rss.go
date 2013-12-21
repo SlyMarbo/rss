@@ -24,6 +24,14 @@ func Parse(data []byte) (*Feed, error) {
 	panic("Unreachable.")
 }
 
+// CacheParsedItemIDs enables or disable Item.ID caching when parsing feeds.
+// Returns whether Item.ID were cached prior to function call.
+func CacheParsedItemIDs(flag bool) (didCache bool) {
+	didCache = !disabled
+	disabled = !flag
+	return
+}
+
 // Fetch downloads and parses the RSS feed at the given URL
 func Fetch(url string) (*Feed, error) {
 	resp, err := http.Get(url)

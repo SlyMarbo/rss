@@ -1,6 +1,7 @@
 package rss
 
 var database *db
+var disabled bool
 
 func init() {
 	database = NewDB()
@@ -19,7 +20,9 @@ func (d *db) Run() {
 
 	for {
 		s = <-d.req
-		if _, ok := d.known[s]; ok {
+		if disabled {
+			d.res <- false
+		} else if _, ok := d.known[s]; ok {
 			d.res <- true
 		} else {
 			d.res <- false

@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"errors"
 	"io"
-	"strings"
 	"unicode/utf8"
 )
 
@@ -41,16 +40,6 @@ func (cs *charsetISO88591er) Read(p []byte) (int, error) {
 	return 0, errors.New("Use ReadByte()")
 }
 
-func isCharset(charset string, names []string) bool {
-	charset = strings.ToLower(charset)
-	for _, n := range names {
-		if charset == strings.ToLower(n) {
-			return true
-		}
-	}
-	return false
-}
-
 func isCharsetISO88591(charset string) bool {
 	// http://www.iana.org/assignments/character-sets
 	// (last updated 2010-11-04)
@@ -69,23 +58,4 @@ func isCharsetISO88591(charset string) bool {
 		"csISOLatin1",
 	}
 	return isCharset(charset, names)
-}
-
-func isCharsetUTF8(charset string) bool {
-	names := []string{
-		"UTF-8",
-		// Default
-		"",
-	}
-	return isCharset(charset, names)
-}
-
-func charsetReader(charset string, input io.Reader) (io.Reader, error) {
-	switch {
-	case isCharsetUTF8(charset):
-		return input, nil
-	case isCharsetISO88591(charset):
-		return newCharsetISO88591(input), nil
-	}
-	return nil, errors.New("CharsetReader: unexpected charset: " + charset)
 }

@@ -15,15 +15,11 @@ func charsetReader(charset string, input io.Reader) (io.Reader, error) {
 	case isCharsetISO88591(charset):
 		return newCharsetISO88591(input), nil
 	default:
-		decoder := mahonia.NewDecoder(charset)
-		if decoder == nil {
-			goto invalidCharset
+		if decoder := mahonia.NewDecoder(charset); decoder != nil {
+			return decoder.NewReader(input), nil
 		}
-
-		return decoder.NewReader(input), nil
 	}
 
-invalidCharset:
 	return nil, errors.New("CharsetReader: unexpected charset: " + charset)
 }
 

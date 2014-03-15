@@ -9,6 +9,11 @@ and it seems to work fine with them.
 If anyone has any problems with feeds being parsed incorrectly, please let me know so that
 I can debug and improve the package.
 
+Dependencies:
+```bash
+go get github.com/axgle/mahonia
+```
+
 Example usage:
 ```go
 package main

@@ -32,9 +32,22 @@ func CacheParsedItemIDs(flag bool) (didCache bool) {
 	return
 }
 
+type FetchFunc func() (resp *http.Response, err error)
+
 // Fetch downloads and parses the RSS feed at the given URL
 func Fetch(url string) (*Feed, error) {
-	resp, err := http.Get(url)
+	return FetchByClient(url, http.DefaultClient)
+}
+
+func FetchByClient(url string, client *http.Client) (*Feed, error) {
+	fetchFunc := func() (resp *http.Response, err error) {
+		return client.Get(url)
+	}
+	return FetchByFunc(fetchFunc, url)
+}
+
+func FetchByFunc(fetchFunc FetchFunc, url string) (*Feed, error) {
+	resp, err := fetchFunc()
 	if err != nil {
 		return nil, err
 	}

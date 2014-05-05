@@ -87,6 +87,11 @@ func parseRSS1(data []byte, read *db) (*Feed, error) {
 			if err != nil {
 				return nil, err
 			}
+		} else if item.PubDate != "" {
+			next.Date, err = parseTime(item.PubDate)
+			if err != nil {
+				return nil, err
+			}
 		}
 		next.ID = item.ID
 		next.Read = false
@@ -126,7 +131,8 @@ type rss1_0Item struct {
 	Title   string   `xml:"title"`
 	Content string   `xml:"description"`
 	Link    string   `xml:"link"`
-	Date    string   `xml:"pubDate"`
+	PubDate string   `xml:"pubDate"`
+	Date    string   `xml:"date"`
 	ID      string   `xml:"guid"`
 }
 

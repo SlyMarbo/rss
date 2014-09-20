@@ -40,6 +40,7 @@ func parseAtom(data []byte, read *db) (*Feed, error) {
 
 		next := new(Item)
 		next.Title = item.Title
+		next.Summary = item.Summary
 		next.Content = item.Content
 		next.Link = item.Link.Href
 		if item.Date != "" {
@@ -82,7 +83,8 @@ type atomFeed struct {
 type atomItem struct {
 	XMLName xml.Name `xml:"entry"`
 	Title   string   `xml:"title"`
-	Content string   `xml:"summary"`
+	Summary string   `xml:"summary"`
+	Content string   `xml:"content"`
 	Link    atomLink `xml:"link"`
 	Date    string   `xml:"updated"`
 	ID      string   `xml:"id"`

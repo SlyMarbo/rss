@@ -140,6 +140,7 @@ func (f *Feed) String() string {
 // Item represents a single story.
 type Item struct {
 	Title   string
+	Summary string
 	Content string
 	Link    string
 	Date    time.Time

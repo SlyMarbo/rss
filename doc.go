@@ -32,12 +32,12 @@ func main() {
 The output structure is pretty much as you'd expect:
 ```go
 type Feed struct {
-	Nickname    string              // This is not set by the package, but could be helpful.
+	Nickname    string // This is not set by the package, but could be helpful.
 	Title       string
 	Description string
-	Link        string              // Link to the creator's website.
-	UpdateURL   string              // URL of the feed itself.
-	Image       *Image              // Feed icon.
+	Link        string // Link to the creator's website.
+	UpdateURL   string // URL of the feed itself.
+	Image       *Image // Feed icon.
 	Items       []*Item
 	ItemMap     map[string]struct{} // Used in checking whether an item has been seen before.
 	Refresh     time.Time           // Earliest time this feed should next be checked.
@@ -46,6 +46,7 @@ type Feed struct {
 
 type Item struct {
 	Title   string
+	Summary string
 	Content string
 	Link    string
 	Date    time.Time

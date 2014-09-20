@@ -74,16 +74,16 @@ func FetchByFunc(fetchFunc FetchFunc, url string) (*Feed, error) {
 
 // Feed is the top-level structure.
 type Feed struct {
-	Nickname    string
+	Nickname    string // This is not set by the package, but could be helpful.
 	Title       string
 	Description string
-	Link        string
-	UpdateURL   string
-	Image       *Image
+	Link        string // Link to the creator's website.
+	UpdateURL   string // URL of the feed itself.
+	Image       *Image // Feed icon.
 	Items       []*Item
-	ItemMap     map[string]struct{}
-	Refresh     time.Time
-	Unread      uint32
+	ItemMap     map[string]struct{} // Used in checking whether an item has been seen before.
+	Refresh     time.Time           // Earliest time this feed should next be checked.
+	Unread      uint32              // Number of unread items. Used by aggregators.
 }
 
 // Update fetches any new items and updates f.

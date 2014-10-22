@@ -10,6 +10,7 @@ import (
 )
 
 func parseRSS1(data []byte, read *db) (*Feed, error) {
+	warnings := false
 	feed := rss1_0Feed{}
 	p := xml.NewDecoder(bytes.NewReader(data))
 	p.CharsetReader = charsetReader
@@ -67,7 +68,11 @@ func parseRSS1(data []byte, read *db) (*Feed, error) {
 
 		if item.ID == "" {
 			if item.Link == "" {
-				fmt.Printf("Warning: Item %q has no ID or link and will be ignored.\n", item.Title)
+				if debug {
+					fmt.Printf("[w] Item %q has no ID or link and will be ignored.\n", item.Title)
+					fmt.Printf("[w] %#v\n", item)
+				}
+				warnings = true
 				continue
 			}
 			item.ID = item.Link
@@ -97,13 +102,21 @@ func parseRSS1(data []byte, read *db) (*Feed, error) {
 		next.Read = false
 
 		if _, ok := out.ItemMap[next.ID]; ok {
-			fmt.Printf("Warning: Item %q has duplicate ID.\n", next.Title)
+			if debug {
+				fmt.Printf("[w] Item %q has duplicate ID.\n", next.Title)
+				fmt.Printf("[w] %#v\n", next)
+			}
+			warnings = true
 			continue
 		}
 
 		out.Items = append(out.Items, next)
 		out.ItemMap[next.ID] = struct{}{}
 		out.Unread++
+	}
+
+	if warnings && debug {
+		fmt.Printf("[i] Encountered warnings:\n%s\n", data)
 	}
 
 	return out, nil

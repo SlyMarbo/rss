@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+	"text/tabwriter"
 	"time"
 )
 
@@ -129,10 +130,35 @@ func (f *Feed) Update() error {
 
 func (f *Feed) String() string {
 	buf := new(bytes.Buffer)
-	buf.WriteString(fmt.Sprintf("Feed %q\n\t%q\n\t%q\n\t%s\n\tRefresh at %s\n\tUnread: %d\n\tItems:\n",
-		f.Title, f.Description, f.Link, f.Image, f.Refresh.Format("Mon 2 Jan 2006 15:04:05 MST"), f.Unread))
-	for _, item := range f.Items {
-		buf.WriteString(fmt.Sprintf("\t%s\n", item.Format("\t\t")))
+	if debug {
+		w := tabwriter.NewWriter(buf, 0, 8, 0, '\t', tabwriter.StripEscape)
+		fmt.Fprintf(w, "Feed {\n")
+		fmt.Fprintf(w, "\xff\t\xffNickname:\t%q\n", f.Nickname)
+		fmt.Fprintf(w, "\xff\t\xffTitle:\t%q\n", f.Title)
+		fmt.Fprintf(w, "\xff\t\xffDescription:\t%q\n", f.Description)
+		fmt.Fprintf(w, "\xff\t\xffLink:\t%q\n", f.Link)
+		fmt.Fprintf(w, "\xff\t\xffUpdateURL:\t%q\n", f.UpdateURL)
+		fmt.Fprintf(w, "\xff\t\xffImage:\t%q (%s)\n", f.Image.Title, f.Image.Url)
+		fmt.Fprintf(w, "\xff\t\xffRefresh:\t%s\n", f.Refresh.Format(DATE))
+		fmt.Fprintf(w, "\xff\t\xffUnread:\t%d\n", f.Unread)
+		fmt.Fprintf(w, "\xff\t\xffItems:\t(%d) {\n", len(f.Items))
+		for _, item := range f.Items {
+			fmt.Fprintf(w, "%s\n", item.Format(2))
+		}
+		fmt.Fprintf(w, "\xff\t\xff}\n}\n")
+		w.Flush()
+	} else {
+		w := buf
+		fmt.Fprintf(w, "Feed %q\n", f.Title)
+		fmt.Fprintf(w, "\t%q\n", f.Description)
+		fmt.Fprintf(w, "\t%q\n", f.Link)
+		fmt.Fprintf(w, "\t%s\n", f.Image)
+		fmt.Fprintf(w, "\tRefresh at %s\n", f.Refresh.Format(DATE))
+		fmt.Fprintf(w, "\tUnread: %d\n", f.Unread)
+		fmt.Fprintf(w, "\tItems:\n")
+		for _, item := range f.Items {
+			fmt.Fprintf(w, "\t%s\n", item.Format(2))
+		}
 	}
 	return buf.String()
 }
@@ -149,12 +175,35 @@ type Item struct {
 }
 
 func (i *Item) String() string {
-	return i.Format("")
+	return i.Format(0)
 }
 
-func (i *Item) Format(s string) string {
-	return fmt.Sprintf("Item %q\n\t%s%q\n\t%s%s\n\t%s%q\n\t%sRead: %v\n\t%s%q", i.Title, s, i.Link, s,
-		i.Date.Format("Mon 2 Jan 2006 15:04:05 MST"), s, i.ID, s, i.Read, s, i.Content)
+func (i *Item) Format(indent int) string {
+	buf := new(bytes.Buffer)
+	single := strings.Repeat("\t", indent)
+	double := single + "\t"
+	if debug {
+		w := tabwriter.NewWriter(buf, 0, 8, 0, '\t', tabwriter.StripEscape)
+		fmt.Fprintf(w, "\xff%s\xffItem {\n", single)
+		fmt.Fprintf(w, "\xff%s\xffTitle:\t%q\n", double, i.Title)
+		fmt.Fprintf(w, "\xff%s\xffSummary:\t%q\n", double, i.Summary)
+		fmt.Fprintf(w, "\xff%s\xffLink:\t%s\n", double, i.Link)
+		fmt.Fprintf(w, "\xff%s\xffDate:\t%s\n", double, i.Date.Format(DATE))
+		fmt.Fprintf(w, "\xff%s\xffID:\t%s\n", double, i.ID)
+		fmt.Fprintf(w, "\xff%s\xffRead:\t%v\n", double, i.Read)
+		fmt.Fprintf(w, "\xff%s\xffContent:\t%q\n", double, i.Content)
+		fmt.Fprintf(w, "\xff%s\xff}\n", single)
+		w.Flush()
+	} else {
+		w := buf
+		fmt.Fprintf(w, "%sItem %q\n", single, i.Title)
+		fmt.Fprintf(w, "%s%q\n", double, i.Link)
+		fmt.Fprintf(w, "%s%s\n", double, i.Date.Format(DATE))
+		fmt.Fprintf(w, "%s%q\n", double, i.ID)
+		fmt.Fprintf(w, "%sRead: %v\n", double, i.Read)
+		fmt.Fprintf(w, "%s%q\n", double, i.Content)
+	}
+	return buf.String()
 }
 
 type Image struct {

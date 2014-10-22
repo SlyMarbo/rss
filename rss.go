@@ -15,10 +15,19 @@ import (
 func Parse(data []byte) (*Feed, error) {
 
 	if strings.Contains(string(data), "<rss") {
+		if debug {
+			fmt.Println("[i] Parsing as RSS 2.0")
+		}
 		return parseRSS2(data, database)
 	} else if strings.Contains(string(data), "xmlns=\"http://purl.org/rss/1.0/\"") {
+		if debug {
+			fmt.Println("[i] Parsing as RSS 1.0")
+		}
 		return parseRSS1(data, database)
 	} else {
+		if debug {
+			fmt.Println("[i] Parsing as Atom")
+		}
 		return parseAtom(data, database)
 	}
 

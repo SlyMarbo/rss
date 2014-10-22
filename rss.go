@@ -30,8 +30,6 @@ func Parse(data []byte) (*Feed, error) {
 		}
 		return parseAtom(data, database)
 	}
-
-	panic("Unreachable.")
 }
 
 // CacheParsedItemIDs enables or disable Item.ID caching when parsing feeds.

@@ -2,14 +2,12 @@ package rss
 
 import (
 	"io/ioutil"
-	"log"
+	"reflect"
 	"testing"
 )
 
-func Test_ParseTitle(t *testing.T) {
-	m := map[string]string{
-		//"test1":      "",
-		//"test2":      "",
+func TestParseTitle(t *testing.T) {
+	tests := map[string]string{
 		"rss_0.92":   "Dave Winer: Grateful Dead",
 		"rss_1.0":    "Golem.de",
 		"rss_2.0":    "RSS Title",
@@ -18,23 +16,44 @@ func Test_ParseTitle(t *testing.T) {
 		"atom_1.0-1": "Golem.de",
 	}
 
-	for k, v := range m {
-		d, e := ioutil.ReadFile("testdata/" + k)
-		if e != nil {
-			log.Print("Error when loading file ", k, ": ", e)
-		}
-		f, e := Parse(d)
-
-		var o string
-		if e == nil {
-			o = f.Title
+	for test, want := range tests {
+		data, err := ioutil.ReadFile("testdata/" + test)
+		if err != nil {
+			t.Fatalf("Reading %s: %v", test, err)
 		}
 
-		if o != v {
-			log.Print("KEY: ", k)
-			log.Print("ERROR: ", e)
-			log.Print("GOT: '", o, "', EXPECTED: '", v, "'")
-			t.Fail()
+		feed, err := Parse(data)
+		if err != nil {
+			t.Fatalf("Parsing %s: %v", test, err)
+		}
+
+		if feed.Title != want {
+			t.Fatalf("%s: expected %s, got %s", test, want, feed.Title)
+		}
+	}
+}
+
+func TestEnclosure(t *testing.T) {
+	tests := map[string][]*Enclosure{
+		"rss_1.0": []*Enclosure{{Url: "http://foo.bar/baz.mp3", Type: "audio/mpeg", Length: 65535}},
+		"rss_2.0": []*Enclosure{{Url: "http://example.com/file.mp3", Type: "audio/mpeg", Length: 65535}},
+	}
+
+	for test, want := range tests {
+		data, err := ioutil.ReadFile("testdata/" + test + "_enclosure")
+		if err != nil {
+			t.Fatalf("Reading %s: %v", test, err)
+		}
+
+		feed, err := Parse(data)
+		if err != nil {
+			t.Fatalf("Parsing %s: %v", test, err)
+		}
+
+		for _, item := range feed.Items {
+			if !reflect.DeepEqual(item.Enclosures, want) {
+				t.Errorf("%s: expected %#v, got %#v", test, want, item.Enclosures)
+			}
 		}
 	}
 }

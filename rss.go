@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -172,13 +173,14 @@ func (f *Feed) String() string {
 
 // Item represents a single story.
 type Item struct {
-	Title   string
-	Summary string
-	Content string
-	Link    string
-	Date    time.Time
-	ID      string
-	Read    bool
+	Title      string
+	Summary    string
+	Content    string
+	Link       string
+	Date       time.Time
+	ID         string
+	Enclosures []*Enclosure
+	Read       bool
 }
 
 func (i *Item) String() string {
@@ -213,11 +215,43 @@ func (i *Item) Format(indent int) string {
 	return buf.String()
 }
 
+type Enclosure struct {
+	Url    string
+	Type   string
+	Length int
+}
+
+func (e *Enclosure) Get() (io.ReadCloser, error) {
+	if e == nil || e.Url == "" {
+		return nil, errors.New("No enclosure")
+	}
+
+	res, err := http.Get(e.Url)
+	if err != nil {
+		return nil, err
+	}
+
+	return res.Body, nil
+}
+
 type Image struct {
 	Title  string
 	Url    string
 	Height uint32
 	Width  uint32
+}
+
+func (i *Image) Get() (io.ReadCloser, error) {
+	if i == nil || i.Url == "" {
+		return nil, errors.New("No image")
+	}
+
+	res, err := http.Get(i.Url)
+	if err != nil {
+		return nil, err
+	}
+
+	return res.Body, nil
 }
 
 func (i *Image) String() string {

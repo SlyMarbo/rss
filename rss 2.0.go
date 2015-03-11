@@ -99,6 +99,12 @@ func parseRSS2(data []byte, read *db) (*Feed, error) {
 			}
 		}
 		next.ID = item.ID
+		if len(item.Enclosures) > 0 {
+			next.Enclosures = make([]*Enclosure, len(item.Enclosures))
+			for i := range item.Enclosures {
+				next.Enclosures[i] = item.Enclosures[i].Enclosure()
+			}
+		}
 		next.Read = false
 
 		if _, ok := out.ItemMap[next.ID]; ok {
@@ -140,13 +146,29 @@ type rss2_0Channel struct {
 }
 
 type rss2_0Item struct {
-	XMLName xml.Name `xml:"item"`
-	Title   string   `xml:"title"`
-	Content string   `xml:"description"`
-	Link    string   `xml:"link"`
-	PubDate string   `xml:"pubDate"`
-	Date    string   `xml:"date"`
-	ID      string   `xml:"guid"`
+	XMLName    xml.Name          `xml:"item"`
+	Title      string            `xml:"title"`
+	Content    string            `xml:"description"`
+	Link       string            `xml:"link"`
+	PubDate    string            `xml:"pubDate"`
+	Date       string            `xml:"date"`
+	ID         string            `xml:"guid"`
+	Enclosures []rss2_0Enclosure `xml:"enclosure"`
+}
+
+type rss2_0Enclosure struct {
+	XMLName xml.Name `xml:"enclosure"`
+	Url     string   `xml:"url"`
+	Type    string   `xml:"type"`
+	Length  int      `xml:"length"`
+}
+
+func (r *rss2_0Enclosure) Enclosure() *Enclosure {
+	out := new(Enclosure)
+	out.Url = r.Url
+	out.Type = r.Type
+	out.Length = r.Length
+	return out
 }
 
 type rss2_0Image struct {

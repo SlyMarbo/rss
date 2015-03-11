@@ -43,7 +43,6 @@ func parseAtom(data []byte, read *db) (*Feed, error) {
 		next.Title = item.Title
 		next.Summary = item.Summary
 		next.Content = item.Content
-		next.Link = item.Link.Href
 		if item.Date != "" {
 			next.Date, err = parseTime(item.Date)
 			if err != nil {
@@ -51,6 +50,17 @@ func parseAtom(data []byte, read *db) (*Feed, error) {
 			}
 		}
 		next.ID = item.ID
+		for _, link := range item.Links {
+			if link.Rel == "" {
+				next.Link = link.Href
+			} else {
+				next.Enclosures = append(next.Enclosures, &Enclosure{
+					Url:    link.Href,
+					Type:   link.Type,
+					Length: link.Length,
+				})
+			}
+		}
 		next.Read = false
 
 		if next.ID == "" {
@@ -94,13 +104,13 @@ type atomFeed struct {
 }
 
 type atomItem struct {
-	XMLName xml.Name `xml:"entry"`
-	Title   string   `xml:"title"`
-	Summary string   `xml:"summary"`
-	Content string   `xml:"content"`
-	Link    atomLink `xml:"link"`
-	Date    string   `xml:"updated"`
-	ID      string   `xml:"id"`
+	XMLName xml.Name   `xml:"entry"`
+	Title   string     `xml:"title"`
+	Summary string     `xml:"summary"`
+	Content string     `xml:"content"`
+	Links   []atomLink `xml:"link"`
+	Date    string     `xml:"updated"`
+	ID      string     `xml:"id"`
 }
 
 type atomImage struct {
@@ -112,7 +122,10 @@ type atomImage struct {
 }
 
 type atomLink struct {
-	Href string `xml:"href,attr"`
+	Href   string `xml:"href,attr"`
+	Rel    string `xml:"rel,attr"`
+	Type   string `xml:"type,attr"`
+	Length int    `xml:"length,attr"`
 }
 
 func (a *atomImage) Image() *Image {

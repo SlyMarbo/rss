@@ -35,8 +35,9 @@ func TestParseTitle(t *testing.T) {
 
 func TestEnclosure(t *testing.T) {
 	tests := map[string][]*Enclosure{
-		"rss_1.0": []*Enclosure{{Url: "http://foo.bar/baz.mp3", Type: "audio/mpeg", Length: 65535}},
-		"rss_2.0": []*Enclosure{{Url: "http://example.com/file.mp3", Type: "audio/mpeg", Length: 65535}},
+		"rss_1.0":  []*Enclosure{{Url: "http://foo.bar/baz.mp3", Type: "audio/mpeg", Length: 65535}},
+		"rss_2.0":  []*Enclosure{{Url: "http://example.com/file.mp3", Type: "audio/mpeg", Length: 65535}},
+		"atom_1.0": []*Enclosure{{Url: "http://example.org/audio.mp3", Type: "audio/mpeg", Length: 1234}},
 	}
 
 	for test, want := range tests {

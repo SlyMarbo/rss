@@ -218,6 +218,7 @@ func (i *Item) Format(indent int) string {
 type Enclosure struct {
 	Url    string
 	Type   string
+	Rel    string
 	Length int
 }
 

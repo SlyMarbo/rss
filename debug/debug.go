@@ -1,4 +1,7 @@
 // Run with: go run -tags debug debug.go [URL]
+
+// +build ignore
+
 package main
 
 import (

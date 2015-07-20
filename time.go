@@ -9,25 +9,19 @@ import (
 // attempts to convert item.Date and item.PubDate string to time.Time values.
 // The layouts are attempted in ascending order until either time.Parse()
 // does not return an error or all layouts are attempted.
-var TimeLayouts []string = DefaultTimeLayouts()
-
-// DefaultTimeLayouts contains a list of default time.Parse() layouts used to
-// convert item.Date and item.PubDate strings to time.Time values.
-func DefaultTimeLayouts() []string {
-	return []string{
-		"Mon, _2 Jan 2006 15:04:05 MST",
-		"Mon, _2 Jan 2006 15:04:05 -0700",
-		time.ANSIC,
-		time.UnixDate,
-		time.RubyDate,
-		time.RFC822,
-		time.RFC822Z,
-		time.RFC850,
-		time.RFC1123,
-		time.RFC1123Z,
-		time.RFC3339,
-		time.RFC3339Nano,
-	}
+var TimeLayouts = []string{
+	"Mon, _2 Jan 2006 15:04:05 MST",
+	"Mon, _2 Jan 2006 15:04:05 -0700",
+	time.ANSIC,
+	time.UnixDate,
+	time.RubyDate,
+	time.RFC822,
+	time.RFC822Z,
+	time.RFC850,
+	time.RFC1123,
+	time.RFC1123Z,
+	time.RFC3339,
+	time.RFC3339Nano,
 }
 
 func parseTime(s string) (time.Time, error) {

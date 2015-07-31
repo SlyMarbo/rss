@@ -96,10 +96,16 @@ type Feed struct {
 }
 
 // Update fetches any new items and updates f.
+// Kept for backward compatibility
 func (f *Feed) Update() error {
+	return f.ForceUpdate(false)
+}
+
+// ForceUpdate fetches any new items and updates f.
+func (f *Feed) ForceUpdate(force bool) error {
 
 	// Check that we don't update too often.
-	if f.Refresh.After(time.Now()) {
+	if f.Refresh.After(time.Now()) && !force {
 		return nil
 	}
 

@@ -9,6 +9,7 @@ If anyone has any problems with feeds being parsed incorrectly, please let me kn
 I can debug and improve the package.
 
 Example usage:
+
 ```go
 package main
 
@@ -30,6 +31,7 @@ func main() {
 ```
 
 The output structure is pretty much as you'd expect:
+
 ```go
 type Feed struct {
 	Nickname    string // This is not set by the package, but could be helpful.
@@ -68,5 +70,6 @@ specifications. If one is not provided, it defaults to 10 minute intervals. If y
 with feed providors dropping connections, please let me know and I can increase this default, or you
 can increase the Refresh time manually. The Feed.Update method uses this Refresh time, so if Update
 seems to be returning very quickly with no new items, it's likely not making a request due to the
-provider's Refresh interval.*/
+provider's Refresh interval.
+*/
 package rss

@@ -1,4 +1,4 @@
-// Run with: go run -tags debug debug.go [URL]
+// go run debug.go [URL]
 
 // +build ignore
 

@@ -27,7 +27,12 @@ func parseRSS2(data []byte, read *db) (*Feed, error) {
 	out := new(Feed)
 	out.Title = channel.Title
 	out.Description = channel.Description
-	out.Link = channel.Link
+	for _, link := range channel.Link {
+		if link.Rel == "" && link.Type == "" && link.Href == "" && link.Chardata != "" {
+			out.Link = link.Chardata
+			break
+		}
+	}
 	out.Image = channel.Image.Image()
 	if channel.MinsToLive != 0 {
 		sort.Ints(channel.SkipHours)
@@ -137,12 +142,19 @@ type rss2_0Channel struct {
 	XMLName     xml.Name     `xml:"channel"`
 	Title       string       `xml:"title"`
 	Description string       `xml:"description"`
-	Link        string       `xml:"link"`
+	Link        []rss2_0Link `xml:"link"`
 	Image       rss2_0Image  `xml:"image"`
 	Items       []rss2_0Item `xml:"item"`
 	MinsToLive  int          `xml:"ttl"`
 	SkipHours   []int        `xml:"skipHours>hour"`
 	SkipDays    []string     `xml:"skipDays>day"`
+}
+
+type rss2_0Link struct {
+	Rel      string `xml:"rel,attr"`
+	Href     string `xml:"href,attr"`
+	Type     string `xml:"type,attr"`
+	Chardata string `xml:",chardata"`
 }
 
 type rss2_0Item struct {

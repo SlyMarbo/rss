@@ -20,7 +20,12 @@ func parseAtom(data []byte, read *db) (*Feed, error) {
 	out := new(Feed)
 	out.Title = feed.Title
 	out.Description = feed.Description
-	out.Link = feed.Link.Href
+	for _, link := range feed.Link {
+		if link.Rel == "alternate" || link.Rel == "" {
+			out.Link = link.Href
+			break
+		}
+	}
 	out.Image = feed.Image.Image()
 	out.Refresh = time.Now().Add(10 * time.Minute)
 
@@ -98,7 +103,7 @@ type atomFeed struct {
 	XMLName     xml.Name   `xml:"feed"`
 	Title       string     `xml:"title"`
 	Description string     `xml:"subtitle"`
-	Link        atomLink   `xml:"link"`
+	Link        []atomLink `xml:"link"`
 	Image       atomImage  `xml:"image"`
 	Items       []atomItem `xml:"entry"`
 	Updated     string     `xml:"updated"`

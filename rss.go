@@ -83,16 +83,16 @@ func FetchByFunc(fetchFunc FetchFunc, url string) (*Feed, error) {
 
 // Feed is the top-level structure.
 type Feed struct {
-	Nickname    string    `json:"nickname"`// This is not set by the package, but could be helpful.
-	Title       string    `json:"title"`
-	Description string    `json:"description"`
-	Link        string    `json:"link"`// Link to the creator's website.
-	UpdateURL   string    `json:"updateurl"`// URL of the feed itself.
-	Image       *Image    `json:"image"`// Feed icon.
-	Items       []*Item   `json:"items"`
-	ItemMap     map[string]struct{} `json:"itemmap"`// Used in checking whether an item has been seen before.
-	Refresh     time.Time           `json:"refresh"`// Earliest time this feed should next be checked.
-	Unread      uint32              `json:"unread"`// Number of unread items. Used by aggregators.
+	Nickname    string              `json:"nickname"` // This is not set by the package, but could be helpful.
+	Title       string              `json:"title"`
+	Description string              `json:"description"`
+	Link        string              `json:"link"`      // Link to the creator's website.
+	UpdateURL   string              `json:"updateurl"` // URL of the feed itself.
+	Image       *Image              `json:"image"`     // Feed icon.
+	Items       []*Item             `json:"items"`
+	ItemMap     map[string]struct{} `json:"itemmap"` // Used in checking whether an item has been seen before.
+	Refresh     time.Time           `json:"refresh"` // Earliest time this feed should next be checked.
+	Unread      uint32              `json:"unread"`  // Number of unread items. Used by aggregators.
 }
 
 // Update fetches any new items and updates f.
@@ -173,14 +173,14 @@ func (f *Feed) String() string {
 
 // Item represents a single story.
 type Item struct {
-	Title      string        `json:"title"`
-	Summary    string        `json:"summary"`
-	Content    string        `json:"content"`
-	Link       string        `json:"link"`
-	Date       time.Time     `json:"date"`
-	ID         string        `json:"id"`
-	Enclosures []*Enclosure  `json:"enclosures"`
-	Read       bool          `json:"read"`
+	Title      string       `json:"title"`
+	Summary    string       `json:"summary"`
+	Content    string       `json:"content"`
+	Link       string       `json:"link"`
+	Date       time.Time    `json:"date"`
+	ID         string       `json:"id"`
+	Enclosures []*Enclosure `json:"enclosures"`
+	Read       bool         `json:"read"`
 }
 
 func (i *Item) String() string {
@@ -216,10 +216,10 @@ func (i *Item) Format(indent int) string {
 }
 
 type Enclosure struct {
-	Url    string    `json:"url"`
-	Type   string    `json:"type"`
-	Rel    string    `json:"rel"`
-	Length int       `json:"length"`
+	Url    string `json:"url"`
+	Type   string `json:"type"`
+	Rel    string `json:"rel"`
+	Length int    `json:"length"`
 }
 
 func (e *Enclosure) Get() (io.ReadCloser, error) {
@@ -236,10 +236,10 @@ func (e *Enclosure) Get() (io.ReadCloser, error) {
 }
 
 type Image struct {
-	Title  string    `json:"title"`
-	Url    string    `json:"url"`
-	Height uint32    `json:"height"`
-	Width  uint32    `json:"width"`
+	Title  string `json:"title"`
+	Url    string `json:"url"`
+	Height uint32 `json:"height"`
+	Width  uint32 `json:"width"`
 }
 
 func (i *Image) Get() (io.ReadCloser, error) {

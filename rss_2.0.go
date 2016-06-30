@@ -170,9 +170,9 @@ type rss2_0Item struct {
 
 type rss2_0Enclosure struct {
 	XMLName xml.Name `xml:"enclosure"`
-	Url     string   `xml:"url"`
-	Type    string   `xml:"type"`
-	Length  int      `xml:"length"`
+	Url     string   `xml:"url,attr"`
+	Type    string   `xml:"type,attr"`
+	Length  int      `xml:"length,attr"`
 }
 
 func (r *rss2_0Enclosure) Enclosure() *Enclosure {

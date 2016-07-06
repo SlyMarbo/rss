@@ -90,6 +90,7 @@ func parseRSS2(data []byte, read *db) (*Feed, error) {
 
 		next := new(Item)
 		next.Title = item.Title
+		next.Summary = item.Description
 		next.Content = item.Content
 		next.Link = item.Link
 		if item.Date != "" {
@@ -158,21 +159,22 @@ type rss2_0Link struct {
 }
 
 type rss2_0Item struct {
-	XMLName    xml.Name          `xml:"item"`
-	Title      string            `xml:"title"`
-	Content    string            `xml:"description"`
-	Link       string            `xml:"link"`
-	PubDate    string            `xml:"pubDate"`
-	Date       string            `xml:"date"`
-	ID         string            `xml:"guid"`
-	Enclosures []rss2_0Enclosure `xml:"enclosure"`
+	XMLName     xml.Name          `xml:"item"`
+	Title       string            `xml:"title"`
+	Description string            `xml:"description"`
+	Content     string            `xml:"encoded"`
+	Link        string            `xml:"link"`
+	PubDate     string            `xml:"pubDate"`
+	Date        string            `xml:"date"`
+	ID          string            `xml:"guid"`
+	Enclosures  []rss2_0Enclosure `xml:"enclosure"`
 }
 
 type rss2_0Enclosure struct {
 	XMLName xml.Name `xml:"enclosure"`
-	Url     string   `xml:"url,attr"`
-	Type    string   `xml:"type,attr"`
-	Length  int      `xml:"length,attr"`
+	Url     string   `xml:"url"`
+	Type    string   `xml:"type"`
+	Length  int      `xml:"length"`
 }
 
 func (r *rss2_0Enclosure) Enclosure() *Enclosure {

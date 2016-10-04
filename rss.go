@@ -77,6 +77,7 @@ func FetchByFunc(fetchFunc FetchFunc, url string) (*Feed, error) {
 	}
 
 	out.UpdateURL = url
+	out.FetchFunc = fetchFunc
 
 	return out, nil
 }
@@ -93,6 +94,7 @@ type Feed struct {
 	ItemMap     map[string]struct{} `json:"itemmap"` // Used in checking whether an item has been seen before.
 	Refresh     time.Time           `json:"refresh"` // Earliest time this feed should next be checked.
 	Unread      uint32              `json:"unread"`  // Number of unread items. Used by aggregators.
+	FetchFunc   FetchFunc           `json:"-"`
 }
 
 // Update fetches any new items and updates f.
@@ -116,7 +118,7 @@ func (f *Feed) Update() error {
 		}
 	}
 
-	update, err := Fetch(f.UpdateURL)
+	update, err := FetchByFunc(f.FetchFunc, f.UpdateURL)
 	if err != nil {
 		return err
 	}

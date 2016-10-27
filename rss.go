@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"net"
 	"net/http"
 	"strings"
 	"text/tabwriter"
@@ -97,12 +98,30 @@ type Feed struct {
 	FetchFunc   FetchFunc           `json:"-"`
 }
 
+type refreshError string
+
+var _ net.Error = refreshError("")
+
+func (r refreshError) Error() string {
+	return string(r)
+}
+
+func (r refreshError) Timeout() bool {
+	return false
+}
+
+func (r refreshError) Temporary() bool {
+	return true
+}
+
+var ErrUpdateNotReady refreshError = "not ready to update: too soon to refresh"
+
 // Update fetches any new items and updates f.
 func (f *Feed) Update() error {
 
 	// Check that we don't update too often.
 	if f.Refresh.After(time.Now()) {
-		return nil
+		return ErrUpdateNotReady
 	}
 
 	if f.UpdateURL == "" {

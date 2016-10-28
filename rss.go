@@ -42,7 +42,7 @@ func CacheParsedItemIDs(flag bool) (didCache bool) {
 	return
 }
 
-type FetchFunc func() (resp *http.Response, err error)
+type FetchFunc func(url string) (resp *http.Response, err error)
 
 // Fetch downloads and parses the RSS feed at the given URL
 func Fetch(url string) (*Feed, error) {
@@ -50,14 +50,14 @@ func Fetch(url string) (*Feed, error) {
 }
 
 func FetchByClient(url string, client *http.Client) (*Feed, error) {
-	fetchFunc := func() (resp *http.Response, err error) {
+	fetchFunc := func(url string) (resp *http.Response, err error) {
 		return client.Get(url)
 	}
 	return FetchByFunc(fetchFunc, url)
 }
 
 func FetchByFunc(fetchFunc FetchFunc, url string) (*Feed, error) {
-	resp, err := fetchFunc()
+	resp, err := fetchFunc(url)
 	if err != nil {
 		return nil, err
 	}

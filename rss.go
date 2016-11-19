@@ -44,7 +44,7 @@ func CacheParsedItemIDs(flag bool) (didCache bool) {
 
 type FetchFunc func(url string) (resp *http.Response, err error)
 
-func DefaultFetchFunc(url string) (resp *http.Response, err error) {
+var DefaultFetchFunc = func(url string) (resp *http.Response, err error) {
 	client := http.DefaultClient
 	return client.Get(url)
 }

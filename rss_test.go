@@ -2,6 +2,7 @@ package rss
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -92,9 +93,18 @@ func TestFeedUnmarshalUpdate(t *testing.T) {
 	var unmarshalledFeed Feed
 	err = json.Unmarshal(jsonBlob, &unmarshalledFeed)
 
+	var defaultFetchFuncCalled = 0
+	DefaultFetchFunc = func(url string) (resp *http.Response, err error) {
+		defaultFetchFuncCalled++
+		return nil, errors.New("No network in test")
+	}
+
 	err = unmarshalledFeed.Update()
 	if err != nil {
-		t.Logf("Expected failure updating via http for testadata: %v", err)
+		t.Logf("Expected failure updating via http in test: %v", err)
+	}
+	if defaultFetchFuncCalled < 1 {
+		t.Error("DefaultFetchFunc was not called during Update()")
 	}
 
 	err = unmarshalledFeed.UpdateByFunc(fetch2)

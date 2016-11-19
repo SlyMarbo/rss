@@ -62,7 +62,6 @@ func parseAtom(data []byte) (*Feed, error) {
 				next.Enclosures = append(next.Enclosures, &Enclosure{
 					Url:    link.Href,
 					Type:   link.Type,
-					Rel:    link.Rel,
 					Length: link.Length,
 				})
 			}

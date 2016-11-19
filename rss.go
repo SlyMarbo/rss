@@ -245,7 +245,6 @@ func (i *Item) Format(indent int) string {
 type Enclosure struct {
 	Url    string `json:"url"`
 	Type   string `json:"type"`
-	Rel    string `json:"rel"`
 	Length int    `json:"length"`
 }
 

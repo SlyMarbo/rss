@@ -116,3 +116,33 @@ func TestFeedUnmarshalUpdate(t *testing.T) {
 		t.Errorf("Expected two unread items after update, got %v", unmarshalledFeed.Unread)
 	}
 }
+
+func TestItemGUIDs(t *testing.T) {
+	feed1, err := FetchByFunc(MakeTestdataFetchFunc("rss_2.0"), "http://localhost/dummyfeed1")
+	if err != nil {
+		t.Fatalf("Failed fetching testdata 'rss_2.0': %v", err)
+	}
+
+	if len(feed1.Items) != 1 {
+		t.Errorf("Expected one item in feed 'rss_2.0', got %v", len(feed1.Items))
+	}
+
+	feed2, err := FetchByFunc(MakeTestdataFetchFunc("rssupdate-1"), "http://localhost/dummyfeed2")
+	if err != nil {
+		t.Fatalf("Failed fetching testdata 'rssupdate-1': %v", err)
+	}
+
+	if len(feed2.Items) != 1 {
+		t.Errorf("Expected one item in feed 'rssupdate' after step 1, got %v", len(feed2.Items))
+	}
+
+	err = feed2.UpdateByFunc(MakeTestdataFetchFunc("rssupdate-2"))
+	if err != nil {
+		t.Fatalf("Failed fetching testdata 'rssupdate-2': %v", err)
+	}
+
+	// rssupdate-2 contains two items, one new item and one old item from rssupdate-1
+	if len(feed2.Items) != 2 {
+		t.Errorf("Expected two items in feed 'rssupdate' after step 2, got %v", len(feed2.Items))
+	}
+}

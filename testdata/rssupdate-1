@@ -13,7 +13,7 @@
   <description>Here is some text containing an interesting
 description.</description>
   <link>http://www.wikipedia.org/</link>
-  <guid>unique string per item:update</guid>
+  <guid>unique string per item</guid>
   <pubDate>Mon, 06 Sep 2009 16:45:00 +0000</pubDate>
  </item>
 

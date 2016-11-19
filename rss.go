@@ -20,26 +20,18 @@ func Parse(data []byte) (*Feed, error) {
 		if debug {
 			fmt.Println("[i] Parsing as RSS 2.0")
 		}
-		return parseRSS2(data, database)
+		return parseRSS2(data)
 	} else if strings.Contains(string(data), "xmlns=\"http://purl.org/rss/1.0/\"") {
 		if debug {
 			fmt.Println("[i] Parsing as RSS 1.0")
 		}
-		return parseRSS1(data, database)
+		return parseRSS1(data)
 	} else {
 		if debug {
 			fmt.Println("[i] Parsing as Atom")
 		}
-		return parseAtom(data, database)
+		return parseAtom(data)
 	}
-}
-
-// CacheParsedItemIDs enables or disable Item.ID caching when parsing feeds.
-// Returns whether Item.ID were cached prior to function call.
-func CacheParsedItemIDs(flag bool) (didCache bool) {
-	didCache = !disabled
-	disabled = !flag
-	return
 }
 
 type FetchFunc func(url string) (resp *http.Response, err error)

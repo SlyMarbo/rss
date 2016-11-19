@@ -1,7 +1,10 @@
 package rss
 
 import (
+	"encoding/json"
 	"io/ioutil"
+	"net/http"
+	"os"
 	"reflect"
 	"testing"
 )
@@ -57,5 +60,49 @@ func TestEnclosure(t *testing.T) {
 				t.Errorf("%s: expected %#v, got %#v", test, want, item.Enclosures)
 			}
 		}
+	}
+}
+
+func MakeTestdataFetchFunc(file string) FetchFunc {
+	return func(url string) (resp *http.Response, err error) {
+		// Create mock http.Response
+		resp = new(http.Response)
+		resp.Body, err = os.Open("testdata/" + file)
+		return
+	}
+}
+
+func TestFeedUnmarshalUpdate(t *testing.T) {
+	fetch1 := MakeTestdataFetchFunc("rssupdate-1")
+	fetch2 := MakeTestdataFetchFunc("rssupdate-2")
+	feed, err := FetchByFunc(fetch1, "http://localhost/dummyrss")
+	if err != nil {
+		t.Fatalf("Failed fetching testdata 'rssupdate-2': %v", err)
+	}
+
+	if 1 != feed.Unread {
+		t.Errorf("Expected one unread item initially, got %v", feed.Unread)
+	}
+
+	jsonBlob, err := json.Marshal(feed)
+	if err != nil {
+		t.Fatalf("Failed to marshal Feed %+v\n", feed)
+	}
+
+	var unmarshalledFeed Feed
+	err = json.Unmarshal(jsonBlob, &unmarshalledFeed)
+
+	err = unmarshalledFeed.Update()
+	if err != nil {
+		t.Logf("Expected failure updating via http for testadata: %v", err)
+	}
+
+	err = unmarshalledFeed.UpdateByFunc(fetch2)
+	if err != nil {
+		t.Fatalf("Failed updating the feed from testdata 'rssupdate-2': %v", err)
+	}
+
+	if 2 != unmarshalledFeed.Unread {
+		t.Errorf("Expected two unread items after update, got %v", unmarshalledFeed.Unread)
 	}
 }

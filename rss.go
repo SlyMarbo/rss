@@ -44,9 +44,14 @@ func CacheParsedItemIDs(flag bool) (didCache bool) {
 
 type FetchFunc func(url string) (resp *http.Response, err error)
 
+func DefaultFetchFunc(url string) (resp *http.Response, err error) {
+	client := http.DefaultClient
+	return client.Get(url)
+}
+
 // Fetch downloads and parses the RSS feed at the given URL
 func Fetch(url string) (*Feed, error) {
-	return FetchByClient(url, http.DefaultClient)
+	return FetchByFunc(DefaultFetchFunc, url)
 }
 
 func FetchByClient(url string, client *http.Client) (*Feed, error) {
@@ -118,6 +123,13 @@ var ErrUpdateNotReady refreshError = "not ready to update: too soon to refresh"
 
 // Update fetches any new items and updates f.
 func (f *Feed) Update() error {
+	if f.FetchFunc == nil {
+		f.FetchFunc = DefaultFetchFunc
+	}
+	return f.UpdateByFunc(f.FetchFunc)
+}
+
+func (f *Feed) UpdateByFunc(fetchFunc FetchFunc) error {
 
 	// Check that we don't update too often.
 	if f.Refresh.After(time.Now()) {
@@ -137,7 +149,7 @@ func (f *Feed) Update() error {
 		}
 	}
 
-	update, err := FetchByFunc(f.FetchFunc, f.UpdateURL)
+	update, err := FetchByFunc(fetchFunc, f.UpdateURL)
 	if err != nil {
 		return err
 	}

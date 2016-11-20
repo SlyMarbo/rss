@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func parseRSS2(data []byte, read *db) (*Feed, error) {
+func parseRSS2(data []byte) (*Feed, error) {
 	warnings := false
 	feed := rss2_0Feed{}
 	p := xml.NewDecoder(bytes.NewReader(data))
@@ -84,7 +84,7 @@ func parseRSS2(data []byte, read *db) (*Feed, error) {
 		}
 
 		// Skip items already known.
-		if read.req <- item.ID; <-read.res {
+		if _, ok := out.ItemMap[item.ID]; ok {
 			continue
 		}
 
@@ -113,15 +113,6 @@ func parseRSS2(data []byte, read *db) (*Feed, error) {
 			}
 		}
 		next.Read = false
-
-		if _, ok := out.ItemMap[next.ID]; ok {
-			if debug {
-				fmt.Printf("[w] Item %q has duplicate ID.\n", next.Title)
-				fmt.Printf("[w] %#v\n", next)
-			}
-			warnings = true
-			continue
-		}
 
 		out.Items = append(out.Items, next)
 		out.ItemMap[next.ID] = struct{}{}
@@ -174,9 +165,9 @@ type rss2_0Item struct {
 
 type rss2_0Enclosure struct {
 	XMLName xml.Name `xml:"enclosure"`
-	Url     string   `xml:"url"`
-	Type    string   `xml:"type"`
-	Length  int      `xml:"length"`
+	Url     string   `xml:"url,attr"`
+	Type    string   `xml:"type,attr"`
+	Length  int      `xml:"length,attr"`
 }
 
 func (r *rss2_0Enclosure) Enclosure() *Enclosure {

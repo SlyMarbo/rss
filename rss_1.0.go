@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func parseRSS1(data []byte, read *db) (*Feed, error) {
+func parseRSS1(data []byte) (*Feed, error) {
 	warnings := false
 	feed := rss1_0Feed{}
 	p := xml.NewDecoder(bytes.NewReader(data))
@@ -79,7 +79,7 @@ func parseRSS1(data []byte, read *db) (*Feed, error) {
 		}
 
 		// Skip items already known.
-		if read.req <- item.ID; <-read.res {
+		if _, ok := out.ItemMap[item.ID]; ok {
 			continue
 		}
 
@@ -107,15 +107,6 @@ func parseRSS1(data []byte, read *db) (*Feed, error) {
 			}
 		}
 		next.Read = false
-
-		if _, ok := out.ItemMap[next.ID]; ok {
-			if debug {
-				fmt.Printf("[w] Item %q has duplicate ID.\n", next.Title)
-				fmt.Printf("[w] %#v\n", next)
-			}
-			warnings = true
-			continue
-		}
 
 		out.Items = append(out.Items, next)
 		out.ItemMap[next.ID] = struct{}{}

@@ -38,11 +38,11 @@ func TestParseTitle(t *testing.T) {
 }
 
 func TestEnclosure(t *testing.T) {
-	tests := map[string][]*Enclosure{
-		"rss_1.0":   []*Enclosure{{Url: "http://foo.bar/baz.mp3", Type: "audio/mpeg", Length: 65535}},
-		"rss_2.0":   []*Enclosure{{Url: "http://example.com/file.mp3", Type: "audio/mpeg", Length: 65535}},
-		"rss_2.0-1": []*Enclosure{{Url: "http://gdb.voanews.com/6C49CA6D-C18D-414D-8A51-2B7042A81010_cx0_cy29_cw0_w800_h450.jpg", Type: "image/jpeg", Length: 3123}},
-		"atom_1.0":  []*Enclosure{{Url: "http://example.org/audio.mp3", Type: "audio/mpeg", Length: 1234}},
+	tests := map[string]Enclosure{
+		"rss_1.0":   Enclosure{Url: "http://foo.bar/baz.mp3", Type: "audio/mpeg", Length: 65535},
+		"rss_2.0":   Enclosure{Url: "http://example.com/file.mp3", Type: "audio/mpeg", Length: 65535},
+		"rss_2.0-1": Enclosure{Url: "http://gdb.voanews.com/6C49CA6D-C18D-414D-8A51-2B7042A81010_cx0_cy29_cw0_w800_h450.jpg", Type: "image/jpeg", Length: 3123},
+		"atom_1.0":  Enclosure{Url: "http://example.org/audio.mp3", Type: "audio/mpeg", Length: 1234},
 	}
 
 	for test, want := range tests {
@@ -56,10 +56,17 @@ func TestEnclosure(t *testing.T) {
 			t.Fatalf("Parsing %s: %v", test, err)
 		}
 
+		enclosureFound := false
 		for _, item := range feed.Items {
-			if !reflect.DeepEqual(item.Enclosures, want) {
-				t.Errorf("%s: expected %#v, got %#v", test, want, item.Enclosures)
+			for _, enc := range item.Enclosures {
+				enclosureFound = true
+				if !reflect.DeepEqual(*enc, want) {
+					t.Errorf("%s: expected %#v, got %#v", test, want, *enc)
+				}
 			}
+		}
+		if !enclosureFound {
+			t.Errorf("No enclosures parsed in test %v", test)
 		}
 	}
 }
@@ -114,5 +121,35 @@ func TestFeedUnmarshalUpdate(t *testing.T) {
 
 	if 2 != unmarshalledFeed.Unread {
 		t.Errorf("Expected two unread items after update, got %v", unmarshalledFeed.Unread)
+	}
+}
+
+func TestItemGUIDs(t *testing.T) {
+	feed1, err := FetchByFunc(MakeTestdataFetchFunc("rss_2.0"), "http://localhost/dummyfeed1")
+	if err != nil {
+		t.Fatalf("Failed fetching testdata 'rss_2.0': %v", err)
+	}
+
+	if len(feed1.Items) != 1 {
+		t.Errorf("Expected one item in feed 'rss_2.0', got %v", len(feed1.Items))
+	}
+
+	feed2, err := FetchByFunc(MakeTestdataFetchFunc("rssupdate-1"), "http://localhost/dummyfeed2")
+	if err != nil {
+		t.Fatalf("Failed fetching testdata 'rssupdate-1': %v", err)
+	}
+
+	if len(feed2.Items) != 1 {
+		t.Errorf("Expected one item in feed 'rssupdate' after step 1, got %v", len(feed2.Items))
+	}
+
+	err = feed2.UpdateByFunc(MakeTestdataFetchFunc("rssupdate-2"))
+	if err != nil {
+		t.Fatalf("Failed fetching testdata 'rssupdate-2': %v", err)
+	}
+
+	// rssupdate-2 contains two items, one new item and one old item from rssupdate-1
+	if len(feed2.Items) != 2 {
+		t.Errorf("Expected two items in feed 'rssupdate' after step 2, got %v", len(feed2.Items))
 	}
 }

@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-func parseAtom(data []byte, read *db) (*Feed, error) {
+func parseAtom(data []byte) (*Feed, error) {
 	warnings := false
 	feed := atomFeed{}
 	p := xml.NewDecoder(bytes.NewReader(data))
@@ -40,7 +40,7 @@ func parseAtom(data []byte, read *db) (*Feed, error) {
 	for _, item := range feed.Items {
 
 		// Skip items already known.
-		if read.req <- item.ID; <-read.res {
+		if _, ok := out.ItemMap[item.ID]; ok {
 			continue
 		}
 
@@ -62,7 +62,6 @@ func parseAtom(data []byte, read *db) (*Feed, error) {
 				next.Enclosures = append(next.Enclosures, &Enclosure{
 					Url:    link.Href,
 					Type:   link.Type,
-					Rel:    link.Rel,
 					Length: link.Length,
 				})
 			}

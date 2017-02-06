@@ -1,6 +1,8 @@
 rss
 =====
 
+ [![GoDoc](https://godoc.org/github.com/SlyMarbo/rss?status.svg)](https://godoc.org/github.com/SlyMarbo/rss)
+
 RSS is a small library for simplifying the parsing of RSS and Atom feeds.
 The package could do with more testing, but it conforms to the RSS 1.0, 2.0, and Atom 1.0
 specifications, to the best of my ability. I've tested it with about 15 different feeds,

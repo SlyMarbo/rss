@@ -10,6 +10,7 @@ import (
 // The layouts are attempted in ascending order until either time.Parse()
 // does not return an error or all layouts are attempted.
 var TimeLayouts = []string{
+	"Mon, _2 Jan 2006 15:04:05 Z",
 	"Mon, _2 Jan 2006 15:04:05 MST",
 	"Mon, _2 Jan 06 15:04:05 MST",
 	"Mon, _2 Jan 2006 15:04:05 -0700",

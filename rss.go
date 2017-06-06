@@ -34,8 +34,10 @@ func Parse(data []byte) (*Feed, error) {
 	}
 }
 
+// A FetchFunc is a function that fetches a feed for given URL.
 type FetchFunc func(url string) (resp *http.Response, err error)
 
+// DefaultFetchFunc uses http.DefaultClient to fetch a feed.
 var DefaultFetchFunc = func(url string) (resp *http.Response, err error) {
 	client := http.DefaultClient
 	return client.Get(url)
@@ -46,6 +48,7 @@ func Fetch(url string) (*Feed, error) {
 	return FetchByFunc(DefaultFetchFunc, url)
 }
 
+// FetchByClient uses a http.Client to fetch a URL.
 func FetchByClient(url string, client *http.Client) (*Feed, error) {
 	fetchFunc := func(url string) (resp *http.Response, err error) {
 		return client.Get(url)
@@ -53,6 +56,7 @@ func FetchByClient(url string, client *http.Client) (*Feed, error) {
 	return FetchByFunc(fetchFunc, url)
 }
 
+// FetchByFunc uses a func to fetch a URL.
 func FetchByFunc(fetchFunc FetchFunc, url string) (*Feed, error) {
 	resp, err := fetchFunc(url)
 	if err != nil {
@@ -111,7 +115,7 @@ func (r refreshError) Temporary() bool {
 	return true
 }
 
-var ErrUpdateNotReady refreshError = "not ready to update: too soon to refresh"
+var errUpdateNotReady refreshError = "not ready to update: too soon to refresh"
 
 // Update fetches any new items and updates f.
 func (f *Feed) Update() error {
@@ -121,15 +125,16 @@ func (f *Feed) Update() error {
 	return f.UpdateByFunc(f.FetchFunc)
 }
 
+// UpdateByFunc uses a func to update f.
 func (f *Feed) UpdateByFunc(fetchFunc FetchFunc) error {
 
 	// Check that we don't update too often.
 	if f.Refresh.After(time.Now()) {
-		return ErrUpdateNotReady
+		return errUpdateNotReady
 	}
 
 	if f.UpdateURL == "" {
-		return errors.New("Error: feed has no URL.")
+		return errors.New("feed has no URL")
 	}
 
 	if f.ItemMap == nil {
@@ -171,7 +176,7 @@ func (f *Feed) String() string {
 		fmt.Fprintf(w, "\xff\t\xffDescription:\t%q\n", f.Description)
 		fmt.Fprintf(w, "\xff\t\xffLink:\t%q\n", f.Link)
 		fmt.Fprintf(w, "\xff\t\xffUpdateURL:\t%q\n", f.UpdateURL)
-		fmt.Fprintf(w, "\xff\t\xffImage:\t%q (%s)\n", f.Image.Title, f.Image.Url)
+		fmt.Fprintf(w, "\xff\t\xffImage:\t%q (%s)\n", f.Image.Title, f.Image.URL)
 		fmt.Fprintf(w, "\xff\t\xffRefresh:\t%s\n", f.Refresh.Format(DATE))
 		fmt.Fprintf(w, "\xff\t\xffUnread:\t%d\n", f.Unread)
 		fmt.Fprintf(w, "\xff\t\xffItems:\t(%d) {\n", len(f.Items))
@@ -213,6 +218,7 @@ func (i *Item) String() string {
 	return i.Format(0)
 }
 
+// Format formats an item using tabs.
 func (i *Item) Format(indent int) string {
 	buf := new(bytes.Buffer)
 	single := strings.Repeat("\t", indent)
@@ -242,18 +248,20 @@ func (i *Item) Format(indent int) string {
 	return buf.String()
 }
 
+// Enclosure maps an enclosure.
 type Enclosure struct {
-	Url    string `json:"url"`
+	URL    string `json:"url"`
 	Type   string `json:"type"`
 	Length uint   `json:"length"`
 }
 
+// Get uses http.Get to fetch an enclosure.
 func (e *Enclosure) Get() (io.ReadCloser, error) {
-	if e == nil || e.Url == "" {
+	if e == nil || e.URL == "" {
 		return nil, errors.New("No enclosure")
 	}
 
-	res, err := http.Get(e.Url)
+	res, err := http.Get(e.URL)
 	if err != nil {
 		return nil, err
 	}
@@ -261,19 +269,21 @@ func (e *Enclosure) Get() (io.ReadCloser, error) {
 	return res.Body, nil
 }
 
+// Image maps an image.
 type Image struct {
 	Title  string `json:"title"`
-	Url    string `json:"url"`
+	URL    string `json:"url"`
 	Height uint32 `json:"height"`
 	Width  uint32 `json:"width"`
 }
 
+// Get uses http.Get to fetch an image.
 func (i *Image) Get() (io.ReadCloser, error) {
-	if i == nil || i.Url == "" {
+	if i == nil || i.URL == "" {
 		return nil, errors.New("No image")
 	}
 
-	res, err := http.Get(i.Url)
+	res, err := http.Get(i.URL)
 	if err != nil {
 		return nil, err
 	}

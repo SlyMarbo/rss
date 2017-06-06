@@ -30,7 +30,7 @@ func parseAtom(data []byte) (*Feed, error) {
 	out.Refresh = time.Now().Add(10 * time.Minute)
 
 	if feed.Items == nil {
-		return nil, fmt.Errorf("Error: no feeds found in %q.", string(data))
+		return nil, fmt.Errorf("no feeds found in %q", string(data))
 	}
 
 	out.Items = make([]*Item, 0, len(feed.Items))
@@ -60,7 +60,7 @@ func parseAtom(data []byte) (*Feed, error) {
 				next.Link = link.Href
 			} else {
 				next.Enclosures = append(next.Enclosures, &Enclosure{
-					Url:    link.Href,
+					URL:    link.Href,
 					Type:   link.Type,
 					Length: link.Length,
 				})
@@ -121,7 +121,7 @@ type atomItem struct {
 type atomImage struct {
 	XMLName xml.Name `xml:"image"`
 	Title   string   `xml:"title"`
-	Url     string   `xml:"url"`
+	URL     string   `xml:"url"`
 	Height  int      `xml:"height"`
 	Width   int      `xml:"width"`
 }
@@ -136,7 +136,7 @@ type atomLink struct {
 func (a *atomImage) Image() *Image {
 	out := new(Image)
 	out.Title = a.Title
-	out.Url = a.Url
+	out.URL = a.URL
 	out.Height = uint32(a.Height)
 	out.Width = uint32(a.Width)
 	return out

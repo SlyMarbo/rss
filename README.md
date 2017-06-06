@@ -64,7 +64,7 @@ type Item struct {
 
 type Image struct {
 	Title   string
-	Url     string
+	URL     string
 	Height  uint32
 	Width   uint32
 }

@@ -19,7 +19,7 @@ func parseRSS2(data []byte) (*Feed, error) {
 		return nil, err
 	}
 	if feed.Channel == nil {
-		return nil, fmt.Errorf("Error: no channel found in %q.", string(data))
+		return nil, fmt.Errorf("no channel found in %q", string(data))
 	}
 
 	channel := feed.Channel
@@ -62,7 +62,7 @@ func parseRSS2(data []byte) (*Feed, error) {
 	}
 
 	if channel.Items == nil {
-		return nil, fmt.Errorf("Error: no feeds found in %q.", string(data))
+		return nil, fmt.Errorf("no feeds found in %q", string(data))
 	}
 
 	out.Items = make([]*Item, 0, len(channel.Items))
@@ -165,14 +165,14 @@ type rss2_0Item struct {
 
 type rss2_0Enclosure struct {
 	XMLName xml.Name `xml:"enclosure"`
-	Url     string   `xml:"url,attr"`
+	URL     string   `xml:"url,attr"`
 	Type    string   `xml:"type,attr"`
 	Length  uint     `xml:"length,attr"`
 }
 
 func (r *rss2_0Enclosure) Enclosure() *Enclosure {
 	out := new(Enclosure)
-	out.Url = r.Url
+	out.URL = r.URL
 	out.Type = r.Type
 	out.Length = r.Length
 	return out
@@ -181,7 +181,7 @@ func (r *rss2_0Enclosure) Enclosure() *Enclosure {
 type rss2_0Image struct {
 	XMLName xml.Name `xml:"image"`
 	Title   string   `xml:"title"`
-	Url     string   `xml:"url"`
+	URL     string   `xml:"url"`
 	Height  int      `xml:"height"`
 	Width   int      `xml:"width"`
 }
@@ -189,7 +189,7 @@ type rss2_0Image struct {
 func (i *rss2_0Image) Image() *Image {
 	out := new(Image)
 	out.Title = i.Title
-	out.Url = i.Url
+	out.URL = i.URL
 	out.Height = uint32(i.Height)
 	out.Width = uint32(i.Width)
 	return out

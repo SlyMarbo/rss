@@ -154,7 +154,7 @@ type rss2_0Item struct {
 	XMLName     xml.Name          `xml:"item"`
 	Title       string            `xml:"title"`
 	Description string            `xml:"description"`
-	Content     string            `xml:"encoded"`
+	Content     string            `xml:"http://purl.org/rss/1.0/modules/content/ encoded"`
 	Category    string            `xml:"category"`
 	Link        string            `xml:"link"`
 	PubDate     string            `xml:"pubDate"`

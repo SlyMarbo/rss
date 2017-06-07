@@ -96,15 +96,13 @@ func parseRSS2(data []byte) (*Feed, error) {
 		next.Link = item.Link
 		if item.Date != "" {
 			next.Date, err = parseTime(item.Date)
-			if err != nil {
-				fmt.Printf("[w] Item %q has unparsable date: %s\n", item.Title, err)
-				warnings = true
+			if err == nil {
+				item.DateValid = true
 			}
 		} else if item.PubDate != "" {
 			next.Date, err = parseTime(item.PubDate)
-			if err != nil {
-				fmt.Printf("[w] Item %q has unparsable pubDate: %s\n", item.Title, err)
-				warnings = true
+			if err == nil {
+				item.DateValid = true
 			}
 		}
 		next.ID = item.ID
@@ -153,14 +151,15 @@ type rss2_0Link struct {
 }
 
 type rss2_0Item struct {
-	XMLName     xml.Name          `xml:"item"`
-	Title       string            `xml:"title"`
-	Description string            `xml:"description"`
-	Content     string            `xml:"http://purl.org/rss/1.0/modules/content/ encoded"`
-	Category    string            `xml:"category"`
-	Link        string            `xml:"link"`
-	PubDate     string            `xml:"pubDate"`
-	Date        string            `xml:"date"`
+	XMLName     xml.Name `xml:"item"`
+	Title       string   `xml:"title"`
+	Description string   `xml:"description"`
+	Content     string   `xml:"http://purl.org/rss/1.0/modules/content/ encoded"`
+	Category    string   `xml:"category"`
+	Link        string   `xml:"link"`
+	PubDate     string   `xml:"pubDate"`
+	Date        string   `xml:"date"`
+	DateValid   bool
 	ID          string            `xml:"guid"`
 	Enclosures  []rss2_0Enclosure `xml:"enclosure"`
 }

@@ -203,12 +203,13 @@ func (f *Feed) String() string {
 
 // Item represents a single story.
 type Item struct {
-	Title      string       `json:"title"`
-	Summary    string       `json:"summary"`
-	Content    string       `json:"content"`
-	Category   string       `json:"category"`
-	Link       string       `json:"link"`
-	Date       time.Time    `json:"date"`
+	Title      string    `json:"title"`
+	Summary    string    `json:"summary"`
+	Content    string    `json:"content"`
+	Category   string    `json:"category"`
+	Link       string    `json:"link"`
+	Date       time.Time `json:"date"`
+	DateValid  bool
 	ID         string       `json:"id"`
 	Enclosures []*Enclosure `json:"enclosures"`
 	Read       bool         `json:"read"`

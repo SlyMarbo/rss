@@ -50,9 +50,8 @@ func parseAtom(data []byte) (*Feed, error) {
 		next.Content = item.Content
 		if item.Date != "" {
 			next.Date, err = parseTime(item.Date)
-			if err != nil {
-				fmt.Printf("[w] Item %q has unparsable date: %s\n", item.Title, err)
-				warnings = true
+			if err == nil {
+				item.DateValid = true
 			}
 		}
 		next.ID = item.ID
@@ -110,13 +109,14 @@ type atomFeed struct {
 }
 
 type atomItem struct {
-	XMLName xml.Name   `xml:"entry"`
-	Title   string     `xml:"title"`
-	Summary string     `xml:"summary"`
-	Content string     `xml:"content"`
-	Links   []atomLink `xml:"link"`
-	Date    string     `xml:"updated"`
-	ID      string     `xml:"id"`
+	XMLName   xml.Name   `xml:"entry"`
+	Title     string     `xml:"title"`
+	Summary   string     `xml:"summary"`
+	Content   string     `xml:"content"`
+	Links     []atomLink `xml:"link"`
+	Date      string     `xml:"updated"`
+	DateValid bool
+	ID        string `xml:"id"`
 }
 
 type atomImage struct {

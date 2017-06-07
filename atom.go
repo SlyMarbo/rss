@@ -51,7 +51,8 @@ func parseAtom(data []byte) (*Feed, error) {
 		if item.Date != "" {
 			next.Date, err = parseTime(item.Date)
 			if err != nil {
-				return nil, err
+				fmt.Printf("[w] Item %q has unparsable date: %s\n", item.Title, err)
+				warnings = true
 			}
 		}
 		next.ID = item.ID

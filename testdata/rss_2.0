@@ -17,5 +17,14 @@ description.</description>
   <pubDate>Mon, 06 Sep 2009 16:45:00 +0000</pubDate>
  </item>
 
+ <item>
+  <title>Example entry with unparsable pubDate</title>
+  <description>Here is some text containing an interesting
+description.</description>
+  <link>http://www.wikipedia.org/</link>
+  <guid>1199152f-ea0e-4233-85d0-181002f424d7</guid>
+  <pubDate>This pubDate is not parsable.</pubDate>
+ </item>
+
 </channel>
 </rss>

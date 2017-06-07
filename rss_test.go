@@ -130,7 +130,7 @@ func TestItemGUIDs(t *testing.T) {
 		t.Fatalf("Failed fetching testdata 'rss_2.0': %v", err)
 	}
 
-	if len(feed1.Items) != 1 {
+	if len(feed1.Items) != 2 {
 		t.Errorf("Expected one item in feed 'rss_2.0', got %v", len(feed1.Items))
 	}
 

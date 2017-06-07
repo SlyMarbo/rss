@@ -98,5 +98,8 @@ func TestParseItemDateFailure(t *testing.T) {
 		if fmt.Sprintf("%s", feed.Items[1].Date) != want {
 			t.Fatalf("%s: expected %q, got %q", test, want, feed.Items[1].Date)
 		}
+		if feed.Items[1].DateValid {
+			t.Fatalf("%s: expected %t, got %t", test, false, feed.Items[1].DateValid)
+		}
 	}
 }

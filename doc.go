@@ -47,13 +47,14 @@ type Feed struct {
 }
 
 type Item struct {
-	Title   string
-	Summary string
-	Content string
-	Link    string
-	Date    time.Time
-	ID      string
-	Read    bool
+	Title     string
+	Summary   string
+	Content   string
+	Link      string
+	Date      time.Time
+	DateValid bool
+	ID        string
+	Read      bool
 }
 
 type Image struct {

@@ -10,60 +10,56 @@ I can debug and improve the package.
 
 Example usage:
 
-```go
-package main
+	package main
 
-import "github.com/SlyMarbo/rss"
+	import "github.com/SlyMarbo/rss"
 
-func main() {
-	feed, err := rss.Fetch("http://example.com/rss")
-	if err != nil {
-		// handle error.
+	func main() {
+		feed, err := rss.Fetch("http://example.com/rss")
+		if err != nil {
+			// handle error.
+		}
+
+		// ... Some time later ...
+
+		err = feed.Update()
+		if err != nil {
+			// handle error.
+		}
 	}
-
-	// ... Some time later ...
-
-	err = feed.Update()
-	if err != nil {
-		// handle error.
-	}
-}
-```
 
 The output structure is pretty much as you'd expect:
 
-```go
-type Feed struct {
-	Nickname    string // This is not set by the package, but could be helpful.
-	Title       string
-	Description string
-	Link        string // Link to the creator's website.
-	UpdateURL   string // URL of the feed itself.
-	Image       *Image // Feed icon.
-	Items       []*Item
-	ItemMap     map[string]struct{} // Used in checking whether an item has been seen before.
-	Refresh     time.Time           // Earliest time this feed should next be checked.
-	Unread      uint32              // Number of unread items. Used by aggregators.
-}
+	type Feed struct {
+		Nickname    string // This is not set by the package, but could be helpful.
+		Title       string
+		Description string
+		Link        string // Link to the creator's website.
+		UpdateURL   string // URL of the feed itself.
+		Image       *Image // Feed icon.
+		Items       []*Item
+		ItemMap     map[string]struct{} // Used in checking whether an item has been seen before.
+		Refresh     time.Time           // Earliest time this feed should next be checked.
+		Unread      uint32              // Number of unread items. Used by aggregators.
+	}
 
-type Item struct {
-	Title     string
-	Summary   string
-	Content   string
-	Link      string
-	Date      time.Time
-	DateValid bool
-	ID        string
-	Read      bool
-}
+	type Item struct {
+		Title     string
+		Summary   string
+		Content   string
+		Link      string
+		Date      time.Time
+		DateValid bool
+		ID        string
+		Read      bool
+	}
 
-type Image struct {
-	Title   string
-	URL     string
-	Height  uint32
-	Width   uint32
-}
-```
+	type Image struct {
+		Title   string
+		URL     string
+		Height  uint32
+		Width   uint32
+	}
 
 The library does its best to follow the appropriate specifications and not to set the Refresh time
 too soon. It currently follows all update time management methods in the RSS 1.0, 2.0, and Atom 1.0

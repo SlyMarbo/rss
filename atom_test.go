@@ -34,6 +34,7 @@ func TestParseAtomContent(t *testing.T) {
 		"atom_1.0":           "Volltext des Weblog-Eintrags",
 		"atom_1.0_enclosure": "Volltext des Weblog-Eintrags",
 		"atom_1.0-1":         "",
+		"atom_1.0_html":      "<body>html</body>",
 	}
 
 	for test, want := range tests {

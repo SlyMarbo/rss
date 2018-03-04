@@ -17,7 +17,7 @@ func TestParseTimeUsingOnlyDefaultLayouts(t *testing.T) {
 	for _, layout := range originalLayouts {
 		s := timeVal.Format(layout)
 		if tv, err := parseTime(s); err != nil || !tv.Equal(timeVal) {
-			t.Error("expected no err and times to equal, got err %v and time value %v", err, tv)
+			t.Errorf("expected no err and times to equal, got err %v and time value %v", err, tv)
 		}
 	}
 
@@ -38,7 +38,7 @@ func TestParseTimeUsingCustomLayoutsPrepended(t *testing.T) {
 	TimeLayouts = append([]string{customLayout}, originalLayouts...)
 	custom := timeVal.Format(customLayout)
 	if tv, err := parseTime(custom); err != nil || !tv.Equal(timeVal) {
-		t.Error("expected no err and times to equal, got err %v and time value %v", err, tv)
+		t.Errorf("expected no err and times to equal, got err %v and time value %v", err, tv)
 	}
 	TimeLayouts = originalLayouts
 }
@@ -47,7 +47,7 @@ func TestParseTimeUsingCustomLayoutsAppended(t *testing.T) {
 	TimeLayouts = append(originalLayouts, customLayout)
 	custom := timeVal.Format(customLayout)
 	if tv, err := parseTime(custom); err != nil || !tv.Equal(timeVal) {
-		t.Error("expected no err and times to equal, got err %v and time value %v", err, tv)
+		t.Errorf("expected no err and times to equal, got err %v and time value %v", err, tv)
 	}
 	TimeLayouts = originalLayouts
 }
@@ -55,6 +55,6 @@ func TestParseTimeUsingCustomLayoutsAppended(t *testing.T) {
 func TestParseWithTwoDigitYear(t *testing.T) {
 	s := "Sun, 18 Dec 16 18:25:00 +0100"
 	if tv, err := parseTime(s); err != nil || tv.Year() != 2016 {
-		t.Error("expected no err and year to be 2016, got err %v, and year %v", err, tv.Year())
+		t.Errorf("expected no err and year to be 2016, got err %v, and year %v", err, tv.Year())
 	}
 }

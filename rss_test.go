@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"path/filepath"
 	"reflect"
 	"testing"
 )
@@ -21,18 +22,19 @@ func TestParseTitle(t *testing.T) {
 	}
 
 	for test, want := range tests {
-		data, err := ioutil.ReadFile("testdata/" + test)
+		name := filepath.Join("testdata", test)
+		data, err := ioutil.ReadFile(name)
 		if err != nil {
-			t.Fatalf("Reading %s: %v", test, err)
+			t.Fatalf("Reading %s: %v", name, err)
 		}
 
 		feed, err := Parse(data)
 		if err != nil {
-			t.Fatalf("Parsing %s: %v", test, err)
+			t.Fatalf("Parsing %s: %v", name, err)
 		}
 
 		if feed.Title != want {
-			t.Fatalf("%s: expected %s, got %s", test, want, feed.Title)
+			t.Errorf("%s: got %q, want %q", name, feed.Title, want)
 		}
 	}
 }
@@ -46,14 +48,15 @@ func TestEnclosure(t *testing.T) {
 	}
 
 	for test, want := range tests {
-		data, err := ioutil.ReadFile("testdata/" + test + "_enclosure")
+		name := filepath.Join("testdata", test+"_enclosure")
+		data, err := ioutil.ReadFile(name)
 		if err != nil {
-			t.Fatalf("Reading %s: %v", test, err)
+			t.Fatalf("Reading %s: %v", name, err)
 		}
 
 		feed, err := Parse(data)
 		if err != nil {
-			t.Fatalf("Parsing %s: %v", test, err)
+			t.Fatalf("Parsing %s: %v", name, err)
 		}
 
 		enclosureFound := false
@@ -61,12 +64,12 @@ func TestEnclosure(t *testing.T) {
 			for _, enc := range item.Enclosures {
 				enclosureFound = true
 				if !reflect.DeepEqual(*enc, want) {
-					t.Errorf("%s: expected %#v, got %#v", test, want, *enc)
+					t.Errorf("%s: got %#v, want %#v", name, *enc, want)
 				}
 			}
 		}
 		if !enclosureFound {
-			t.Errorf("No enclosures parsed in test %v", test)
+			t.Errorf("No enclosures parsed in %s", name)
 		}
 	}
 }
@@ -76,7 +79,8 @@ func MakeTestdataFetchFunc(file string) FetchFunc {
 		// Create mock http.Response
 		resp = new(http.Response)
 		resp.Body, err = os.Open("testdata/" + file)
-		return
+
+		return resp, err
 	}
 }
 
@@ -110,6 +114,7 @@ func TestFeedUnmarshalUpdate(t *testing.T) {
 	if err != nil {
 		t.Logf("Expected failure updating via http in test: %v", err)
 	}
+
 	if defaultFetchFuncCalled < 1 {
 		t.Error("DefaultFetchFunc was not called during Update()")
 	}

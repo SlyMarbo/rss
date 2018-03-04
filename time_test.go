@@ -25,9 +25,11 @@ func TestParseTimeUsingOnlyDefaultLayouts(t *testing.T) {
 	if _, err := parseTime(""); err == nil {
 		t.Error("expected err, got none")
 	}
+
 	if _, err := parseTime("abc"); err == nil {
 		t.Error("expected err, got none")
 	}
+
 	custom := timeVal.Format(customLayout)
 	if _, err := parseTime(custom); err == nil {
 		t.Error("expected err, got none")
@@ -36,19 +38,23 @@ func TestParseTimeUsingOnlyDefaultLayouts(t *testing.T) {
 
 func TestParseTimeUsingCustomLayoutsPrepended(t *testing.T) {
 	TimeLayouts = append([]string{customLayout}, originalLayouts...)
+
 	custom := timeVal.Format(customLayout)
 	if tv, err := parseTime(custom); err != nil || !tv.Equal(timeVal) {
 		t.Errorf("expected no err and times to equal, got err %v and time value %v", err, tv)
 	}
+
 	TimeLayouts = originalLayouts
 }
 
 func TestParseTimeUsingCustomLayoutsAppended(t *testing.T) {
 	TimeLayouts = append(originalLayouts, customLayout)
+
 	custom := timeVal.Format(customLayout)
 	if tv, err := parseTime(custom); err != nil || !tv.Equal(timeVal) {
 		t.Errorf("expected no err and times to equal, got err %v and time value %v", err, tv)
 	}
+
 	TimeLayouts = originalLayouts
 }
 

@@ -2,6 +2,7 @@ package rss
 
 import (
 	"io/ioutil"
+	"path/filepath"
 	"testing"
 )
 
@@ -11,18 +12,19 @@ func TestParseRSS(t *testing.T) {
 	}
 
 	for test, want := range tests {
-		data, err := ioutil.ReadFile("testdata/" + test)
+		name := filepath.Join("testdata", test)
+		data, err := ioutil.ReadFile(name)
 		if err != nil {
-			t.Fatalf("Reading %s: %v", test, err)
+			t.Fatalf("Reading %s: %v", name, err)
 		}
 
 		feed, err := Parse(data)
 		if err != nil {
-			t.Fatalf("Parsing %s: %v", test, err)
+			t.Fatalf("Parsing %s: %v", name, err)
 		}
 
 		if feed.Title != want {
-			t.Fatalf("%s: expected %s, got %s", test, want, feed.Title)
+			t.Errorf("%s: got %q, want %q", name, feed.Title, want)
 		}
 	}
 }

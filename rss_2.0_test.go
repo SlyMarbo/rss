@@ -3,6 +3,7 @@ package rss
 import (
 	"fmt"
 	"io/ioutil"
+	"path/filepath"
 	"testing"
 )
 
@@ -16,18 +17,19 @@ func TestParseItemLen(t *testing.T) {
 	}
 
 	for test, want := range tests {
-		data, err := ioutil.ReadFile("testdata/" + test)
+		name := filepath.Join("testdata", test)
+		data, err := ioutil.ReadFile(name)
 		if err != nil {
-			t.Fatalf("Reading %s: %v", test, err)
+			t.Fatalf("Reading %s: %v", name, err)
 		}
 
 		feed, err := Parse(data)
 		if err != nil {
-			t.Fatalf("Parsing %s: %v", test, err)
+			t.Fatalf("Parsing %s: %v", name, err)
 		}
 
 		if len(feed.Items) != want {
-			t.Fatalf("%s: expected %q, got %q", test, want, len(feed.Items))
+			t.Errorf("%s: got %d, want %d", name, len(feed.Items), want)
 		}
 	}
 }
@@ -37,18 +39,19 @@ func TestParseContent(t *testing.T) {
 	}
 
 	for test, want := range tests {
-		data, err := ioutil.ReadFile("testdata/" + test)
+		name := filepath.Join("testdata", test)
+		data, err := ioutil.ReadFile(name)
 		if err != nil {
-			t.Fatalf("Reading %s: %v", test, err)
+			t.Fatalf("Reading %s: %v", name, err)
 		}
 
 		feed, err := Parse(data)
 		if err != nil {
-			t.Fatalf("Parsing %s: %v", test, err)
+			t.Fatalf("Parsing %s: %v", name, err)
 		}
 
 		if feed.Items[0].Content != want {
-			t.Fatalf("%s: expected %s, got %s", test, want, feed.Items[0].Content)
+			t.Errorf("%s: got %s, want %s", name, feed.Items[0].Content, want)
 		}
 	}
 }
@@ -63,18 +66,19 @@ func TestParseItemDateOK(t *testing.T) {
 	}
 
 	for test, want := range tests {
-		data, err := ioutil.ReadFile("testdata/" + test)
+		name := filepath.Join("testdata", test)
+		data, err := ioutil.ReadFile(name)
 		if err != nil {
-			t.Fatalf("Reading %s: %v", test, err)
+			t.Fatalf("Reading %s: %v", name, err)
 		}
 
 		feed, err := Parse(data)
 		if err != nil {
-			t.Fatalf("Parsing %s: %v", test, err)
+			t.Fatalf("Parsing %s: %v", name, err)
 		}
 
 		if fmt.Sprintf("%s", feed.Items[0].Date) != want {
-			t.Fatalf("%s: expected %q, got %q", test, want, feed.Items[0].Date)
+			t.Errorf("%s: got %q, want %q", name, feed.Items[0].Date, want)
 		}
 	}
 }
@@ -85,21 +89,23 @@ func TestParseItemDateFailure(t *testing.T) {
 	}
 
 	for test, want := range tests {
-		data, err := ioutil.ReadFile("testdata/" + test)
+		name := filepath.Join("testdata", test)
+		data, err := ioutil.ReadFile(name)
 		if err != nil {
-			t.Fatalf("Reading %s: %v", test, err)
+			t.Fatalf("Reading %s: %v", name, err)
 		}
 
 		feed, err := Parse(data)
 		if err != nil {
-			t.Fatalf("Parsing %s: %v", test, err)
+			t.Fatalf("Parsing %s: %v", name, err)
 		}
 
 		if fmt.Sprintf("%s", feed.Items[1].Date) != want {
-			t.Fatalf("%s: expected %q, got %q", test, want, feed.Items[1].Date)
+			t.Errorf("%s: got %q, want %q", name, feed.Items[1].Date, want)
 		}
+
 		if feed.Items[1].DateValid {
-			t.Fatalf("%s: expected %t, got %t", test, false, feed.Items[1].DateValid)
+			t.Errorf("%s: got unexpected valid date", name)
 		}
 	}
 }

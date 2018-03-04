@@ -61,10 +61,6 @@ func parseRSS2(data []byte) (*Feed, error) {
 		out.Refresh = time.Now().Add(10 * time.Minute)
 	}
 
-	if channel.Items == nil {
-		return nil, fmt.Errorf("no feeds found in %q", string(data))
-	}
-
 	out.Items = make([]*Item, 0, len(channel.Items))
 	out.ItemMap = make(map[string]struct{})
 

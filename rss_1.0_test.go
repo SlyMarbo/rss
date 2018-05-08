@@ -26,5 +26,15 @@ func TestParseRSS(t *testing.T) {
 		if feed.Title != want {
 			t.Errorf("%s: got %q, want %q", name, feed.Title, want)
 		}
+
+		if len(feed.Items) != 40 {
+			t.Errorf("%v: expected 40 items, got: %v", name, len(feed.Items))
+		} else {
+			for i, item := range feed.Items {
+				if !item.DateValid {
+					t.Errorf("%v Invalid date for item (#%v): %v", name, i, item.Title)
+				}
+			}
+		}
 	}
 }

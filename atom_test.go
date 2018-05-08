@@ -54,5 +54,9 @@ func TestParseAtomContent(t *testing.T) {
 		if feed.Items[0].Content != want {
 			t.Errorf("%s: got %q, want %q", name, feed.Items[0].Content, want)
 		}
+
+		if !feed.Items[0].DateValid {
+			t.Errorf("%s: Invalid date: %q", name, feed.Items[0].Date)
+		}
 	}
 }

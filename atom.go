@@ -47,7 +47,7 @@ func parseAtom(data []byte) (*Feed, error) {
 		if item.Date != "" {
 			next.Date, err = parseTime(item.Date)
 			if err == nil {
-				item.DateValid = true
+				next.DateValid = true
 			}
 		}
 		next.ID = item.ID

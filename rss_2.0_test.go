@@ -77,7 +77,9 @@ func TestParseItemDateOK(t *testing.T) {
 			t.Fatalf("Parsing %s: %v", name, err)
 		}
 
-		if fmt.Sprintf("%s", feed.Items[0].Date) != want {
+		if !feed.Items[0].DateValid {
+			t.Errorf("%s: date %q invalid!", name, feed.Items[0].Date)
+		} else if fmt.Sprintf("%s", feed.Items[0].Date) != want {
 			t.Errorf("%s: got %q, want %q", name, feed.Items[0].Date, want)
 		}
 	}

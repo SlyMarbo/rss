@@ -33,10 +33,14 @@ var TimeLayoutsLoadLocation = []string{
 // does not return an error or all layouts are attempted.
 var TimeLayouts = []string{
 	"Mon, 2 Jan 2006 15:04:05 Z",
+	"Mon, 2 Jan 2006 15:04:05",
 	"Mon, 2 Jan 2006 15:04:05 -0700",
 	"Mon, 2 Jan 06 15:04:05 -0700",
+	"Mon, 2 Jan 06 15:04:05",
 	"2 Jan 2006 15:04:05 -0700",
+	"2 Jan 2006 15:04:05",
 	"2 Jan 06 15:04:05 -0700",
+	"2006-01-02 15:04:05 -0700",
 	"2006-01-02 15:04:05",
 	time.ANSIC,
 	time.UnixDate,

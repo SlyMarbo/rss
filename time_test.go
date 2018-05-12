@@ -77,11 +77,17 @@ func TestParseTime(t *testing.T) {
 		"Sun, 06 Sep 2009 16:20:00 +0000",
 		time.Date(2009, 9, 6, 16, 20, 0, 0, time.UTC),
 	}, {
+		"Sun, 06 Sep 2009 16:20:00",
+		time.Date(2009, 9, 6, 16, 20, 0, 0, time.UTC),
+	}, {
 		"Sun, 06 Sep 2009 16:20:00 -0300",
 		time.Date(2009, 9, 6, 19, 20, 0, 0, time.UTC),
 	}, {
 		"06 Sep 2009 16:18:00 EST",
 		time.Date(2009, 9, 6, 21, 18, 0, 0, time.UTC),
+	}, {
+		"06 Sep 2009 16:18:00",
+		time.Date(2009, 9, 6, 16, 18, 0, 0, time.UTC),
 	}, {
 		"Sun, 06 Sep 2009 16:18:00 EST",
 		time.Date(2009, 9, 6, 21, 18, 0, 0, time.UTC),

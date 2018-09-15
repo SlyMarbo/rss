@@ -206,7 +206,7 @@ type Item struct {
 	Title      string    `json:"title"`
 	Summary    string    `json:"summary"`
 	Content    string    `json:"content"`
-	Category   string    `json:"category"`
+	Categories []string  `json:"category"`
 	Link       string    `json:"link"`
 	Date       time.Time `json:"date"`
 	DateValid  bool
@@ -229,7 +229,7 @@ func (i *Item) Format(indent int) string {
 		fmt.Fprintf(w, "\xff%s\xffItem {\n", single)
 		fmt.Fprintf(w, "\xff%s\xffTitle:\t%q\n", double, i.Title)
 		fmt.Fprintf(w, "\xff%s\xffSummary:\t%q\n", double, i.Summary)
-		fmt.Fprintf(w, "\xff%s\xffCategory:\t%q\n", double, i.Category)
+		fmt.Fprintf(w, "\xff%s\xffCategories:\t%q\n", double, i.Categories)
 		fmt.Fprintf(w, "\xff%s\xffLink:\t%s\n", double, i.Link)
 		fmt.Fprintf(w, "\xff%s\xffDate:\t%s\n", double, i.Date.Format(DATE))
 		fmt.Fprintf(w, "\xff%s\xffID:\t%s\n", double, i.ID)

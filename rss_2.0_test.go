@@ -33,6 +33,7 @@ func TestParseItemLen(t *testing.T) {
 		}
 	}
 }
+
 func TestParseContent(t *testing.T) {
 	tests := map[string]string{
 		"rss_2.0_content_encoded": "<p><a href=\"https://example.com/\">Example.com</a> is an example site.</p>",
@@ -108,6 +109,30 @@ func TestParseItemDateFailure(t *testing.T) {
 
 		if feed.Items[1].DateValid {
 			t.Errorf("%s: got unexpected valid date", name)
+		}
+	}
+}
+
+func TestParseCategories(t *testing.T) {
+	tests := map[string]int{
+		"rss_2.0-1_enclosure": 2,
+		"rss_2.0_enclosure":   0,
+	}
+
+	for test, want := range tests {
+		name := filepath.Join("testdata", test)
+		data, err := ioutil.ReadFile(name)
+		if err != nil {
+			t.Fatalf("Reading %s: %v", name, err)
+		}
+
+		feed, err := Parse(data)
+		if err != nil {
+			t.Fatalf("Parsing %s: %v", name, err)
+		}
+
+		if len(feed.Items[0].Categories) != want {
+			t.Errorf("%s: got %q, want %q", name, feed.Items[0].Categories, want)
 		}
 	}
 }

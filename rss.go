@@ -1,4 +1,4 @@
-package rss //
+package rss // import "github.com/SlyMarbo/rss"
 
 import (
 	"bytes"

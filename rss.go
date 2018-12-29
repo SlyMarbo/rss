@@ -1,4 +1,4 @@
-package rss // import "github.com/SlyMarbo/rss"
+package rss //
 
 import (
 	"bytes"
@@ -26,6 +26,11 @@ func Parse(data []byte) (*Feed, error) {
 			fmt.Println("[i] Parsing as RSS 1.0")
 		}
 		return parseRSS1(data)
+	} else if strings.Contains(string(data), "https://jsonfeed.org/version/1") {
+		if debug {
+			fmt.Println("[i] Parsing as JSON Feed Version 1")
+		}
+		return parseJsonFeedV1(data)
 	} else {
 		if debug {
 			fmt.Println("[i] Parsing as Atom")

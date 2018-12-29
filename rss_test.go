@@ -13,12 +13,13 @@ import (
 
 func TestParseTitle(t *testing.T) {
 	tests := map[string]string{
-		"rss_0.92":   "Dave Winer: Grateful Dead",
-		"rss_1.0":    "Golem.de",
-		"rss_2.0":    "RSS Title",
-		"rss_2.0-1":  "Liftoff News",
-		"atom_1.0":   "Titel des Weblogs",
-		"atom_1.0-1": "Golem.de",
+		"rss_0.92":    "Dave Winer: Grateful Dead",
+		"rss_1.0":     "Golem.de",
+		"rss_2.0":     "RSS Title",
+		"rss_2.0-1":   "Liftoff News",
+		"atom_1.0":    "Titel des Weblogs",
+		"atom_1.0-1":  "Golem.de",
+		"jsonfeed_v1": "JSON Feed",
 	}
 
 	for test, want := range tests {

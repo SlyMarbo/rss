@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"encoding/xml"
 	"fmt"
+	"github.com/dustin/go-humanize"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -149,14 +151,14 @@ type rss2_0Link struct {
 type rss2_0Categories []string
 
 type rss2_0Item struct {
-	XMLName     xml.Name `xml:"item"`
-	Title       string   `xml:"title"`
-	Description string   `xml:"description"`
-	Content     string   `xml:"encoded"`
+	XMLName     xml.Name         `xml:"item"`
+	Title       string           `xml:"title"`
+	Description string           `xml:"description"`
+	Content     string           `xml:"encoded"`
 	Categories  rss2_0Categories `xml:"category"`
-	Link        string   `xml:"link"`
-	PubDate     string   `xml:"pubDate"`
-	Date        string   `xml:"date"`
+	Link        string           `xml:"link"`
+	PubDate     string           `xml:"pubDate"`
+	Date        string           `xml:"date"`
 	DateValid   bool
 	ID          string            `xml:"guid"`
 	Enclosures  []rss2_0Enclosure `xml:"enclosure"`
@@ -167,6 +169,44 @@ type rss2_0Enclosure struct {
 	URL     string   `xml:"url,attr"`
 	Type    string   `xml:"type,attr"`
 	Length  uint     `xml:"length,attr"`
+}
+
+func (r *rss2_0Enclosure) UnmarshalXML(d *xml.Decoder, start xml.StartElement) (err error) {
+	r.XMLName = start.Name
+
+	for i, _ := range start.Attr {
+		attr := start.Attr[i]
+
+		switch attr.Name.Local {
+		case "url":
+			r.URL = attr.Value
+		case "type":
+			r.Type = attr.Value
+		case "length":
+			var length uint64
+			if length, err = strconv.ParseUint(attr.Value, 10, 32); err != nil {
+				length, err = humanize.ParseBytes(attr.Value)
+			}
+
+			if err == nil {
+				r.Length = uint(length)
+			}
+		}
+	}
+
+	for {
+		var t xml.Token
+		t, err = d.Token()
+		if err != nil {
+			return
+		}
+		switch tt := t.(type) {
+		case xml.EndElement:
+			if tt == start.End() {
+				return
+			}
+		}
+	}
 }
 
 func (r *rss2_0Enclosure) Enclosure() *Enclosure {

@@ -18,5 +18,14 @@ description.</description>
   <enclosure url="http://example.com/file.mp3" length="65535" type="audio/mpeg" />
  </item>
 
+ <item>
+  <title>Example entry - 1</title>
+  <description>Here is some text containing an interesting
+description.</description>
+  <link>http://www.wikipedia.org/</link>
+  <guid>unique string per item - 1</guid>
+  <pubDate>Mon, 06 Sep 2009 16:45:00 +0000</pubDate>
+  <enclosure url="http://example.com/file.mp3" length="3.1 MB" type="audio/mpeg" />
+ </item>
 </channel>
 </rss>

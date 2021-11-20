@@ -14,24 +14,27 @@ import (
 )
 
 // Parse RSS or Atom data.
-func Parse(data []byte) (*Feed, error) {
-
+func Parse(data []byte) (feed *Feed, err error) {
 	if strings.Contains(string(data), "<rss") {
 		if debug {
 			fmt.Println("[i] Parsing as RSS 2.0")
 		}
-		return parseRSS2(data)
+		feed, err = parseRSS2(data)
 	} else if strings.Contains(string(data), "xmlns=\"http://purl.org/rss/1.0/\"") {
 		if debug {
 			fmt.Println("[i] Parsing as RSS 1.0")
 		}
-		return parseRSS1(data)
+		feed, err = parseRSS1(data)
 	} else {
 		if debug {
 			fmt.Println("[i] Parsing as Atom")
 		}
-		return parseAtom(data)
+		feed, err = parseAtom(data)
 	}
+	if feed != nil {
+		feed.RawData = data
+	}
+	return
 }
 
 // A FetchFunc is a function that fetches a feed for given URL.
@@ -97,6 +100,7 @@ type Feed struct {
 	Refresh     time.Time           `json:"refresh"` // Earliest time this feed should next be checked.
 	Unread      uint32              `json:"unread"`  // Number of unread items. Used by aggregators.
 	FetchFunc   FetchFunc           `json:"-"`
+	RawData     []byte
 }
 
 type refreshError string

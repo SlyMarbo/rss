@@ -79,7 +79,4 @@ can increase the Refresh time manually. The Feed.Update method uses this Refresh
 seems to be returning very quickly with no new items, it's likely not making a request due to the
 provider's Refresh interval.
 
-This is seeing thorough use in [RS3][1], but development is still active.
-
-
-[1]: https://github.com/SlyMarbo/rs3        "RS3"
+The project is not proactively maintained, but I'll respond to issues and PRs as soon as I can.

@@ -209,6 +209,7 @@ type Item struct {
 	Categories []string  `json:"category"`
 	Link       string    `json:"link"`
 	Date       time.Time `json:"date"`
+	Image      *Image    `json:"image"`
 	DateValid  bool
 	ID         string       `json:"id"`
 	Enclosures []*Enclosure `json:"enclosures"`
@@ -273,6 +274,7 @@ func (e *Enclosure) Get() (io.ReadCloser, error) {
 // Image maps an image.
 type Image struct {
 	Title  string `json:"title"`
+	Href   string `json:"href"`
 	URL    string `json:"url"`
 	Height uint32 `json:"height"`
 	Width  uint32 `json:"width"`

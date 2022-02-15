@@ -90,6 +90,7 @@ func parseRSS2(data []byte) (*Feed, error) {
 		next.Content = item.Content
 		next.Categories = item.Categories
 		next.Link = item.Link
+		next.Image = item.Image.Image()
 		if item.Date != "" {
 			next.Date, err = parseTime(item.Date)
 			if err == nil {
@@ -149,14 +150,15 @@ type rss2_0Link struct {
 type rss2_0Categories []string
 
 type rss2_0Item struct {
-	XMLName     xml.Name `xml:"item"`
-	Title       string   `xml:"title"`
-	Description string   `xml:"description"`
-	Content     string   `xml:"encoded"`
+	XMLName     xml.Name         `xml:"item"`
+	Title       string           `xml:"title"`
+	Description string           `xml:"description"`
+	Content     string           `xml:"encoded"`
 	Categories  rss2_0Categories `xml:"category"`
-	Link        string   `xml:"link"`
-	PubDate     string   `xml:"pubDate"`
-	Date        string   `xml:"date"`
+	Link        string           `xml:"link"`
+	PubDate     string           `xml:"pubDate"`
+	Date        string           `xml:"date"`
+	Image       rss2_0Image      `xml:"image"`
 	DateValid   bool
 	ID          string            `xml:"guid"`
 	Enclosures  []rss2_0Enclosure `xml:"enclosure"`
@@ -179,6 +181,7 @@ func (r *rss2_0Enclosure) Enclosure() *Enclosure {
 
 type rss2_0Image struct {
 	XMLName xml.Name `xml:"image"`
+	Href    string   `xml:"href,attr"`
 	Title   string   `xml:"title"`
 	URL     string   `xml:"url"`
 	Height  int      `xml:"height"`
@@ -188,6 +191,7 @@ type rss2_0Image struct {
 func (i *rss2_0Image) Image() *Image {
 	out := new(Image)
 	out.Title = i.Title
+	out.Href = i.Href
 	out.URL = i.URL
 	out.Height = uint32(i.Height)
 	out.Width = uint32(i.Width)

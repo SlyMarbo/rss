@@ -1,5 +1,6 @@
 // go run debug.go [URL]
 
+//go:build ignore
 // +build ignore
 
 package main

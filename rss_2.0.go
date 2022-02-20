@@ -27,6 +27,7 @@ func parseRSS2(data []byte) (*Feed, error) {
 	out := new(Feed)
 	out.Title = channel.Title
 	out.Description = channel.Description
+	out.Categories = channel.Categories.toArray()
 	for _, link := range channel.Link {
 		if link.Rel == "" && link.Type == "" && link.Href == "" && link.Chardata != "" {
 			out.Link = link.Chardata
@@ -128,16 +129,36 @@ type rss2_0Feed struct {
 	Channel *rss2_0Channel `xml:"channel"`
 }
 
+type rss2_0Category struct {
+	XMLName xml.Name `xml:"category"`
+	Name    string   `xml:"text,attr"`
+}
+
+type rss2_0CategorySlice []rss2_0Category
+
+func (r rss2_0CategorySlice) toArray() (result []string) {
+	count := len(r)
+	if count == 0 || r == nil {
+		return
+	}
+	result = make([]string, count)
+	for i, _ := range r {
+		result[i] = r[i].Name
+	}
+	return
+}
+
 type rss2_0Channel struct {
-	XMLName     xml.Name     `xml:"channel"`
-	Title       string       `xml:"title"`
-	Description string       `xml:"description"`
-	Link        []rss2_0Link `xml:"link"`
-	Image       rss2_0Image  `xml:"image"`
-	Items       []rss2_0Item `xml:"item"`
-	MinsToLive  int          `xml:"ttl"`
-	SkipHours   []int        `xml:"skipHours>hour"`
-	SkipDays    []string     `xml:"skipDays>day"`
+	XMLName     xml.Name            `xml:"channel"`
+	Title       string              `xml:"title"`
+	Description string              `xml:"description"`
+	Link        []rss2_0Link        `xml:"link"`
+	Image       rss2_0Image         `xml:"image"`
+	Categories  rss2_0CategorySlice `xml:"category"`
+	Items       []rss2_0Item        `xml:"item"`
+	MinsToLive  int                 `xml:"ttl"`
+	SkipHours   []int               `xml:"skipHours>hour"`
+	SkipDays    []string            `xml:"skipDays>day"`
 }
 
 type rss2_0Link struct {

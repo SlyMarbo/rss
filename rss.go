@@ -92,6 +92,7 @@ type Feed struct {
 	Link        string              `json:"link"`      // Link to the creator's website.
 	UpdateURL   string              `json:"updateurl"` // URL of the feed itself.
 	Image       *Image              `json:"image"`     // Feed icon.
+	Categories  []string            `json:"categories"`
 	Items       []*Item             `json:"items"`
 	ItemMap     map[string]struct{} `json:"itemmap"` // Used in checking whether an item has been seen before.
 	Refresh     time.Time           `json:"refresh"` // Earliest time this feed should next be checked.

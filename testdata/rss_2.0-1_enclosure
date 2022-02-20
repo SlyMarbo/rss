@@ -14,7 +14,9 @@
         <copyright>2012 - VOA</copyright>   
         <ttl>60</ttl>        
         <lastBuildDate>Sun, 15 May 2016 13:53:13 +0300</lastBuildDate> 
-        <generator>Pangea CMS – VOA</generator>        
+        <generator>Pangea CMS – VOA</generator>
+        <category text="Technology"></category>
+        <category text="Society \u0026 Culture"></category>
         <atom:link href="http://amharic.voanews.com/api/zt$gteitjt" rel="self" type="application/rss+xml" />
     		<item>
             <title>አሜሪካ ለኢትዮጵያ ተጨማሪ እርዳታ ሰጠች</title>

@@ -26,6 +26,8 @@ func parseRSS2(data []byte) (*Feed, error) {
 
 	out := new(Feed)
 	out.Title = channel.Title
+	out.Language = channel.Language
+	out.Author = channel.Author
 	out.Description = channel.Description
 	out.Categories = channel.Categories.toArray()
 	for _, link := range channel.Link {
@@ -151,6 +153,8 @@ func (r rss2_0CategorySlice) toArray() (result []string) {
 type rss2_0Channel struct {
 	XMLName     xml.Name            `xml:"channel"`
 	Title       string              `xml:"title"`
+	Language    string              `xml:"language"`
+	Author      string              `xml:"author"`
 	Description string              `xml:"description"`
 	Link        []rss2_0Link        `xml:"link"`
 	Image       rss2_0Image         `xml:"image"`

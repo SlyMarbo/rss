@@ -88,6 +88,8 @@ func FetchByFunc(fetchFunc FetchFunc, url string) (*Feed, error) {
 type Feed struct {
 	Nickname    string              `json:"nickname"` // This is not set by the package, but could be helpful.
 	Title       string              `json:"title"`
+	Language    string              `json:"language"`
+	Author      string              `json:"author"`
 	Description string              `json:"description"`
 	Link        string              `json:"link"`      // Link to the creator's website.
 	UpdateURL   string              `json:"updateurl"` // URL of the feed itself.

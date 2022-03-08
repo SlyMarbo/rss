@@ -160,3 +160,40 @@ func TestParseChannelCategories(t *testing.T) {
 		}
 	}
 }
+
+func TestChannelProperties(t *testing.T) {
+	tests := []struct {
+		name     string
+		testdata string
+		verify   func(t *testing.T, feed *Feed)
+	}{{
+		name:     "normal case",
+		testdata: "rss_2.0_content_encoded",
+		verify: func(t *testing.T, feed *Feed) {
+			assertEqual("en", feed.Language, t)
+			assertEqual("someone", feed.Author, t)
+		},
+	}}
+	for i := range tests {
+		tt := tests[i]
+		t.Run(tt.name, func(t *testing.T) {
+			name := filepath.Join("testdata", tt.testdata)
+			data, err := ioutil.ReadFile(name)
+			if err != nil {
+				t.Fatalf("Reading %s: %v", name, err)
+			}
+
+			feed, err := Parse(data)
+			if err != nil {
+				t.Fatalf("Parsing %s: %v", name, err)
+			}
+			tt.verify(t, feed)
+		})
+	}
+}
+
+func assertEqual(expected, got string, t *testing.T) {
+	if expected != got {
+		t.Errorf("expect '%s', got '%s'", expected, got)
+	}
+}

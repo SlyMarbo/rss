@@ -4,6 +4,8 @@
   >
 <channel>
  <title>RSS Title</title>
+ <language>en</language>
+ <author>someone</author>
  <description>This is an example of an RSS feed</description>
  <link>http://www.someexamplerssdomain.com/main.html</link>
  <lastBuildDate>Mon, 06 Sep 2010 00:01:00 +0000</lastBuildDate>

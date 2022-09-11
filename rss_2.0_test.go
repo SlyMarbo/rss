@@ -59,11 +59,11 @@ func TestParseContent(t *testing.T) {
 
 func TestParseItemDateOK(t *testing.T) {
 	tests := map[string]string{
-		"rss_2.0":                 "2009-09-06 16:45:00 +0000 +0000",
-		"rss_2.0_content_encoded": "2009-09-06 16:45:00 +0000 +0000",
-		"rss_2.0_enclosure":       "2009-09-06 16:45:00 +0000 +0000",
-		"rss_2.0-1":               "2003-06-03 09:39:21 +0000 GMT",
-		"rss_2.0-1_enclosure":     "2016-05-14 18:39:34 +0300 +0300",
+		"rss_2.0":                 "2009-09-06 16:45:00 +0000 UTC",
+		"rss_2.0_content_encoded": "2009-09-06 16:45:00 +0000 UTC",
+		"rss_2.0_enclosure":       "2009-09-06 16:45:00 +0000 UTC",
+		"rss_2.0-1":               "2003-06-03 09:39:21 +0000 UTC",
+		"rss_2.0-1_enclosure":     "2016-05-14 15:39:34 +0000 UTC",
 	}
 
 	for test, want := range tests {
@@ -80,8 +80,8 @@ func TestParseItemDateOK(t *testing.T) {
 
 		if !feed.Items[0].DateValid {
 			t.Errorf("%s: date %q invalid!", name, feed.Items[0].Date)
-		} else if fmt.Sprintf("%s", feed.Items[0].Date) != want {
-			t.Errorf("%s: got %q, want %q", name, feed.Items[0].Date, want)
+		} else if got := feed.Items[0].Date.UTC().String(); got != want {
+			t.Errorf("%s: got %q, want %q", name, got, want)
 		}
 	}
 }

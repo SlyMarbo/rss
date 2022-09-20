@@ -130,9 +130,9 @@ var errUpdateNotReady refreshError = "not ready to update: too soon to refresh"
 // too low will put excessive load on
 // the feed hosts.
 //
-// The default value is 10 minutes.
+// The default value is 12 hours.
 //
-var DefaultRefreshInterval = 10 * time.Minute
+var DefaultRefreshInterval = 12 * time.Hour
 
 // Update fetches any new items and updates f.
 func (f *Feed) Update() error {

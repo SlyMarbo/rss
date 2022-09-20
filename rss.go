@@ -120,6 +120,20 @@ func (r refreshError) Temporary() bool {
 
 var errUpdateNotReady refreshError = "not ready to update: too soon to refresh"
 
+// DefaultRefreshInterval is the minimum
+// wait until the next refresh, provided
+// the feed does not provide its own
+// interval.
+//
+// Setting this too high will delay the
+// feed receiving new items, setting it
+// too low will put excessive load on
+// the feed hosts.
+//
+// The default value is 10 minutes.
+//
+var DefaultRefreshInterval = 10 * time.Minute
+
 // Update fetches any new items and updates f.
 func (f *Feed) Update() error {
 	if f.FetchFunc == nil {

@@ -27,7 +27,7 @@ func parseAtom(data []byte) (*Feed, error) {
 		}
 	}
 	out.Image = feed.Image.Image()
-	out.Refresh = time.Now().Add(10 * time.Minute)
+	out.Refresh = time.Now().Add(DefaultRefreshInterval)
 
 	out.Items = make([]*Item, 0, len(feed.Items))
 	out.ItemMap = make(map[string]struct{})

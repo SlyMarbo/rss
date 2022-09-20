@@ -61,7 +61,7 @@ func parseRSS2(data []byte) (*Feed, error) {
 	}
 
 	if out.Refresh.IsZero() {
-		out.Refresh = time.Now().Add(10 * time.Minute)
+		out.Refresh = time.Now().Add(DefaultRefreshInterval)
 	}
 
 	out.Items = make([]*Item, 0, len(channel.Items))

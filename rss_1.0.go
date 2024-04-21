@@ -34,7 +34,7 @@ func parseRSS1(data []byte) (*Feed, error) {
 		next := time.Now().Add(time.Duration(channel.MinsToLive) * time.Minute)
 		for _, hour := range channel.SkipHours {
 			if hour == next.Hour() {
-				next.Add(time.Duration(60-next.Minute()) * time.Minute)
+				next = next.Add(time.Duration(60-next.Minute()) * time.Minute)
 			}
 		}
 		trying := true
@@ -42,7 +42,7 @@ func parseRSS1(data []byte) (*Feed, error) {
 			trying = false
 			for _, day := range channel.SkipDays {
 				if strings.Title(day) == next.Weekday().String() {
-					next.Add(time.Duration(24-next.Hour()) * time.Hour)
+					next = next.Add(time.Duration(24-next.Hour()) * time.Hour)
 					trying = true
 					break
 				}

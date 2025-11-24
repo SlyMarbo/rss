@@ -1,0 +1,69 @@
+-- URL --
+unknown
+-- format --
+github.com/SlyMarbo/rss/v2
+-- XML --
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns="http://purl.org/rss/1.0/">
+
+	<channel rdf:about="https://www.example.com/news.rdf">
+		<title>Example News Channel</title>
+		<link>https://www.example.com/news</link>
+		<description>A sample RSS 1.0 feed for news articles.</description>
+		<items>
+			<rdf:Seq>
+				<rdf:li rdf:resource="https://www.example.com/articles/article1"/>
+			</rdf:Seq>
+		</items>
+	</channel>
+
+	<item rdf:about="https://www.example.com/articles/article1">
+		<title>First Article Title</title>
+		<link>https://www.example.com/articles/article1</link>
+		<dc:date>2013-05-04T16:29:02Z</dc:date>
+		<description>This is the summary or description of the first article in the feed.</description>
+		<dc:creator>John Doe</dc:creator>
+	</item>
+
+</rdf:RDF>
+-- JSON --
+{
+	"Title": "Example News Channel",
+	"Language": "",
+	"Author": null,
+	"Description": "A sample RSS 1.0 feed for news articles.",
+	"Links": [
+		{
+			"Href": "https://www.example.com/news",
+			"Rel": "",
+			"Type": ""
+		}
+	],
+	"UpdateURL": "https://example.com/feed.xml",
+	"Image": null,
+	"Categories": null,
+	"Items": [
+		{
+			"Title": "First Article Title",
+			"Summary": "This is the summary or description of the first article in the feed.",
+			"Content": "",
+			"Categories": null,
+			"Links": [
+				{
+					"Href": "https://www.example.com/articles/article1",
+					"Rel": "",
+					"Type": ""
+				}
+			],
+			"Date": "2013-05-04T16:29:02Z",
+			"Image": null,
+			"ID": "https://www.example.com/articles/article1",
+			"Enclosures": null,
+			"Read": false
+		}
+	],
+	"NextUpdate": "2025-11-23T00:13:14.000000015Z",
+	"Unread": 1
+}

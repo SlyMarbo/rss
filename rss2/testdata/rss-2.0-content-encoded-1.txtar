@@ -1,0 +1,79 @@
+-- URL --
+unknown
+-- format --
+github.com/SlyMarbo/rss/v2/rss2
+-- XML --
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  >
+<channel>
+ <title>RSS Title</title>
+ <language>en</language>
+ <author>someone</author>
+ <description>This is an example of an RSS feed</description>
+ <link>http://www.someexamplerssdomain.com/main.html</link>
+ <lastBuildDate>Mon, 06 Sep 2010 00:01:00 +0000</lastBuildDate>
+ <pubDate>Mon, 06 Sep 2009 16:45:00 +0000</pubDate>
+ <ttl>1800</ttl>
+
+ <item>
+  <title>Example entry</title>
+  <description>Here is some text containing an interesting
+description.</description>
+  <link>http://www.wikipedia.org/</link>
+  <guid>unique string per item</guid>
+  <pubDate>Mon, 06 Sep 2009 16:45:00 +0000</pubDate>
+  <content:encoded><![CDATA[<p><a href="https://example.com/">Example.com</a> is an example site.</p>]]></content:encoded>
+ </item>
+
+</channel>
+</rss>
+-- JSON --
+{
+	"XMLName": {
+		"Space": "",
+		"Local": "rss"
+	},
+	"Channel": {
+		"XMLName": {
+			"Space": "",
+			"Local": "channel"
+		},
+		"Title": "RSS Title",
+		"Language": "en",
+		"Author": "someone",
+		"Description": "This is an example of an RSS feed",
+		"Link": [
+			{
+				"Rel": "",
+				"Href": "",
+				"Type": "",
+				"Chardata": "http://www.someexamplerssdomain.com/main.html"
+			}
+		],
+		"Image": null,
+		"Categories": null,
+		"Items": [
+			{
+				"XMLName": {
+					"Space": "",
+					"Local": "item"
+				},
+				"Title": "Example entry",
+				"Description": "Here is some text containing an interesting\ndescription.",
+				"Content": "\u003cp\u003e\u003ca href=\"https://example.com/\"\u003eExample.com\u003c/a\u003e is an example site.\u003c/p\u003e",
+				"Categories": null,
+				"Link": "http://www.wikipedia.org/",
+				"PubDate": "Mon, 06 Sep 2009 16:45:00 +0000",
+				"Date": "",
+				"Image": null,
+				"ID": "unique string per item",
+				"Enclosures": null
+			}
+		],
+		"MinsToLive": 1800,
+		"SkipHours": null,
+		"SkipDays": null
+	}
+}

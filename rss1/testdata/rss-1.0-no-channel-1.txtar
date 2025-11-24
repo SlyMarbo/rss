@@ -1,0 +1,12 @@
+-- URL --
+unknown
+-- format --
+github.com/SlyMarbo/rss/v2/rss1
+-- XML --
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns="http://purl.org/rss/1.0/">
+</rdf:RDF>
+-- error --
+no channel found in RSS 1.0 feed

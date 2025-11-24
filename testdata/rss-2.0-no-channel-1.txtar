@@ -1,0 +1,10 @@
+-- URL --
+unknown
+-- format --
+github.com/SlyMarbo/rss/v2
+-- XML --
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+</rss>
+-- error --
+no channel found in RSS 2.0 feed

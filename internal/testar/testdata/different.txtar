@@ -1,0 +1,10 @@
+-- URL --
+github.com/SlyMarbo/rss/v2/internal/testar/testdata/different.txtar
+-- format --
+encoding/json
+-- XML --
+{"other": "different"}
+-- JSON --
+{
+	"foo": "bar"
+}

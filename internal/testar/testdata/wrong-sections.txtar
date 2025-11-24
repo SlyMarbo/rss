@@ -1,0 +1,10 @@
+-- URL --
+github.com/SlyMarbo/rss/v2/internal/testar/testdata/wrong-sections.txtar
+-- format --
+encoding/json
+-- JSON --
+{"foo": "bar"}
+-- XML --
+{
+	"foo": "bar"
+}

@@ -1,0 +1,66 @@
+-- URL --
+unknown
+-- format --
+github.com/SlyMarbo/rss/v2/rss1
+-- XML --
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns="http://purl.org/rss/1.0/">
+
+	<channel rdf:about="https://www.example.com/news.rdf">
+		<title>Example News Channel</title>
+		<link>https://www.example.com/news</link>
+		<description>A sample RSS 1.0 feed for news articles.</description>
+		<items>
+			<rdf:Seq>
+				<rdf:li rdf:resource="https://www.example.com/articles/article1"/>
+			</rdf:Seq>
+		</items>
+	</channel>
+
+	<item rdf:about="https://www.example.com/articles/article1">
+		<title>First Article Title</title>
+		<link>https://www.example.com/articles/article1</link>
+		<dc:date>2013-05-04T16:29:02Z</dc:date>
+		<description>This is the summary or description of the first article in the feed.</description>
+		<dc:creator>John Doe</dc:creator>
+	</item>
+
+</rdf:RDF>
+-- JSON --
+{
+	"XMLName": {
+		"Space": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+		"Local": "RDF"
+	},
+	"Channel": {
+		"XMLName": {
+			"Space": "http://purl.org/rss/1.0/",
+			"Local": "channel"
+		},
+		"Title": "Example News Channel",
+		"Description": "A sample RSS 1.0 feed for news articles.",
+		"Link": "https://www.example.com/news",
+		"Image": null,
+		"MinsToLive": 0,
+		"SkipHours": null,
+		"SkipDays": null
+	},
+	"Items": [
+		{
+			"XMLName": {
+				"Space": "http://purl.org/rss/1.0/",
+				"Local": "item"
+			},
+			"Title": "First Article Title",
+			"Description": "This is the summary or description of the first article in the feed.",
+			"Content": "",
+			"Link": "https://www.example.com/articles/article1",
+			"PubDate": "",
+			"Date": "2013-05-04T16:29:02Z",
+			"ID": "",
+			"Enclosures": null
+		}
+	]
+}

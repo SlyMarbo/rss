@@ -1,0 +1,94 @@
+-- URL --
+unknown
+-- format --
+github.com/SlyMarbo/rss/v2/rss2
+-- XML --
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+ <title>RSS Title</title>
+ <description>This is an example of an RSS feed</description>
+ <link>http://www.someexamplerssdomain.com/main.html</link>
+ <lastBuildDate>Mon, 06 Sep 2010 00:01:00 +0000</lastBuildDate>
+ <pubDate>Mon, 06 Sep 2009 16:45:00 +0000</pubDate>
+ <ttl>1800</ttl>
+ <category text="Technology"></category>
+
+ <item>
+  <title>Example entry</title>
+  <description>Here is some text containing an interesting
+description.</description>
+  <link>http://www.wikipedia.org/</link>
+  <guid>unique string per item</guid>
+  <pubDate>Mon, 06 Sep 2009 16:45:00 +0000</pubDate>
+  <enclosure url="http://example.com/file.mp3" length="65535" type="audio/mpeg" />
+ </item>
+
+</channel>
+</rss>
+-- JSON --
+{
+	"XMLName": {
+		"Space": "",
+		"Local": "rss"
+	},
+	"Channel": {
+		"XMLName": {
+			"Space": "",
+			"Local": "channel"
+		},
+		"Title": "RSS Title",
+		"Language": "",
+		"Author": "",
+		"Description": "This is an example of an RSS feed",
+		"Link": [
+			{
+				"Rel": "",
+				"Href": "",
+				"Type": "",
+				"Chardata": "http://www.someexamplerssdomain.com/main.html"
+			}
+		],
+		"Image": null,
+		"Categories": [
+			{
+				"XMLName": {
+					"Space": "",
+					"Local": "category"
+				},
+				"Name": "Technology"
+			}
+		],
+		"Items": [
+			{
+				"XMLName": {
+					"Space": "",
+					"Local": "item"
+				},
+				"Title": "Example entry",
+				"Description": "Here is some text containing an interesting\ndescription.",
+				"Content": "",
+				"Categories": null,
+				"Link": "http://www.wikipedia.org/",
+				"PubDate": "Mon, 06 Sep 2009 16:45:00 +0000",
+				"Date": "",
+				"Image": null,
+				"ID": "unique string per item",
+				"Enclosures": [
+					{
+						"XMLName": {
+							"Space": "",
+							"Local": "enclosure"
+						},
+						"URL": "http://example.com/file.mp3",
+						"Type": "audio/mpeg",
+						"Length": 65535
+					}
+				]
+			}
+		],
+		"MinsToLive": 1800,
+		"SkipHours": null,
+		"SkipDays": null
+	}
+}

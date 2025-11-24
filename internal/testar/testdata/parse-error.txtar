@@ -1,0 +1,10 @@
+-- URL --
+github.com/SlyMarbo/rss/v2/internal/testar/testdata/parse-error.txtar
+-- format --
+encoding/json
+-- XML --
+<foo>bar</foo>
+-- JSON --
+{
+	"foo": "bar"
+}

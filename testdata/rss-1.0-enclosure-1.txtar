@@ -1,0 +1,134 @@
+-- URL --
+unknown
+-- format --
+github.com/SlyMarbo/rss/v2
+-- XML --
+<?xml version= "1.0"?>
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:enc="http://purl.oclc.org/net/rss_2.0/enc#"
+	xmlns="http://purl.org/rss/1.0/">
+
+	<channel rdf:about="http://www.xul.fr/xml/news.rdf">
+		<title>Title of the feed</title>
+		<link>http://www.xul.fr</link>
+		<description>
+			Topic of the feed.
+		</description>
+		<items>
+			<rdf:Seq>
+				<rdf:li rdf:resource="http://www.xul.fr/feed/RSS-1.0.html" />
+				<rdf:li rdf:resource="http://www.xul.fr/en-xml-rss.html" />
+			</rdf:Seq>
+		</items>
+		<image rdf:resource="http://www.xul.fr/logo.gif" />
+		<textinput rdf:resource="http://www.xul.fr/chercher.php" />
+	</channel>
+
+	<image rdf:about="http://www.xul.fr/logo.gif">
+		<title>Ajax et XUL</title>
+		<link>http://www.xul.fr</link>
+		<url>http://www.xul.fr/logo.gif</url>
+	</image>
+
+	<item rdf:about="http://www.xul.fr/feed/RSS-1.0.html">
+		<title>RSS 1.0</title>
+		<link>http://www.xul.fr/feed/RSS-1.0.html</link>
+		<description>
+			Building and using an RSS 1.0 feed.
+		</description>
+		<enc:enclosure rdf:resource="http://foo.bar/baz.mp3" enc:type="audio/mpeg" enc:length="65535"/>
+	</item>
+
+	<item rdf:about="http://www.xul.fr/en-xml-rss.html">
+		<title>RSS 2.0 tutoriel</title>
+		<link>http://www.xul.fr/en-xml-rss.html</link>
+		<description>
+			Building and using an RSS 2.0 feed.
+		</description>
+		<enc:enclosure rdf:resource="http://foo.bar/baz.mp3" enc:type="audio/mpeg" enc:length="65535"/>
+	</item>
+
+	<textinput rdf:about="http://www.xul.fr/search.php">
+		<title>Research</title>
+		<description>search on xul.fr</description>
+		<name>myfield</name>
+		<link>http://www.xul.fr/search.php</link>
+	</textinput>
+
+</rdf:RDF>
+-- JSON --
+{
+	"Title": "Title of the feed",
+	"Language": "",
+	"Author": null,
+	"Description": "\n\t\t\tTopic of the feed.\n\t\t",
+	"Links": [
+		{
+			"Href": "http://www.xul.fr",
+			"Rel": "",
+			"Type": ""
+		}
+	],
+	"UpdateURL": "https://example.com/feed.xml",
+	"Image": {
+		"Title": "",
+		"Href": "",
+		"URL": "",
+		"Height": 0,
+		"Width": 0
+	},
+	"Categories": null,
+	"Items": [
+		{
+			"Title": "RSS 1.0",
+			"Summary": "\n\t\t\tBuilding and using an RSS 1.0 feed.\n\t\t",
+			"Content": "",
+			"Categories": null,
+			"Links": [
+				{
+					"Href": "http://www.xul.fr/feed/RSS-1.0.html",
+					"Rel": "",
+					"Type": ""
+				}
+			],
+			"Date": "0001-01-01T00:00:00Z",
+			"Image": null,
+			"ID": "http://www.xul.fr/feed/RSS-1.0.html",
+			"Enclosures": [
+				{
+					"URL": "http://foo.bar/baz.mp3",
+					"Type": "audio/mpeg",
+					"Length": 65535
+				}
+			],
+			"Read": false
+		},
+		{
+			"Title": "RSS 2.0 tutoriel",
+			"Summary": "\n\t\t\tBuilding and using an RSS 2.0 feed.\n\t\t",
+			"Content": "",
+			"Categories": null,
+			"Links": [
+				{
+					"Href": "http://www.xul.fr/en-xml-rss.html",
+					"Rel": "",
+					"Type": ""
+				}
+			],
+			"Date": "0001-01-01T00:00:00Z",
+			"Image": null,
+			"ID": "http://www.xul.fr/en-xml-rss.html",
+			"Enclosures": [
+				{
+					"URL": "http://foo.bar/baz.mp3",
+					"Type": "audio/mpeg",
+					"Length": 65535
+				}
+			],
+			"Read": false
+		}
+	],
+	"NextUpdate": "2025-11-23T00:13:14.000000015Z",
+	"Unread": 2
+}

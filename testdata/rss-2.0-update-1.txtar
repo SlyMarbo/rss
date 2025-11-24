@@ -1,0 +1,65 @@
+-- URL --
+unknown
+-- format --
+github.com/SlyMarbo/rss/v2
+-- XML --
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+ <title>RSS Title</title>
+ <description>This is an example of an RSS feed</description>
+ <link>http://www.someexamplerssdomain.com/main.html</link>
+ <lastBuildDate>Mon, 06 Sep 2010 00:01:00 +0000</lastBuildDate>
+ <pubDate>Mon, 06 Sep 2009 16:45:00 +0000</pubDate>
+ <ttl>-1</ttl>
+
+ <item>
+  <title>Example entry</title>
+  <description>Here is some text containing an interesting
+description.</description>
+  <link>http://www.wikipedia.org/</link>
+  <guid>unique string per item</guid>
+  <pubDate>Mon, 06 Sep 2009 16:45:00 +0000</pubDate>
+ </item>
+
+</channel>
+</rss>
+-- JSON --
+{
+	"Title": "RSS Title",
+	"Language": "",
+	"Author": null,
+	"Description": "This is an example of an RSS feed",
+	"Links": [
+		{
+			"Href": "http://www.someexamplerssdomain.com/main.html",
+			"Rel": "",
+			"Type": ""
+		}
+	],
+	"UpdateURL": "https://example.com/feed.xml",
+	"Image": null,
+	"Categories": null,
+	"Items": [
+		{
+			"Title": "Example entry",
+			"Summary": "Here is some text containing an interesting\ndescription.",
+			"Content": "",
+			"Categories": null,
+			"Links": [
+				{
+					"Href": "http://www.wikipedia.org/",
+					"Rel": "",
+					"Type": ""
+				}
+			],
+			"Date": "2009-09-06T16:45:00Z",
+			"Image": null,
+			"ID": "unique string per item",
+			"Enclosures": null,
+			"Read": false
+		}
+	],
+	"NextUpdate": "2025-11-22T12:12:14.000000015Z",
+	"Unread": 1
+}

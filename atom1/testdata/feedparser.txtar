@@ -1,0 +1,140 @@
+-- URL --
+https://feedparser.readthedocs.io/en/stable/annotated-atom10.html
+-- format --
+github.com/SlyMarbo/rss/v2/atom1
+-- XML --
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"
+xml:base="http://example.org/"
+xml:lang="en">
+<title type="text">
+Sample Feed
+</title>
+<subtitle type="html">
+For documentation &lt;em&gt;only&lt;/em&gt;
+</subtitle>
+<link rel="alternate"
+type="html"
+href="/"/>
+<link rel="self"
+type="application/atom+xml"
+href="http://www.example.org/atom10.xml"/>
+<rights type="html">
+&lt;p>Copyright 2005, Mark Pilgrim&lt;/p>
+</rights>
+<generator uri="http://example.org/generator/"
+version="4.0">
+Sample Toolkit
+</generator>
+<id>tag:feedparser.org,2005-11-09:/docs/examples/atom10.xml</id>
+<updated>2005-11-09T11:56:34Z</updated>
+<entry>
+<title>First entry title</title>
+<link rel="alternate"
+href="/entry/3"/>
+<link rel="related"
+type="text/html"
+href="http://search.example.com/"/>
+<link rel="via"
+type="text/html"
+href="http://toby.example.com/examples/atom10"/>
+<link rel="enclosure"
+type="video/mpeg4"
+href="http://www.example.com/movie.mp4"
+length="42301"/>
+<id>tag:feedparser.org,2005-11-09:/docs/examples/atom10.xml:3</id>
+<published>2005-11-09T00:23:47Z</published>
+<updated>2005-11-09T11:56:34Z</updated>
+<author>
+<name>Mark Pilgrim</name>
+<uri>http://diveintomark.org/</uri>
+<email>mark@example.org</email>
+</author>
+<contributor>
+<name>Joe</name>
+<url>http://example.org/joe/</url>
+<email>joe@example.org</email>
+</contributor>
+<contributor>
+<name>Sam</name>
+<url>http://example.org/sam/</url>
+<email>sam@example.org</email>
+</contributor>
+<summary type="text">
+Watch out for nasty tricks
+</summary>
+<content type="xhtml"
+xml:base="http://example.org/entry/3"
+xml:lang="en-US"><div xmlns="http://www.w3.org/1999/xhtml">Watch out for
+<span style="background-image: url(javascript:window.location=’http://example.org/’)">
+nasty tricks</span></div>
+</content>
+</entry>
+</feed>
+-- JSON --
+{
+	"XMLName": {
+		"Space": "http://www.w3.org/2005/Atom",
+		"Local": "feed"
+	},
+	"Title": "\nSample Feed\n",
+	"Description": "\nFor documentation \u003cem\u003eonly\u003c/em\u003e\n",
+	"Author": null,
+	"Link": [
+		{
+			"Href": "/",
+			"Rel": "alternate",
+			"Type": "html",
+			"Length": 0
+		},
+		{
+			"Href": "http://www.example.org/atom10.xml",
+			"Rel": "self",
+			"Type": "application/atom+xml",
+			"Length": 0
+		}
+	],
+	"Image": null,
+	"Items": [
+		{
+			"XMLName": {
+				"Space": "http://www.w3.org/2005/Atom",
+				"Local": "entry"
+			},
+			"Title": "First entry title",
+			"Summary": "\nWatch out for nasty tricks\n",
+			"Content": {
+				"RAWContent": "\u003cdiv xmlns=\"http://www.w3.org/1999/xhtml\"\u003eWatch out for\n\u003cspan style=\"background-image: url(javascript:window.location=’http://example.org/’)\"\u003e\nnasty tricks\u003c/span\u003e\u003c/div\u003e\n"
+			},
+			"Links": [
+				{
+					"Href": "/entry/3",
+					"Rel": "alternate",
+					"Type": "",
+					"Length": 0
+				},
+				{
+					"Href": "http://search.example.com/",
+					"Rel": "related",
+					"Type": "text/html",
+					"Length": 0
+				},
+				{
+					"Href": "http://toby.example.com/examples/atom10",
+					"Rel": "via",
+					"Type": "text/html",
+					"Length": 0
+				},
+				{
+					"Href": "http://www.example.com/movie.mp4",
+					"Rel": "enclosure",
+					"Type": "video/mpeg4",
+					"Length": 42301
+				}
+			],
+			"Date": "2005-11-09T11:56:34Z",
+			"ID": "tag:feedparser.org,2005-11-09:/docs/examples/atom10.xml:3"
+		}
+	],
+	"Updated": "2005-11-09T11:56:34Z"
+}

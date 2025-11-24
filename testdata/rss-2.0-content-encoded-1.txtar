@@ -1,0 +1,75 @@
+-- URL --
+unknown
+-- format --
+github.com/SlyMarbo/rss/v2
+-- XML --
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  >
+<channel>
+ <title>RSS Title</title>
+ <language>en</language>
+ <author>someone</author>
+ <description>This is an example of an RSS feed</description>
+ <link>http://www.someexamplerssdomain.com/main.html</link>
+ <lastBuildDate>Mon, 06 Sep 2010 00:01:00 +0000</lastBuildDate>
+ <pubDate>Mon, 06 Sep 2009 16:45:00 +0000</pubDate>
+ <ttl>1800</ttl>
+
+ <item>
+  <title>Example entry</title>
+  <description>Here is some text containing an interesting
+description.</description>
+  <link>http://www.wikipedia.org/</link>
+  <guid>unique string per item</guid>
+  <pubDate>Mon, 06 Sep 2009 16:45:00 +0000</pubDate>
+  <content:encoded><![CDATA[<p><a href="https://example.com/">Example.com</a> is an example site.</p>]]></content:encoded>
+ </item>
+
+</channel>
+</rss>
+-- JSON --
+{
+	"Title": "RSS Title",
+	"Language": "en",
+	"Author": {
+		"Name": "someone",
+		"URL": "",
+		"Email": "",
+		"Links": null
+	},
+	"Description": "This is an example of an RSS feed",
+	"Links": [
+		{
+			"Href": "http://www.someexamplerssdomain.com/main.html",
+			"Rel": "",
+			"Type": ""
+		}
+	],
+	"UpdateURL": "https://example.com/feed.xml",
+	"Image": null,
+	"Categories": null,
+	"Items": [
+		{
+			"Title": "Example entry",
+			"Summary": "Here is some text containing an interesting\ndescription.",
+			"Content": "\u003cp\u003e\u003ca href=\"https://example.com/\"\u003eExample.com\u003c/a\u003e is an example site.\u003c/p\u003e",
+			"Categories": null,
+			"Links": [
+				{
+					"Href": "http://www.wikipedia.org/",
+					"Rel": "",
+					"Type": ""
+				}
+			],
+			"Date": "2009-09-06T16:45:00Z",
+			"Image": null,
+			"ID": "unique string per item",
+			"Enclosures": null,
+			"Read": false
+		}
+	],
+	"NextUpdate": "2025-11-23T18:13:14.000000015Z",
+	"Unread": 1
+}

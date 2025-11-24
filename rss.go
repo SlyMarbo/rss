@@ -1,316 +1,378 @@
-package rss // import "github.com/SlyMarbo/rss"
+/*
+Package rss is a small library for simplifying the parsing of RSS and Atom feeds.
+
+The package conforms to the [RSS 1.0], [RSS 2.0], and [Atom 1.0] specifications.
+
+If you encounter any problems with feeds being parsed incorrectly, please
+open an issue on GitHub.
+
+Example usage:
+
+	package main
+
+	import (
+		"context"
+
+		"github.com/SlyMarbo/rss/v2"
+	)
+
+	func main() {
+		ctx := context.Background()
+		reader, err := rss.NewReader()
+		if err != nil {
+			// handle error.
+		}
+
+		feed, err := reader.Fetch(ctx, "https://example.com/rss")
+		if err != nil {
+			// handle error.
+		}
+
+		// ... Some time later ...
+
+		err = reader.UpdatePatiently(ctx, feed)
+		if err != nil {
+			// handle error.
+		}
+	}
+
+The library does its best to follow the appropriate specifications and not to set the `NextUpdate` time
+too soon. It currently follows all update time management methods in the RSS 1.0, 2.0, and Atom 1.0
+specifications. If one is not provided, it defaults to 12 hour intervals. If you are having issues
+with feed providors dropping connections, use `WithDefaultUpdateInterval` to set the default update
+interval.
+
+The project is not proactively maintained, but I'll respond to issues and PRs as soon as I can.
+
+[Atom 1.0]: https://datatracker.ietf.org/doc/html/rfc4287
+[RSS 1.0]: https://web.resource.org/rss/1.0/spec
+[RSS 2.0]: https://www.rssboard.org/rss-specification
+*/
+package rss
 
 import (
-	"bytes"
+	"context"
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
-	"net"
+	"log/slog"
 	"net/http"
+	"slices"
 	"strings"
-	"text/tabwriter"
 	"time"
 )
 
+// ErrTooSoon indicates that a feed cannot be updated
+// yet, as the desired interval between updates has
+// not yet elapsed.
+var ErrTooSoon = errors.New("rss: too soon to update feed")
+
+// Reader stores the configuration data used to fetch,
+// parse, and update RSS feeds. Reader supports RSS 2.0,
+// RSS 1.0, and Atom 1.0. A single Reader can process
+// many different feeds.
+type Reader struct {
+	// General config.
+	time func() time.Time // Optional override on the current time.
+	slog *slog.Logger
+
+	// Networking config.
+	http *http.Client
+
+	// Parsing config.
+	defaultUpdateInterval        time.Duration // Minimum time before updating a feed that hasn't specified an interval.
+	timeLayouts                  []string
+	timeLayoutsWithNamedLocation []string
+}
+
+// NewReader is used to configure a [Reader]. The
+// resulting reader will start with sensible defaults,
+// which are then updated by any provided options.
+//
+// NewReader will only return an error if one of the
+// provided options fails.
+func NewReader(options ...Option) (*Reader, error) {
+	r := &Reader{
+		// General config.
+		slog: slog.New(slog.DiscardHandler), // Default to no logging.
+
+		// Networking config.
+		http: http.DefaultClient,
+
+		// Parsing config.
+		defaultUpdateInterval:        12 * time.Hour,
+		timeLayouts:                  slices.Clone(defaultTimeLayouts),
+		timeLayoutsWithNamedLocation: slices.Clone(defaultTimeLayoutsWithNamedLocation),
+	}
+
+	for _, option := range options {
+		err := option(r)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return r, nil
+}
+
+// now returns the current time.
+func (r *Reader) now() time.Time {
+	if r.time == nil {
+		return time.Now()
+	}
+
+	return r.time()
+}
+
+// debug records the given log message at the debug
+// level.
+func (r *Reader) debug(ctx context.Context, msg string, attrs ...slog.Attr) {
+	r.slog.LogAttrs(ctx, slog.LevelDebug, msg, attrs...)
+}
+
+// info records the given log message at the info
+// level.
+func (r *Reader) info(ctx context.Context, msg string, attrs ...slog.Attr) {
+	r.slog.LogAttrs(ctx, slog.LevelInfo, msg, attrs...)
+}
+
+// warn records the given log message at the warn
+// level.
+func (r *Reader) warn(ctx context.Context, msg string, attrs ...slog.Attr) {
+	r.slog.LogAttrs(ctx, slog.LevelWarn, msg, attrs...)
+}
+
+// error records the given log message at the error
+// level.
+func (r *Reader) error(ctx context.Context, msg string, attrs ...slog.Attr) {
+	r.slog.LogAttrs(ctx, slog.LevelError, msg, attrs...)
+}
+
+// Fetch downloads and parses the RSS/Atom feed at
+// the given URL.
+func (r *Reader) Fetch(ctx context.Context, url string) (*Feed, error) {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+	if err != nil {
+		return nil, fmt.Errorf("failed to construct GET request: %v", err)
+	}
+
+	res, err := r.http.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("failed to request feed: %v", err)
+	}
+
+	feed, err := r.Parse(url, res.Body)
+	if err != nil {
+		io.Copy(io.Discard, res.Body)
+		res.Body.Close()
+		return nil, fmt.Errorf("failed to parse feed: %v", err)
+	}
+
+	err = res.Body.Close()
+	if err != nil {
+		return nil, fmt.Errorf("failed to close response body: %v", err)
+	}
+
+	return feed, nil
+}
+
 // Parse RSS or Atom data.
-func Parse(data []byte) (*Feed, error) {
-
-	if strings.Contains(string(data), "<rss") {
-		if debug {
-			fmt.Println("[i] Parsing as RSS 2.0")
-		}
-		return parseRSS2(data)
-	} else if strings.Contains(string(data), "xmlns=\"http://purl.org/rss/1.0/\"") {
-		if debug {
-			fmt.Println("[i] Parsing as RSS 1.0")
-		}
-		return parseRSS1(data)
-	} else {
-		if debug {
-			fmt.Println("[i] Parsing as Atom")
-		}
-		return parseAtom(data)
-	}
-}
-
-// A FetchFunc is a function that fetches a feed for given URL.
-type FetchFunc func(url string) (resp *http.Response, err error)
-
-// DefaultFetchFunc uses http.DefaultClient to fetch a feed.
-var DefaultFetchFunc = func(url string) (resp *http.Response, err error) {
-	client := http.DefaultClient
-	return client.Get(url)
-}
-
-// Fetch downloads and parses the RSS feed at the given URL
-func Fetch(url string) (*Feed, error) {
-	return FetchByFunc(DefaultFetchFunc, url)
-}
-
-// FetchByClient uses a http.Client to fetch a URL.
-func FetchByClient(url string, client *http.Client) (*Feed, error) {
-	fetchFunc := func(url string) (resp *http.Response, err error) {
-		return client.Get(url)
-	}
-	return FetchByFunc(fetchFunc, url)
-}
-
-// FetchByFunc uses a func to fetch a URL.
-func FetchByFunc(fetchFunc FetchFunc, url string) (*Feed, error) {
-	resp, err := fetchFunc(url)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-
-	body, err := ioutil.ReadAll(resp.Body)
+func (r *Reader) Parse(url string, data io.Reader) (*Feed, error) {
+	prefix, data, err := readStringPrefix(data, 512)
 	if err != nil {
 		return nil, err
 	}
 
-	out, err := Parse(body)
-	if err != nil {
-		return nil, err
+	if strings.Contains(prefix, "<rss") {
+		return r.parseRSS2(url, data)
 	}
 
-	if out.Link == "" {
-		out.Link = url
+	if strings.Contains(prefix, `xmlns="http://purl.org/rss/1.0/"`) {
+		return r.parseRSS1(url, data)
 	}
 
-	out.UpdateURL = url
-	out.FetchFunc = fetchFunc
-
-	return out, nil
+	return r.parseAtom1(url, data)
 }
 
-// Feed is the top-level structure.
-type Feed struct {
-	Nickname    string              `json:"nickname"` // This is not set by the package, but could be helpful.
-	Title       string              `json:"title"`
-	Language    string              `json:"language"`
-	Author      string              `json:"author"`
-	Description string              `json:"description"`
-	Link        string              `json:"link"`      // Link to the creator's website.
-	UpdateURL   string              `json:"updateurl"` // URL of the feed itself.
-	Image       *Image              `json:"image"`     // Feed icon.
-	Categories  []string            `json:"categories"`
-	Items       []*Item             `json:"items"`
-	ItemMap     map[string]struct{} `json:"itemmap"` // Used in checking whether an item has been seen before.
-	Refresh     time.Time           `json:"refresh"` // Earliest time this feed should next be checked.
-	Unread      uint32              `json:"unread"`  // Number of unread items. Used by aggregators.
-	FetchFunc   FetchFunc           `json:"-"`
-}
-
-type refreshError string
-
-var _ net.Error = refreshError("")
-
-func (r refreshError) Error() string {
-	return string(r)
-}
-
-func (r refreshError) Timeout() bool {
-	return false
-}
-
-func (r refreshError) Temporary() bool {
-	return true
-}
-
-var errUpdateNotReady refreshError = "not ready to update: too soon to refresh"
-
-// DefaultRefreshInterval is the minimum
-// wait until the next refresh, provided
-// the feed does not provide its own
-// interval.
+// Update attempts to update the feed with new items.
+// If it is too soon to update the feed, Update will
+// return immediately with [ErrTooSoon].
 //
-// Setting this too high will delay the
-// feed receiving new items, setting it
-// too low will put excessive load on
-// the feed hosts.
-//
-// The default value is 12 hours.
-//
-var DefaultRefreshInterval = 12 * time.Hour
-
-// Update fetches any new items and updates f.
-func (f *Feed) Update() error {
-	if f.FetchFunc == nil {
-		f.FetchFunc = DefaultFetchFunc
+// Callers that would rather wait until an update can
+// be performed should instead use [Reader.UpdatePatiently].
+func (r *Reader) Update(ctx context.Context, feed *Feed) error {
+	if feed.UpdateURL == "" {
+		return errors.New("feed has no update URL")
 	}
-	return f.UpdateByFunc(f.FetchFunc)
+
+	// Check whether enough time has elapsed since
+	// the last update.
+	if feed.NextUpdate.After(r.now()) {
+		return ErrTooSoon
+	}
+
+	return r.update(ctx, feed)
 }
 
-// UpdateByFunc uses a func to update f.
-func (f *Feed) UpdateByFunc(fetchFunc FetchFunc) error {
-
-	// Check that we don't update too often.
-	if f.Refresh.After(time.Now()) {
-		return errUpdateNotReady
+// UpdatePatiently attempts to update the feed with
+// new items. If it is too soon to update the feed,
+// UpdatePatiently will wait until the chosen interval
+// has elapsed and then attempt an update. If the
+// given context expires while UpdatePatiently is
+// waiting, it will return with the context's error.
+//
+// Callers that would rather return immediately if it
+// is too soon to perform an update should instead use
+// [Reader.Update].
+func (r *Reader) UpdatePatiently(ctx context.Context, feed *Feed) error {
+	if feed.UpdateURL == "" {
+		return errors.New("feed has no update URL")
 	}
 
-	if f.UpdateURL == "" {
-		return errors.New("feed has no URL")
-	}
-
-	if f.ItemMap == nil {
-		f.ItemMap = make(map[string]struct{})
-		for _, item := range f.Items {
-			if _, ok := f.ItemMap[item.ID]; !ok {
-				f.ItemMap[item.ID] = struct{}{}
-			}
-		}
-	}
-
-	update, err := FetchByFunc(fetchFunc, f.UpdateURL)
+	err := r.waitForFeed(ctx, feed)
 	if err != nil {
 		return err
 	}
 
-	f.Refresh = update.Refresh
-	f.Title = update.Title
-	f.Description = update.Description
+	return r.update(ctx, feed)
+}
 
-	for _, item := range update.Items {
-		if _, ok := f.ItemMap[item.ID]; !ok {
-			f.Items = append(f.Items, item)
-			f.ItemMap[item.ID] = struct{}{}
-			f.Unread++
+func (r *Reader) waitForFeed(ctx context.Context, feed *Feed) error {
+	// Check whether enough time has elapsed since
+	// the last update.
+	if now := r.now(); feed.NextUpdate.After(now) {
+		interval := feed.NextUpdate.Sub(now)
+		select {
+		case <-ctx.Done():
+			return ctx.Err()
+		case <-time.After(interval):
+			return nil
 		}
 	}
 
 	return nil
 }
 
-func (f *Feed) String() string {
-	buf := new(bytes.Buffer)
-	if debug {
-		w := tabwriter.NewWriter(buf, 0, 8, 0, '\t', tabwriter.StripEscape)
-		fmt.Fprintf(w, "Feed {\n")
-		fmt.Fprintf(w, "\xff\t\xffNickname:\t%q\n", f.Nickname)
-		fmt.Fprintf(w, "\xff\t\xffTitle:\t%q\n", f.Title)
-		fmt.Fprintf(w, "\xff\t\xffDescription:\t%q\n", f.Description)
-		fmt.Fprintf(w, "\xff\t\xffLink:\t%q\n", f.Link)
-		fmt.Fprintf(w, "\xff\t\xffUpdateURL:\t%q\n", f.UpdateURL)
-		fmt.Fprintf(w, "\xff\t\xffImage:\t%q (%s)\n", f.Image.Title, f.Image.URL)
-		fmt.Fprintf(w, "\xff\t\xffRefresh:\t%s\n", f.Refresh.Format(DATE))
-		fmt.Fprintf(w, "\xff\t\xffUnread:\t%d\n", f.Unread)
-		fmt.Fprintf(w, "\xff\t\xffItems:\t(%d) {\n", len(f.Items))
-		for _, item := range f.Items {
-			fmt.Fprintf(w, "%s\n", item.Format(2))
-		}
-		fmt.Fprintf(w, "\xff\t\xff}\n}\n")
-		w.Flush()
-	} else {
-		w := buf
-		fmt.Fprintf(w, "Feed %q\n", f.Title)
-		fmt.Fprintf(w, "\t%q\n", f.Description)
-		fmt.Fprintf(w, "\t%q\n", f.Link)
-		fmt.Fprintf(w, "\t%s\n", f.Image)
-		fmt.Fprintf(w, "\tRefresh at %s\n", f.Refresh.Format(DATE))
-		fmt.Fprintf(w, "\tUnread: %d\n", f.Unread)
-		fmt.Fprintf(w, "\tItems:\n")
-		for _, item := range f.Items {
-			fmt.Fprintf(w, "\t%s\n", item.Format(2))
+// update performs an update to a feed. It assumes
+// an appropriate interval has passed since the last
+// update.
+func (r *Reader) update(ctx context.Context, feed *Feed) error {
+	seen := make(map[string]struct{})
+	for _, item := range feed.Items {
+		seen[item.ID] = struct{}{}
+	}
+
+	update, err := r.Fetch(ctx, feed.UpdateURL)
+	if err != nil {
+		return fmt.Errorf("failed to update feed: %v", err)
+	}
+
+	feed.NextUpdate = update.NextUpdate
+	feed.Title = update.Title
+	feed.Description = update.Description
+
+	for _, item := range update.Items {
+		if _, ok := seen[item.ID]; !ok {
+			seen[item.ID] = struct{}{}
+			feed.Items = append(feed.Items, item)
+			feed.Unread++
 		}
 	}
-	return buf.String()
+
+	return nil
 }
 
-// Item represents a single story.
-type Item struct {
-	Title      string    `json:"title"`
-	Summary    string    `json:"summary"`
-	Content    string    `json:"content"`
-	Categories []string  `json:"category"`
-	Link       string    `json:"link"`
-	Date       time.Time `json:"date"`
-	Image      *Image    `json:"image"`
-	DateValid  bool
-	ID         string       `json:"id"`
-	Enclosures []*Enclosure `json:"enclosures"`
-	Read       bool         `json:"read"`
-}
+// Option represents a function that can be used to
+// configure a [Reader]. Options are typically used
+// with [NewReader].
+type Option func(*Reader) error
 
-func (i *Item) String() string {
-	return i.Format(0)
-}
+// General config.
 
-// Format formats an item using tabs.
-func (i *Item) Format(indent int) string {
-	buf := new(bytes.Buffer)
-	single := strings.Repeat("\t", indent)
-	double := single + "\t"
-	if debug {
-		w := tabwriter.NewWriter(buf, 0, 8, 0, '\t', tabwriter.StripEscape)
-		fmt.Fprintf(w, "\xff%s\xffItem {\n", single)
-		fmt.Fprintf(w, "\xff%s\xffTitle:\t%q\n", double, i.Title)
-		fmt.Fprintf(w, "\xff%s\xffSummary:\t%q\n", double, i.Summary)
-		fmt.Fprintf(w, "\xff%s\xffCategories:\t%q\n", double, i.Categories)
-		fmt.Fprintf(w, "\xff%s\xffLink:\t%s\n", double, i.Link)
-		fmt.Fprintf(w, "\xff%s\xffDate:\t%s\n", double, i.Date.Format(DATE))
-		fmt.Fprintf(w, "\xff%s\xffID:\t%s\n", double, i.ID)
-		fmt.Fprintf(w, "\xff%s\xffRead:\t%v\n", double, i.Read)
-		fmt.Fprintf(w, "\xff%s\xffContent:\t%q\n", double, i.Content)
-		fmt.Fprintf(w, "\xff%s\xff}\n", single)
-		w.Flush()
-	} else {
-		w := buf
-		fmt.Fprintf(w, "%sItem %q\n", single, i.Title)
-		fmt.Fprintf(w, "%s%q\n", double, i.Link)
-		fmt.Fprintf(w, "%s%s\n", double, i.Date.Format(DATE))
-		fmt.Fprintf(w, "%s%q\n", double, i.ID)
-		fmt.Fprintf(w, "%sRead: %v\n", double, i.Read)
-		fmt.Fprintf(w, "%s%q\n", double, i.Content)
+// WithNow configures the reader to use the given
+// callback to determine the current time.
+//
+// By default, readers use [time.Now].
+func WithNow(now func() time.Time) Option {
+	return func(r *Reader) error {
+		r.time = now
+		return nil
 	}
-	return buf.String()
 }
 
-// Enclosure maps an enclosure.
-type Enclosure struct {
-	URL    string `json:"url"`
-	Type   string `json:"type"`
-	Length uint   `json:"length"`
-}
-
-// Get uses http.Get to fetch an enclosure.
-func (e *Enclosure) Get() (io.ReadCloser, error) {
-	if e == nil || e.URL == "" {
-		return nil, errors.New("No enclosure")
+// WithLogger configures the reader to use the given
+// structured logger.
+func WithLogger(logger *slog.Logger) Option {
+	return func(r *Reader) error {
+		r.slog = logger
+		return nil
 	}
-
-	res, err := http.Get(e.URL)
-	if err != nil {
-		return nil, err
-	}
-
-	return res.Body, nil
 }
 
-// Image maps an image.
-type Image struct {
-	Title  string `json:"title"`
-	Href   string `json:"href"`
-	URL    string `json:"url"`
-	Height uint32 `json:"height"`
-	Width  uint32 `json:"width"`
+// Networking config.
+
+// WithHTTPClient configures the reader to use the given
+// HTTP client when fetching or updating feeds.
+func WithHTTPClient(client *http.Client) Option {
+	return func(r *Reader) error {
+		r.http = client
+		return nil
+	}
 }
 
-// Get uses http.Get to fetch an image.
-func (i *Image) Get() (io.ReadCloser, error) {
-	if i == nil || i.URL == "" {
-		return nil, errors.New("No image")
-	}
+// Parsing config.
 
-	res, err := http.Get(i.URL)
-	if err != nil {
-		return nil, err
+// WithDefaultUpdateInterval configures the reader
+// to use the given minimum interval between updates
+// if the feed has not specified its interval.
+func WithDefaultUpdateInterval(interval time.Duration) Option {
+	return func(r *Reader) error {
+		r.defaultUpdateInterval = interval
+		return nil
 	}
-
-	return res.Body, nil
 }
 
-func (i *Image) String() string {
-	return fmt.Sprintf("Image %q", i.Title)
+// WithExtraTimeLayouts configures the reader to
+// use the given time layouts in addition to the
+// built-in layouts when tyring to parse timestamps.
+//
+// These layouts must not use names like `"EST"` to
+// represent time zones. If the layouts do use named
+// locations, use [WithExtraTimeLayoutsWithNamedLocation]
+// instead.
+func WithExtraTimeLayouts(layouts ...string) Option {
+	return func(r *Reader) error {
+		// Check these don't use named layouts.
+		for _, layout := range layouts {
+			if strings.Contains(layout, "MST") {
+				return fmt.Errorf("cannot use layout %q with WithExtraTimeLayouts: has named layout", layout)
+			}
+		}
+
+		r.timeLayouts = append(r.timeLayouts, layouts...)
+		return nil
+	}
+}
+
+// WithExtraTimeLayoutsWithNamedLocation configures
+// the reader to use the given time layouts in
+// addition to the built-in layouts when tyring to
+// parse timestamps.
+//
+// These layouts can use names like `"EST"` to
+// represent time zones. If the layouts do not use
+// named locations, use [WithExtraTimeLayouts]
+// instead.
+func WithExtraTimeLayoutsWithNamedLocation(layouts ...string) Option {
+	return func(r *Reader) error {
+		// Check these use named layouts.
+		for _, layout := range layouts {
+			if !strings.Contains(layout, "MST") {
+				return fmt.Errorf("cannot use layout %q with WithExtraTimeLayoutsWithNamedLocation: missing named layout", layout)
+			}
+		}
+
+		r.timeLayoutsWithNamedLocation = append(r.timeLayoutsWithNamedLocation, layouts...)
+		return nil
+	}
 }

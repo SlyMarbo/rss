@@ -1,0 +1,8 @@
+-- URL --
+github.com/SlyMarbo/rss/v2/internal/testar/testdata/correct-error.txtar
+-- format --
+encoding/json
+-- XML --
+<foo>bar</foo>
+-- error --
+invalid character '<' looking for beginning of value

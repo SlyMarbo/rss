@@ -1,0 +1,8 @@
+-- URL --
+github.com/SlyMarbo/rss/v2/internal/testar/testdata/no-error.txtar
+-- format --
+encoding/json
+-- XML --
+{"foo": "bar"}
+-- error --
+an error we won't get

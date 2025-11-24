@@ -1,0 +1,99 @@
+-- URL --
+unknown
+-- format --
+github.com/SlyMarbo/rss/v2/rss2
+-- XML --
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+ <title>RSS Title</title>
+ <description>This is an example of an RSS feed</description>
+ <link>http://www.someexamplerssdomain.com/main.html</link>
+ <lastBuildDate>Mon, 06 Sep 2010 00:01:00 +0000</lastBuildDate>
+ <pubDate>Mon, 06 Sep 2009 16:45:00 +0000</pubDate>
+ <ttl>1800</ttl>
+
+ <item>
+  <title>Example entry</title>
+  <description>Here is some text containing an interesting
+description.</description>
+  <link>http://www.wikipedia.org/</link>
+  <guid>unique string per item</guid>
+  <pubDate>Mon, 06 Sep 2009 16:45:00 +0000</pubDate>
+ </item>
+
+ <item>
+  <title>Example entry with unparsable pubDate</title>
+  <description>Here is some text containing an interesting
+description.</description>
+  <link>http://www.wikipedia.org/</link>
+  <guid>1199152f-ea0e-4233-85d0-181002f424d7</guid>
+  <pubDate>This pubDate is not parsable.</pubDate>
+ </item>
+
+</channel>
+</rss>
+-- JSON --
+{
+	"XMLName": {
+		"Space": "",
+		"Local": "rss"
+	},
+	"Channel": {
+		"XMLName": {
+			"Space": "",
+			"Local": "channel"
+		},
+		"Title": "RSS Title",
+		"Language": "",
+		"Author": "",
+		"Description": "This is an example of an RSS feed",
+		"Link": [
+			{
+				"Rel": "",
+				"Href": "",
+				"Type": "",
+				"Chardata": "http://www.someexamplerssdomain.com/main.html"
+			}
+		],
+		"Image": null,
+		"Categories": null,
+		"Items": [
+			{
+				"XMLName": {
+					"Space": "",
+					"Local": "item"
+				},
+				"Title": "Example entry",
+				"Description": "Here is some text containing an interesting\ndescription.",
+				"Content": "",
+				"Categories": null,
+				"Link": "http://www.wikipedia.org/",
+				"PubDate": "Mon, 06 Sep 2009 16:45:00 +0000",
+				"Date": "",
+				"Image": null,
+				"ID": "unique string per item",
+				"Enclosures": null
+			},
+			{
+				"XMLName": {
+					"Space": "",
+					"Local": "item"
+				},
+				"Title": "Example entry with unparsable pubDate",
+				"Description": "Here is some text containing an interesting\ndescription.",
+				"Content": "",
+				"Categories": null,
+				"Link": "http://www.wikipedia.org/",
+				"PubDate": "This pubDate is not parsable.",
+				"Date": "",
+				"Image": null,
+				"ID": "1199152f-ea0e-4233-85d0-181002f424d7",
+				"Enclosures": null
+			}
+		],
+		"MinsToLive": 1800,
+		"SkipHours": null,
+		"SkipDays": null
+	}
+}

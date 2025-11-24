@@ -1,0 +1,67 @@
+-- URL --
+unknown
+-- format --
+github.com/SlyMarbo/rss/v2
+-- XML --
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <author>
+    <name>Autor des Weblogs</name>
+  </author>
+  <title>Titel des Weblogs</title>
+  <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af6</id>
+  <updated>2003-12-14T10:20:09Z</updated>
+
+  <entry>
+    <title>Titel des Weblog-Eintrags</title>
+    <link href="http://example.org/2003/12/13/atom-beispiel"/>
+    <id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
+    <updated>2003-12-13T18:30:02Z</updated>
+    <summary>Zusammenfassung des Weblog-Eintrags</summary>
+    <content><body>html</body></content>
+  </entry>
+</feed>
+-- JSON --
+{
+	"Title": "Titel des Weblogs",
+	"Language": "",
+	"Author": {
+		"Name": "Autor des Weblogs",
+		"URL": "",
+		"Email": "",
+		"Links": null
+	},
+	"Description": "",
+	"Links": [
+		{
+			"Href": "https://example.com/feed.xml",
+			"Rel": "",
+			"Type": ""
+		}
+	],
+	"UpdateURL": "https://example.com/feed.xml",
+	"Image": null,
+	"Categories": null,
+	"Items": [
+		{
+			"Title": "Titel des Weblog-Eintrags",
+			"Summary": "Zusammenfassung des Weblog-Eintrags",
+			"Content": "\u003cbody\u003ehtml\u003c/body\u003e",
+			"Categories": null,
+			"Links": [
+				{
+					"Href": "http://example.org/2003/12/13/atom-beispiel",
+					"Rel": "",
+					"Type": ""
+				}
+			],
+			"Date": "2003-12-13T18:30:02Z",
+			"Image": null,
+			"ID": "urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a",
+			"Enclosures": null,
+			"Read": false
+		}
+	],
+	"NextUpdate": "2025-11-23T00:13:14.000000015Z",
+	"Unread": 1
+}

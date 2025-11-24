@@ -1,37 +1,85 @@
 package rss
 
 import (
-	"fmt"
+	"slices"
 	"strings"
 	"time"
 )
 
-// TimeLayoutsLoadLocation are time layouts
-// which do not contain the location as a fixed
-// constant. Instead of -0700, they use MST.
-// Golang does not load the timezone by default,
-// which means parseTime calls
-// `time.LoadLocation(t.Location().String())`
-// and then applies the offset returned by
-// LoadLocation to the result.
-var TimeLayoutsLoadLocation = []string{
-	"Mon, 2 Jan 2006 15:04:05 MST",
-	"Mon, 2 Jan 06 15:04:05 MST",
-	"2 Jan 2006 15:04:05 MST",
-	"2 Jan 06 15:04:05 MST",
-	"Jan 2, 2006 15:04 PM MST",
-	"Jan 2, 06 15:04 PM MST",
-
-	time.RFC1123,
-	time.RFC850,
-	time.RFC822,
+// nextUpdate converts RSS-style update data to the
+// timestamp of the next acceptable update.
+func (r *Reader) nextUpdate(minsToLive int, skipHours []int, skipDays []string) time.Time {
+	return nextUpdate(r.now(), r.defaultUpdateInterval, minsToLive, skipHours, skipDays)
 }
 
-// TimeLayouts is contains a list of time.Parse() layouts that are used in
-// attempts to convert item.Date and item.PubDate string to time.Time values.
-// The layouts are attempted in ascending order until either time.Parse()
-// does not return an error or all layouts are attempted.
-var TimeLayouts = []string{
+func nextUpdate(now time.Time, defaultInterval time.Duration, minsToLive int, skipHours []int, skipDays []string) time.Time {
+	if minsToLive == 0 {
+		return now.Add(defaultInterval)
+	}
+
+	skipHours = slices.Clone(skipHours)
+	slices.Sort(skipHours)
+	update := now.Add(time.Duration(minsToLive) * time.Minute)
+
+	for _, hour := range skipHours {
+		if hour == update.Hour() {
+			update = update.Add(time.Hour)
+		}
+	}
+
+again:
+	for _, day := range skipDays {
+		if strings.Title(day) == update.Weekday().String() {
+			update = update.Add(time.Duration(24-update.Hour()) * time.Hour)
+			goto again
+		}
+	}
+
+	return update
+}
+
+func (r *Reader) parseTime(s string) time.Time {
+	return parseTime(s, r.timeLayouts, r.timeLayoutsWithNamedLocation)
+}
+
+func parseTime(s string, layouts, layoutsWithNamedLocation []string) time.Time {
+	s = strings.TrimSpace(s)
+	for _, layout := range layouts {
+		tv, err := time.Parse(layout, s)
+		if err == nil {
+			return tv.UTC()
+		}
+	}
+
+	for _, layout := range layoutsWithNamedLocation {
+		tv, err := time.Parse(layout, s)
+		if err != nil {
+			continue
+		}
+
+		loc, err := time.LoadLocation(tv.Location().String())
+		if err != nil {
+			return time.Time{}
+		}
+
+		tv, err = time.ParseInLocation(layout, s, loc)
+		if err == nil {
+			return tv.UTC()
+		}
+	}
+
+	return time.Time{}
+}
+
+// defaultTimeLayouts contains a list of [time.Parse]
+// layouts that are used in attempts to convert
+// item.Date and item.PubDate strings to time.Time
+// values.
+//
+// The layouts are attempted sequentially until
+// either [time.Parse] does not return an error or
+// all layouts have been attempted.
+var defaultTimeLayouts = []string{
 	"Mon, 2 Jan 2006 15:04:05 Z",
 	"Mon, 2 Jan 2006 15:04:05",
 	"Mon, 2 Jan 2006 15:04:05 -0700",
@@ -70,44 +118,25 @@ var TimeLayouts = []string{
 	"Jan 2, 06 15:04 PM -0700 MST",
 }
 
-func parseTime(s string) (time.Time, error) {
-	s = strings.TrimSpace(s)
+// defaultTimeLayoutsWithNamedLocation are time
+// layouts that do not contain the location as
+// a literal constant. For example, instead of
+// -0700, they use MST.
+//
+// Go does not load the timezone by default,
+// which means [parseTime] calls
+// `time.LoadLocation(t.Location().String())`
+// and then applies the offset returned by
+// LoadLocation to the result.
+var defaultTimeLayoutsWithNamedLocation = []string{
+	"Mon, 2 Jan 2006 15:04:05 MST",
+	"Mon, 2 Jan 06 15:04:05 MST",
+	"2 Jan 2006 15:04:05 MST",
+	"2 Jan 06 15:04:05 MST",
+	"Jan 2, 2006 15:04 PM MST",
+	"Jan 2, 06 15:04 PM MST",
 
-	var e error
-	var t time.Time
-
-	for _, layout := range TimeLayouts {
-		t, e = time.Parse(layout, s)
-		if e == nil {
-			return t, nil
-		}
-	}
-
-	for _, layout := range TimeLayoutsLoadLocation {
-		t, e = time.Parse(layout, s)
-		if e != nil {
-			continue
-		}
-
-		// In case LoadLocation returns an error
-		// we want to return the time and error
-		// as is. LoadLocation commonly returns an
-		// error if tzinfo is not installed.
-		// This often happens when running go applications
-		// inside an alpine docker container.
-		loc, err := time.LoadLocation(t.Location().String())
-		if err != nil {
-			if debug {
-				fmt.Printf("[w] could not load timezone: %q\n", e)
-			}
-			return t, err
-		}
-
-		t, e = time.ParseInLocation(layout, s, loc)
-		if e == nil {
-			return t, nil
-		}
-	}
-
-	return time.Time{}, e
+	time.RFC1123,
+	time.RFC850,
+	time.RFC822,
 }

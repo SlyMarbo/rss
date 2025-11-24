@@ -1,160 +1,304 @@
 package rss
 
 import (
-	"encoding/json"
+	"bytes"
+	"context"
 	"errors"
-	"io/ioutil"
+	"io"
 	"net/http"
-	"os"
+	"net/http/httptest"
 	"path/filepath"
-	"reflect"
 	"testing"
+	"testing/synctest"
+	"time"
+
+	"github.com/SlyMarbo/rss/v2/internal/testar"
+
+	"golang.org/x/tools/txtar"
 )
 
-func TestParseTitle(t *testing.T) {
-	tests := map[string]string{
-		"rss_0.92":   "Dave Winer: Grateful Dead",
-		"rss_1.0":    "Golem.de",
-		"rss_2.0":    "RSS Title",
-		"rss_2.0-1":  "Liftoff News",
-		"atom_1.0":   "Titel des Weblogs",
-		"atom_1.0-1": "Golem.de",
+const defaultURL = "https://example.com/feed.xml"
+
+func TestParse(t *testing.T) {
+	tests := []string{
+		"atom-1.0-1",
+		"atom-1.0-2",
+		"atom-1.0-enclosure-1",
+		"atom-1.0-html-1",
+		"feedparser",
+		"google-merchant-center",
+		"rss-0.91-1",
+		"rss-0.92-1",
+		"rss-1.0-1",
+		"rss-1.0-enclosure-1",
+		"rss-1.0-no-channel-1",
+		"rss-2.0-1",
+		"rss-2.0-2",
+		"rss-2.0-content-encoded-1",
+		"rss-2.0-enclosure-1",
+		"rss-2.0-enclosure-2",
+		"rss-2.0-no-channel-1",
+		"rss-2.0-update-1",
+		"rss-2.0-update-2",
+		"sample-rss-1-1",
+		"sample-rss-1-modules-1",
+		"sample-rss-2-1",
 	}
 
-	for test, want := range tests {
-		name := filepath.Join("testdata", test)
-		data, err := ioutil.ReadFile(name)
-		if err != nil {
-			t.Fatalf("Reading %s: %v", name, err)
-		}
+	now := func() time.Time {
+		return time.Date(2025, time.November, 22, 12, 13, 14, 15, time.UTC)
+	}
 
-		feed, err := Parse(data)
-		if err != nil {
-			t.Fatalf("Parsing %s: %v", name, err)
-		}
+	r, err := NewReader(WithNow(now))
+	if err != nil {
+		t.Fatal(err)
+	}
 
-		if feed.Title != want {
-			t.Errorf("%s: got %q, want %q", name, feed.Title, want)
-		}
+	parse := func(data io.Reader) (*Feed, error) {
+		return r.Parse(defaultURL, data)
+	}
+
+	for _, test := range tests {
+		t.Run(test, func(t *testing.T) {
+			testar.Test(t, test, parse, "github.com/SlyMarbo/rss/v2")
+		})
 	}
 }
 
-func TestEnclosure(t *testing.T) {
-	tests := map[string]Enclosure{
-		"rss_1.0":   Enclosure{URL: "http://foo.bar/baz.mp3", Type: "audio/mpeg", Length: 65535},
-		"rss_2.0":   Enclosure{URL: "http://example.com/file.mp3", Type: "audio/mpeg", Length: 65535},
-		"rss_2.0-1": Enclosure{URL: "http://gdb.voanews.com/6C49CA6D-C18D-414D-8A51-2B7042A81010_cx0_cy29_cw0_w800_h450.jpg", Type: "image/jpeg", Length: 3123},
-		"atom_1.0":  Enclosure{URL: "http://example.org/audio.mp3", Type: "audio/mpeg", Length: 1234},
+func TestFetch(t *testing.T) {
+	tests := []string{
+		"atom-1.0-1",
+		"sample-rss-1-1",
 	}
 
-	for test, want := range tests {
-		name := filepath.Join("testdata", test+"_enclosure")
-		data, err := ioutil.ReadFile(name)
+	ctx := context.Background()
+
+	now := func() time.Time {
+		return time.Date(2025, time.November, 22, 12, 13, 14, 15, time.UTC)
+	}
+
+	mux := http.NewServeMux()
+	archives := make(map[string]*txtar.Archive, len(tests))
+	for _, test := range tests {
+		ar, err := txtar.ParseFile(filepath.Join("testdata", test) + ".txtar")
 		if err != nil {
-			t.Fatalf("Reading %s: %v", name, err)
+			t.Fatalf("failed to parse test vector %q: %v", test, err)
 		}
 
-		feed, err := Parse(data)
-		if err != nil {
-			t.Fatalf("Parsing %s: %v", name, err)
-		}
+		archives[test] = ar
+		mux.HandleFunc("GET /"+test, func(w http.ResponseWriter, r *http.Request) {
+			http.ServeContent(w, r, test+".xml", time.Time{}, bytes.NewReader(ar.Files[2].Data))
+		})
+	}
 
-		enclosureFound := false
-		for _, item := range feed.Items {
-			for _, enc := range item.Enclosures {
-				enclosureFound = true
-				if !reflect.DeepEqual(*enc, want) {
-					t.Errorf("%s: got %#v, want %#v", name, *enc, want)
+	// Add a default route.
+	mux.Handle("/", http.NotFoundHandler())
+
+	srv := httptest.NewTLSServer(mux)
+	defer srv.Close()
+
+	client := srv.Client()
+
+	r, err := NewReader(
+		WithNow(now),
+		WithHTTPClient(client),
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// We can be more lax in handling the txtar
+	// data, as it's validated very strictly in
+	// testar, which is used above.
+
+	for _, test := range tests {
+		t.Run(test, func(t *testing.T) {
+			ar := archives[test]
+			url := srv.URL + "/" + test
+			feed, err := r.Fetch(ctx, url)
+
+			// Fix up the URLs.
+			if feed != nil {
+				if len(feed.Links) == 1 && feed.Links[0].Href == url {
+					feed.Links[0].Href = defaultURL
+				}
+
+				if feed.UpdateURL == url {
+					feed.UpdateURL = defaultURL
 				}
 			}
+
+			testar.Check(t, ar, feed, err)
+		})
+	}
+}
+
+func TestUpdate(t *testing.T) {
+	tests := []string{
+		"sample-rss-1-1",
+	}
+
+	ctx := context.Background()
+
+	epoch := time.Date(2025, time.November, 22, 12, 13, 14, 15, time.UTC)
+	now := func() time.Time {
+		return epoch
+	}
+
+	mux := http.NewServeMux()
+	archives := make(map[string]*txtar.Archive, len(tests))
+	for _, test := range tests {
+		ar, err := txtar.ParseFile(filepath.Join("testdata", test) + ".txtar")
+		if err != nil {
+			t.Fatalf("failed to parse test vector %q: %v", test, err)
 		}
-		if !enclosureFound {
-			t.Errorf("No enclosures parsed in %s", name)
-		}
+
+		archives[test] = ar
+		mux.HandleFunc("GET /"+test, func(w http.ResponseWriter, r *http.Request) {
+			http.ServeContent(w, r, test+".xml", time.Time{}, bytes.NewReader(ar.Files[2].Data))
+		})
 	}
-}
 
-func MakeTestdataFetchFunc(file string) FetchFunc {
-	return func(url string) (resp *http.Response, err error) {
-		// Create mock http.Response
-		resp = new(http.Response)
-		resp.Body, err = os.Open("testdata/" + file)
+	// Add a default route.
+	mux.Handle("/", http.NotFoundHandler())
 
-		return resp, err
-	}
-}
+	srv := httptest.NewServer(mux) // Don't use TLS, as our time weirdness breaks validity periods.
+	defer srv.Close()
 
-func TestFeedUnmarshalUpdate(t *testing.T) {
-	fetch1 := MakeTestdataFetchFunc("rssupdate-1")
-	fetch2 := MakeTestdataFetchFunc("rssupdate-2")
-	feed, err := FetchByFunc(fetch1, "http://localhost/dummyrss")
+	client := srv.Client()
+
+	r, err := NewReader(
+		WithNow(now),
+		WithHTTPClient(client),
+	)
 	if err != nil {
-		t.Fatalf("Failed fetching testdata 'rssupdate-2': %v", err)
+		t.Fatal(err)
 	}
 
-	if 1 != feed.Unread {
-		t.Errorf("Expected one unread item initially, got %v", feed.Unread)
-	}
+	// We can be more lax in handling the txtar
+	// data, as it's validated very strictly in
+	// testar, which is used above.
 
-	jsonBlob, err := json.Marshal(feed)
-	if err != nil {
-		t.Fatalf("Failed to marshal Feed %+v\n", feed)
-	}
+	for _, test := range tests {
+		t.Run(test, func(t *testing.T) {
+			ar := archives[test]
+			url := srv.URL + "/" + test
+			feed, err := r.Parse(url, bytes.NewReader(ar.Files[2].Data))
+			if err != nil {
+				t.Fatalf("failed to parse test vector: %v", err)
+			}
 
-	var unmarshalledFeed Feed
-	err = json.Unmarshal(jsonBlob, &unmarshalledFeed)
+			t.Run("early", func(t *testing.T) {
+				// Set NextUpdate to an hour in the
+				// future and check Update returns
+				// ErrTooSoon. Drop the last item so
+				// we can see whether an update has
+				// taken effect.
+				feed.UpdateURL = url
+				feed.NextUpdate = epoch.Add(time.Hour)
+				feed.Items = feed.Items[:len(feed.Items)-1]
+				if feed.Unread > 0 {
+					feed.Unread--
+				}
 
-	var defaultFetchFuncCalled = 0
-	DefaultFetchFunc = func(url string) (resp *http.Response, err error) {
-		defaultFetchFuncCalled++
-		return nil, errors.New("No network in test")
-	}
+				err := r.Update(ctx, feed)
+				if !errors.Is(err, ErrTooSoon) {
+					t.Fatalf("got unexpected error when updating too early:\nGot:  %v\nWant: %v", err, ErrTooSoon)
+				}
 
-	err = unmarshalledFeed.Update()
-	if err != nil {
-		t.Logf("Expected failure updating via http in test: %v", err)
-	}
+				// Now actually wait.
+				synctest.Test(t, func(t *testing.T) {
+					err = r.waitForFeed(ctx, feed)
+					if err != nil {
+						t.Fatal(err)
+					}
+				})
 
-	if defaultFetchFuncCalled < 1 {
-		t.Error("DefaultFetchFunc was not called during Update()")
-	}
+				err = r.update(ctx, feed)
 
-	err = unmarshalledFeed.UpdateByFunc(fetch2)
-	if err != nil {
-		t.Fatalf("Failed updating the feed from testdata 'rssupdate-2': %v", err)
-	}
+				// Fix up the URLs.
+				if feed != nil {
+					feed.NextUpdate = epoch.Add(r.defaultUpdateInterval)
+					if len(feed.Links) == 1 && feed.Links[0].Href == url {
+						feed.Links[0].Href = defaultURL
+					}
 
-	if 2 != unmarshalledFeed.Unread {
-		t.Errorf("Expected two unread items after update, got %v", unmarshalledFeed.Unread)
-	}
-}
+					if feed.UpdateURL == url {
+						feed.UpdateURL = defaultURL
+					}
+				}
 
-func TestItemGUIDs(t *testing.T) {
-	feed1, err := FetchByFunc(MakeTestdataFetchFunc("rss_2.0"), "http://localhost/dummyfeed1")
-	if err != nil {
-		t.Fatalf("Failed fetching testdata 'rss_2.0': %v", err)
-	}
+				// Check the data.
+				testar.Check(t, ar, feed, nil)
+			})
 
-	if len(feed1.Items) != 2 {
-		t.Errorf("Expected one item in feed 'rss_2.0', got %v", len(feed1.Items))
-	}
+			t.Run("ready", func(t *testing.T) {
+				// Set NextUpdate to an hour in the
+				// past and check Update works now.
+				// Drop the last item so we can see
+				// we can see whether an update has
+				// taken effect.
+				feed.UpdateURL = url
+				feed.NextUpdate = epoch.Add(-time.Hour)
+				feed.Items = feed.Items[:len(feed.Items)-1]
+				if feed.Unread > 0 {
+					feed.Unread--
+				}
 
-	feed2, err := FetchByFunc(MakeTestdataFetchFunc("rssupdate-1"), "http://localhost/dummyfeed2")
-	if err != nil {
-		t.Fatalf("Failed fetching testdata 'rssupdate-1': %v", err)
-	}
+				err := r.Update(ctx, feed)
+				if err != nil {
+					t.Fatalf("got unexpected error when updating on time: %v", err)
+				}
 
-	if len(feed2.Items) != 1 {
-		t.Errorf("Expected one item in feed 'rssupdate' after step 1, got %v", len(feed2.Items))
-	}
+				// Fix up the URLs.
+				if feed != nil {
+					feed.NextUpdate = epoch.Add(r.defaultUpdateInterval)
+					if len(feed.Links) == 1 && feed.Links[0].Href == url {
+						feed.Links[0].Href = defaultURL
+					}
 
-	err = feed2.UpdateByFunc(MakeTestdataFetchFunc("rssupdate-2"))
-	if err != nil {
-		t.Fatalf("Failed fetching testdata 'rssupdate-2': %v", err)
-	}
+					if feed.UpdateURL == url {
+						feed.UpdateURL = defaultURL
+					}
+				}
 
-	// rssupdate-2 contains two items, one new item and one old item from rssupdate-1
-	if len(feed2.Items) != 2 {
-		t.Errorf("Expected two items in feed 'rssupdate' after step 2, got %v", len(feed2.Items))
+				// Check the data.
+				testar.Check(t, ar, feed, nil)
+			})
+
+			t.Run("ready-patiently", func(t *testing.T) {
+				// Set NextUpdate to an hour in the
+				// past and check Update works now.
+				// Drop the last item so we can see
+				// we can see whether an update has
+				// taken effect.
+				feed.UpdateURL = url
+				feed.NextUpdate = epoch.Add(-time.Hour)
+				feed.Items = feed.Items[:len(feed.Items)-1]
+				if feed.Unread > 0 {
+					feed.Unread--
+				}
+
+				err := r.UpdatePatiently(ctx, feed)
+				if err != nil {
+					t.Fatalf("got unexpected error when updating on time: %v", err)
+				}
+
+				// Fix up the URLs.
+				if feed != nil {
+					feed.NextUpdate = epoch.Add(r.defaultUpdateInterval)
+					if len(feed.Links) == 1 && feed.Links[0].Href == url {
+						feed.Links[0].Href = defaultURL
+					}
+
+					if feed.UpdateURL == url {
+						feed.UpdateURL = defaultURL
+					}
+				}
+
+				// Check the data.
+				testar.Check(t, ar, feed, nil)
+			})
+		})
 	}
 }

@@ -1,0 +1,96 @@
+-- URL --
+unknown
+-- format --
+github.com/SlyMarbo/rss/v2
+-- XML --
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">     
+    <channel>      
+        <title>ዜና - የአሜሪካ ድምፅ</title>     
+        <link>http://amharic.voanews.com/archive/news/latest/3167/3167.html</link>
+        <description>The Voice of America broadcasts daily radio programs to Ethiopia in Amharic.  Each program features the latest news, in-depth reports on issues in the news from VOA correspondents and feature reports. 
+የፕሮግራም መግለጫ
+ወደ 98 ሚሊየን የሚጠጋ ሕዝብ ባላት ኢትዮጵያ አማርኛ ብሔራዊ</description>
+        <image>
+            <url>http://www.voanews.com/img/voa/rssLogo_VOA.gif</url>
+            <title>ዜና - የአሜሪካ ድምፅ</title>
+            <link>http://amharic.voanews.com/archive/news/latest/3167/3167.html</link>
+        </image>
+        <language>am</language>
+        <copyright>2012 - VOA</copyright>   
+        <ttl>60</ttl>        
+        <lastBuildDate>Sun, 15 May 2016 13:53:13 +0300</lastBuildDate> 
+        <generator>Pangea CMS – VOA</generator>
+        <category text="Technology"></category>
+        <category text="Society \u0026 Culture"></category>
+        <atom:link href="http://amharic.voanews.com/api/zt$gteitjt" rel="self" type="application/rss+xml" />
+    		<item>
+            <title>አሜሪካ ለኢትዮጵያ ተጨማሪ እርዳታ ሰጠች</title>
+            <description>ዩናይትድ ስቴትስ በድርቅ ለተጎዱ ኢትዮጵያዊያን መርጃ የሚሆን የ128 ሚሊየን ዶላር ተጨማሪ ድጋፍ ሰጥታለች።</description>
+            <link>http://amharic.voanews.com/a/us-give-more-aid-to-ethiopia-to-address-crisis/3330430.html</link> 
+            <guid>http://amharic.voanews.com/a/us-give-more-aid-to-ethiopia-to-address-crisis/3330430.html</guid>            
+            <pubDate>Sat, 14 May 2016 18:39:34 +0300</pubDate>
+            <category>ዜና</category><category>ኢትዮጵያ</category><author>noreply@voanews.com (እስክንድር ፍሬው)</author><comments>http://amharic.voanews.com/a/us-give-more-aid-to-ethiopia-to-address-crisis/3330430.html#relatedInfoContainer</comments><enclosure url="http://gdb.voanews.com/6C49CA6D-C18D-414D-8A51-2B7042A81010_cx0_cy29_cw0_w800_h450.jpg" length="3123" type="image/jpeg"/>
+        </item>		
+        </channel></rss>
+-- JSON --
+{
+	"Title": "ዜና - የአሜሪካ ድምፅ",
+	"Language": "am",
+	"Author": null,
+	"Description": "The Voice of America broadcasts daily radio programs to Ethiopia in Amharic.  Each program features the latest news, in-depth reports on issues in the news from VOA correspondents and feature reports. \nየፕሮግራም መግለጫ\nወደ 98 ሚሊየን የሚጠጋ ሕዝብ ባላት ኢትዮጵያ አማርኛ ብሔራዊ",
+	"Links": [
+		{
+			"Href": "http://amharic.voanews.com/archive/news/latest/3167/3167.html",
+			"Rel": "",
+			"Type": ""
+		},
+		{
+			"Href": "http://amharic.voanews.com/api/zt$gteitjt",
+			"Rel": "self",
+			"Type": "application/rss+xml"
+		}
+	],
+	"UpdateURL": "https://example.com/feed.xml",
+	"Image": {
+		"Title": "ዜና - የአሜሪካ ድምፅ",
+		"Href": "",
+		"URL": "http://www.voanews.com/img/voa/rssLogo_VOA.gif",
+		"Height": 0,
+		"Width": 0
+	},
+	"Categories": [
+		"Technology",
+		"Society \\u0026 Culture"
+	],
+	"Items": [
+		{
+			"Title": "አሜሪካ ለኢትዮጵያ ተጨማሪ እርዳታ ሰጠች",
+			"Summary": "ዩናይትድ ስቴትስ በድርቅ ለተጎዱ ኢትዮጵያዊያን መርጃ የሚሆን የ128 ሚሊየን ዶላር ተጨማሪ ድጋፍ ሰጥታለች።",
+			"Content": "",
+			"Categories": [
+				"ዜና",
+				"ኢትዮጵያ"
+			],
+			"Links": [
+				{
+					"Href": "http://amharic.voanews.com/a/us-give-more-aid-to-ethiopia-to-address-crisis/3330430.html",
+					"Rel": "",
+					"Type": ""
+				}
+			],
+			"Date": "2016-05-14T15:39:34Z",
+			"Image": null,
+			"ID": "http://amharic.voanews.com/a/us-give-more-aid-to-ethiopia-to-address-crisis/3330430.html",
+			"Enclosures": [
+				{
+					"URL": "http://gdb.voanews.com/6C49CA6D-C18D-414D-8A51-2B7042A81010_cx0_cy29_cw0_w800_h450.jpg",
+					"Type": "image/jpeg",
+					"Length": 3123
+				}
+			],
+			"Read": false
+		}
+	],
+	"NextUpdate": "2025-11-22T13:13:14.000000015Z",
+	"Unread": 1
+}

@@ -57,7 +57,13 @@ type (
 		Image      *Image
 		ID         string
 		Enclosures []*Enclosure
-		Read       bool
+
+		// When items are stored, they are
+		// marked as unread (Read is false).
+		// This can be used by aggregators
+		// to track when the user has read
+		// the item.
+		Read bool
 	}
 
 	// Enclosure references an external link.

@@ -178,20 +178,19 @@ func (r *Reader) Fetch(ctx context.Context, url string) (*Feed, error) {
 
 // Parse RSS or Atom data.
 func (r *Reader) Parse(url string, data io.Reader) (*Feed, error) {
-	prefix, data, err := readStringPrefix(data, 512)
+	root, data, err := readRootElement(data)
 	if err != nil {
 		return nil, err
 	}
 
-	if strings.Contains(prefix, "<rss") {
+	switch root.Local {
+	case "rss":
 		return r.parseRSS2(url, data)
-	}
-
-	if strings.Contains(prefix, `xmlns="http://purl.org/rss/1.0/"`) {
+	case "RDF":
 		return r.parseRSS1(url, data)
+	default:
+		return r.parseAtom1(url, data)
 	}
-
-	return r.parseAtom1(url, data)
 }
 
 // Update attempts to update the feed with new items.

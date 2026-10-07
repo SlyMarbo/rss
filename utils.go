@@ -2,33 +2,44 @@ package rss
 
 import (
 	"bytes"
-	"errors"
+	"encoding/xml"
 	"io"
+
+	"golang.org/x/net/html/charset"
 )
 
-// readStringPrefix reads the given bytes from r, returning the
-// prefix (as a string) and a reader containing the full contents
-// of r.
-//
-// readStringPrefix will perform a single read, taking up to n
-// bytes.
-func readStringPrefix(r io.Reader, n int) (prefix string, full io.Reader, err error) {
-	if n == 0 {
-		return "", r, nil
+// readRootElement finds the XML root and returns a reader of the original bytes.
+func readRootElement(r io.Reader) (xml.Name, io.Reader, error) {
+	front := &prefixReader{Reader: r}
+	decoder := xml.NewDecoder(front)
+	decoder.CharsetReader = charset.NewReaderLabel
+
+	for {
+		token, err := decoder.Token()
+		if front.err != nil {
+			return xml.Name{}, nil, front.err
+		}
+		if err != nil {
+			return xml.Name{}, nil, err
+		}
+		if root, ok := token.(xml.StartElement); ok {
+			return root.Name, io.MultiReader(bytes.NewReader(front.buf.Bytes()), r), nil
+		}
 	}
+}
 
-	buf := make([]byte, n)
-	n, err = r.Read(buf)
-	if err != nil && !errors.Is(err, io.EOF) {
-		return "", nil, err
+type prefixReader struct {
+	io.Reader
+	buf bytes.Buffer
+	err error
+}
+
+func (r *prefixReader) Read(p []byte) (int, error) {
+	n, err := r.Reader.Read(p)
+	r.buf.Write(p[:n])
+	// The decoder can return a root token before reporting a buffered read error.
+	if err != nil && err != io.EOF {
+		r.err = err
 	}
-
-	prefix = string(buf[:n])
-	front := bytes.NewReader(buf[:n])
-
-	if err != nil {
-		return prefix, front, nil
-	}
-
-	return prefix, io.MultiReader(front, r), nil
+	return n, err
 }

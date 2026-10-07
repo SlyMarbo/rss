@@ -4,11 +4,14 @@ import (
 	"bytes"
 	"context"
 	"errors"
+	"fmt"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"path/filepath"
+	"strings"
 	"testing"
+	"testing/iotest"
 	"testing/synctest"
 	"time"
 
@@ -61,6 +64,61 @@ func TestParse(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test, func(t *testing.T) {
 			testar.Test(t, test, parse, "github.com/SlyMarbo/rss/v2")
+			t.Run("short reads", func(t *testing.T) {
+				testar.Test(t, test, func(data io.Reader) (*Feed, error) {
+					return parse(iotest.OneByteReader(data))
+				}, "github.com/SlyMarbo/rss/v2")
+			})
+		})
+	}
+}
+
+func TestParseRootElement(t *testing.T) {
+	rss2 := `<rss version="2.0"><channel><title>RSS 2.0</title><item><guid>rss2-item</guid><title>RSS item</title></item></channel></rss>`
+	rss1 := `<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns='http://purl.org/rss/1.0/'><channel><title>RSS 1.0</title></channel><item><guid>rss1-item</guid><title>RDF item</title></item></rdf:RDF>`
+	atom := `<feed xmlns="http://www.w3.org/2005/Atom"><title>Atom</title><entry><id>atom-item</id><title>Atom item</title></entry></feed>`
+
+	tests := []struct {
+		name  string
+		input string
+		title string
+		id    string
+	}{
+		{"RSS after a long comment", "<!--" + strings.Repeat("x", 1024) + "-->" + rss2, "RSS 2.0", "rss2-item"},
+		{"RSS after long whitespace", strings.Repeat(" ", 1024) + rss2, "RSS 2.0", "rss2-item"},
+		{"RSS with an RDF comment", `<!-- xmlns="http://purl.org/rss/1.0/" -->` + rss2, "RSS 2.0", "rss2-item"},
+		{"RDF with single quotes", rss1, "RSS 1.0", "rss1-item"},
+		{"RDF after a long comment", "<!--" + strings.Repeat("x", 1024) + "-->" + rss1, "RSS 1.0", "rss1-item"},
+		{"RDF with an RSS comment", "<!-- <rss -->" + rss1, "RSS 1.0", "rss1-item"},
+		{"Atom with an RSS comment", "<!-- <rss -->" + atom, "Atom", "atom-item"},
+		{"Atom with an RDF comment", `<!-- xmlns="http://purl.org/rss/1.0/" -->` + atom, "Atom", "atom-item"},
+		{"RSS with a prefixed root", strings.Replace(strings.Replace(rss2, `<rss version`, `<p:rss xmlns:p="urn:example:rss" version`, 1), "</rss>", "</p:rss>", 1), "RSS 2.0", "rss2-item"},
+		{"RDF with a late namespace", strings.Replace(rss1, "xmlns=", `padding="`+strings.Repeat("x", 1024)+`" xmlns=`, 1), "RSS 1.0", "rss1-item"},
+		{"RSS with a declared encoding", `<?xml version="1.0" encoding="ISO-8859-1"?>` + strings.Replace(rss2, "RSS 2.0", "caf\xe9", 1), "café", "rss2-item"},
+	}
+
+	r, err := NewReader()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			for _, short := range []bool{false, true} {
+				t.Run(fmt.Sprintf("short=%t", short), func(t *testing.T) {
+					var input io.Reader = strings.NewReader(test.input)
+					if short {
+						input = iotest.OneByteReader(input)
+					}
+					feed, err := r.Parse(defaultURL, input)
+					if err != nil {
+						t.Fatal(err)
+					}
+					if feed.Title != test.title || len(feed.Items) != 1 || feed.Items[0].ID != test.id {
+						t.Fatalf("unexpected feed: %+v", feed)
+					}
+				})
+			}
 		})
 	}
 }

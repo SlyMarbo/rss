@@ -1,7 +1,7 @@
 rss
 =====
 
- [![GoDoc](https://godoc.org/github.com/SlyMarbo/rss?status.svg)](https://pkg.go.dev/github.com/SlyMarbo/rss)
+ [![GoDoc](https://godoc.org/github.com/SlyMarbo/rss?status.svg)](https://pkg.go.dev/github.com/SlyMarbo/rss/v2)
 
 RSS is a small library for simplifying the parsing of RSS and Atom feeds.
 The package conforms to the [RSS 1.0], [RSS 2.0], and [Atom 1.0] specifications.
